@@ -1,4 +1,6 @@
 import { Component } from 'react'
+import Palette from './components/palette/palette'
+import Colors from './assets/colors'
 
 class App extends Component {
   constructor (props) {
@@ -9,7 +11,7 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <h1>Colors</h1>
+        <Palette {...Colors[2]}/>
       </div>
     )
   }
