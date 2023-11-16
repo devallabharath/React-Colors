@@ -15,9 +15,9 @@ body {
   height: 25%;
   width: 20%;
   margin: 0 auto;
+  font-size: 12%;
   display: inline-block;
   position: relative;
-  cursor: pointer;
   margin-bottom: -4.5px;
   text-transform: uppercase;
 }
@@ -33,7 +33,6 @@ body {
   left: 0;
   bottom: 0;
   padding: 10px;
-  font-size: 12px;
   color: black;
   letter-spacing: 1px;
 }
@@ -52,7 +51,8 @@ body {
   background: #ffffff33;
   line-height: 30px;
   border: none;
-  opacity: 0
+  opacity: 0;
+  cursor: pointer;
 }
 
 .see-more {
