@@ -1,21 +1,19 @@
 import { PureComponent } from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
+import {SlCopyButton, SlTooltip, SlIcon} from '@shoelace-style/shoelace/dist/react';
+
 
 class ColorBox extends PureComponent {
-
   render () {
     const { name, color } = this.props
     return (
       <div style={{ background: color }} className="ColorBox">
-        <div className="copy-container">
-          <div className="box-content">
-            <span>{name}</span>
+        <SlCopyButton className="copy-button" value={color} />
+        <SlTooltip content="See More">
+          <div className='see-more'>
+            <span className='color-name'>{name}</span>
+            <SlIcon className='btn' name="caret-right-fill"/>
           </div>
-          <CopyToClipboard text={color}>
-            <button className="copy-button">Copy</button>
-          </CopyToClipboard>
-        </div>
-        <span className='see-more'>More</span>
+        </SlTooltip>
       </div>
     )
   }
