@@ -6,25 +6,33 @@ class Palette extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      range: 500
+      range: 500,
+      format: 'hex'
     }
   }
 
   render () {
     const { paletteName, colors } = this.props.palette
-    const { range } = this.state
+    const { range, format } = this.state
     return (
       <div className="Palette">
-        <Navbar Name={paletteName} Range={range} handleRange={this.handleRange} />
+        <Navbar
+          Name={paletteName}
+          Range={range}
+          changeLevel={this.changeLevel}
+          changeFormat={this.changeFormat}
+        />
         <div className="palette-colors">
-          {colors[range].map(c => <ColorBox key={c.hex} {...c} />)}
+          {colors[range].map(c => <ColorBox key={c.hex} {...c} format={format} />)}
         </div>
         {/* footer */}
       </div>
     )
   }
 
-  handleRange = (e) => { this.setState({ range: e }) }
+  changeLevel = (value) => { this.setState({ range: value }) }
+
+  changeFormat = (e) => { this.setState({ format: e.target.value }) }
 }
 
 export default Palette

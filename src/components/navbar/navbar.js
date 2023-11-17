@@ -1,11 +1,11 @@
 import { PureComponent } from 'react'
 import Slider from 'rc-slider';
-import { SlIcon } from '@shoelace-style/shoelace/dist/react';
+import { SlIcon, SlSelect, SlOption } from '@shoelace-style/shoelace/dist/react';
 
 class Navbar extends PureComponent {
 
   render () {
-    const { Name, Range, handleRange } = this.props
+    const { Name, Range, changeLevel, changeFormat } = this.props
     return (
       <nav>
         <div className='nav-part'>
@@ -23,8 +23,13 @@ class Navbar extends PureComponent {
           }}
           included={false}
           defaultValue={Range}
-          onChange={handleRange}
+          onChange={changeLevel}
         />
+        <SlSelect className='color-format' value="hex" size='small' hoist filled onSlChange={changeFormat}>
+          <SlOption value="hex">Hex</SlOption>
+          <SlOption value="rgb">RGB</SlOption>
+          <SlOption value="rgba">RGBA</SlOption>
+        </SlSelect>
       </nav>
     )
   }
