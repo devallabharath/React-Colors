@@ -1,7 +1,6 @@
 import { Component } from 'react'
+import Navbar from '../navbar/navbar'
 import ColorBox from '../colorbox/colorbox'
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 
 class Palette extends Component {
   constructor (props) {
@@ -16,20 +15,7 @@ class Palette extends Component {
     const { range } = this.state
     return (
       <div className="Palette">
-        <nav>
-          {paletteName}
-          <Slider
-            min={100}
-            max={900}
-            step={100}
-            marks={{
-              100: '100', 200: '200', 300: '300', 400: '400', 500: '500',
-              600: '600', 700: '700', 800: '800', 900: '900',
-            }}
-            defaultValue={range}
-            onChange={this.hadleRange}
-          />
-        </nav>
+        <Navbar Name={paletteName} Range={range} handleRange={this.handleRange} />
         <div className="palette-colors">
           {colors[range].map(c => <ColorBox key={c.hex} {...c} />)}
         </div>
@@ -38,9 +24,7 @@ class Palette extends Component {
     )
   }
 
-  hadleRange = (e) => {
-    this.setState({ range: e })
-  }
+  handleRange = (e) => { this.setState({ range: e }) }
 }
 
 export default Palette
