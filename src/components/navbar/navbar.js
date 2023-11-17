@@ -5,7 +5,7 @@ import { SlIcon, SlSelect, SlOption } from '@shoelace-style/shoelace/dist/react'
 class Navbar extends PureComponent {
 
   render () {
-    const { Name, Range, changeLevel, changeFormat } = this.props
+    const { Name, Level, Format, changeLevel, changeFormat } = this.props
     return (
       <nav>
         <div className='nav-part'>
@@ -22,10 +22,10 @@ class Navbar extends PureComponent {
             600: '600', 700: '700', 800: '800', 900: '900',
           }}
           included={false}
-          defaultValue={Range}
+          defaultValue={Level}
           onChange={changeLevel}
         />
-        <SlSelect className='color-format' value="hex" size='small' hoist filled onSlChange={changeFormat}>
+        <SlSelect className='color-format' value={Format} size='small' hoist filled onSlChange={changeFormat}>
           <SlOption value="hex">Hex</SlOption>
           <SlOption value="rgb">RGB</SlOption>
           <SlOption value="rgba">RGBA</SlOption>
