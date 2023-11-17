@@ -13,6 +13,19 @@ body {
   box-sizing: border-box;
 }
 
+.tooltip{background: '#fff'}
+
+nav {
+  min-height: 50px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: 'space-between';
+  gap: 15%;
+  color: white;
+  background-color: black;
+}
+
 .Palette {
   height: 100vh
 }
@@ -62,6 +75,6 @@ body {
   cursor: pointer
 }
 
-.see-more .color-name { width: calc(100% - 10px); overflow: hidden; }
+.see-more .color-name { width: calc(100% - 10px); text-wrap: nowrap; overflow: hidden; }
 
 .see-more .btn {width: 10px; text-align: center;}
