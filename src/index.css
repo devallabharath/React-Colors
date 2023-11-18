@@ -72,12 +72,20 @@ nav .Slider {
   border-radius: 0;
 }
 
+.rc-slider-mark {font-size: 8px}
+
 .color-format {
   font-size: 14px;
   color: white;
   width: 30%;
   max-width: 70px;
   z-index: 1;
+}
+
+sl-option {
+  background-color: #353535;
+  border-bottom: 1px solid #858585;
+  padding: 0 5px;
 }
 
 .Palette {
