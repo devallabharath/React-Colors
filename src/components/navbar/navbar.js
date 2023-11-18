@@ -1,5 +1,6 @@
 import { PureComponent } from 'react'
 import Slider from 'rc-slider';
+import { Link } from 'react-router-dom';
 import { SlIcon, SlSelect, SlOption } from '@shoelace-style/shoelace/dist/react';
 
 class Navbar extends PureComponent {
@@ -9,7 +10,9 @@ class Navbar extends PureComponent {
     return (
       <nav>
         <div className='nav-part'>
-          <button><SlIcon name='arrow-left-circle-fill' /></button>
+          <button>
+            <Link to='/'><SlIcon name='arrow-left-circle-fill' /></Link>
+          </button>
           <h4>{Name}</h4>
         </div>
         <Slider
