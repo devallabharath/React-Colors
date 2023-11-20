@@ -18,7 +18,7 @@ class Router extends Component {
             path='/palettes/:id'
             render={(p) => {
               const colors = this.getColorsById(p.match.params.id)
-              return < Palette palette={generatePalette(colors)} />
+              return < Palette {...p} palette={generatePalette(colors)} />
             }}
           />
           <Route
@@ -27,7 +27,7 @@ class Router extends Component {
             render={(p) => {
               const {id, color, name} = p.match.params
               const colorr = '#' + color
-              return <Shades Id={id} palette={generateShades(name,colorr)} />
+              return <Shades Id={id} {...p} palette={generateShades(name,colorr)} />
             }}
           />
           <Route path='*' render={() => <h1>Sorry</h1>} />
