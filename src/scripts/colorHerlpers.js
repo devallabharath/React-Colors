@@ -7,7 +7,7 @@ function generateShades (name,color) {
     paletteName: name,
     colors: []
   }
-  const shades = generateScale(color)
+  const shades = generateScale(color).reverse()
   for (const i in shades) {
     newPalette.colors.push({
       name: levels[i],
@@ -16,6 +16,7 @@ function generateShades (name,color) {
       rgba: chroma(shades[i]).css().replace('rgb','rgba').replace(')', ',1.0)')
     })
   }
+  newPalette.colors.shift()
   return newPalette
 }
 
@@ -42,7 +43,7 @@ function generatePalette (original) {
 }
 
 function generateScale (color, n=10) {
-  const range = [chroma(color).darken(1.4).hex(), color, '#fff']
+  const range = [chroma(color).darken(1.9).hex(), color, chroma(color).luminance(0.9).hex()]
   return chroma.scale(range).mode('lab').colors(n)
 }
 

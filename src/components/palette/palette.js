@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import Navbar from '../paletteBar/paletteBar'
+import Navbar from '../navbar/navbar'
 import ColorBox from '../colorbox/colorbox'
 
 class Palette extends Component {
@@ -18,13 +18,15 @@ class Palette extends Component {
       <div className="Palette">
         <Navbar
           Name={paletteName}
-          Level={level}
           Format={format}
-          changeLevel={this.changeLevel}
           changeFormat={this.changeFormat}
+          slider={true}
+          Level={level}
+          changeLevel={this.changeLevel}
+          back='/'
         />
         <div className="palette-colors">
-          {colors[level].map(c => <ColorBox key={c.hex} Id={id} {...c} format={format} />)}
+          {colors[level].map(c => <ColorBox key={c.hex} type='color' Id={id} {...c} format={format} />)}
         </div>
         {/* footer */}
       </div>

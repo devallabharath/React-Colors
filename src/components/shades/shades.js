@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import Navbar from '../navbar/navbar'
-import ShadeBox from '../shadebox/shadebox'
+import ColorBox from '../colorbox/colorbox'
 
 class Shades extends Component {
   constructor (props) {
@@ -14,18 +14,21 @@ class Shades extends Component {
     return (
       <div className="Palette">
         <Navbar
-          Name={paletteName}
+          Name={paletteName.toUpperCase() }
           Format={format}
           changeFormat={this.changeFormat}
           back={`/palettes/${this.props.Id}`}
+          slider={false}
         />
         <div className="palette-colors">
-          {colors.map(c => <ShadeBox key={c.hex} {...c} format={format} />)}
+          {colors.map(c => <ColorBox key={c.hex} type='shade' {...c} format={format} />)}
         </div>
         {/* footer */}
       </div>
     )
   }
+
+  changeFormat = (e) => { this.setState({ format: e.target.value }) }
 }
 
 export default Shades
