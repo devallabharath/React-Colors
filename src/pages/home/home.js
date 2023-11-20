@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import Colors from '../../scripts/colors'
-import MiniPalette from '../miniPalette/miniPalette'
+import MiniPalette from '../../components/miniPalette/miniPalette'
 import './home.css'
 
 class Home extends Component {

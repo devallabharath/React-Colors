@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import Slider from 'rc-slider';
 import { Link } from 'react-router-dom';
 import { SlIcon, SlSelect, SlOption } from '@shoelace-style/shoelace/dist/react';
+import './navbar.css'
 
 class Navbar extends PureComponent {
   render () {

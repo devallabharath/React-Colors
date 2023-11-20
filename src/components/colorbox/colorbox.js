@@ -1,6 +1,7 @@
 import { PureComponent } from 'react'
 import { Link } from 'react-router-dom';
 import { SlCopyButton, SlTooltip, SlIcon } from '@shoelace-style/shoelace/dist/react';
+import './colorbox.css'
 
 class ColorBox extends PureComponent {
   render () {

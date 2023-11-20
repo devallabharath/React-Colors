@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import Navbar from '../navbar/navbar'
-import ColorBox from '../colorbox/colorbox'
+import Navbar from '../../components/navbar/navbar'
+import ColorBox from '../../components/colorbox/colorbox'
 
 class Shades extends Component {
   constructor (props) {
