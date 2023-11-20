@@ -2,6 +2,23 @@ import chroma from 'chroma-js'
 
 const levels = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
+function generateShades (name,color) {
+  const newPalette = {
+    paletteName: name,
+    colors: []
+  }
+  const shades = generateScale(color)
+  for (const i in shades) {
+    newPalette.colors.push({
+      name: levels[i],
+      hex: shades[i],
+      rgb: chroma(shades[i]).css(),
+      rgba: chroma(shades[i]).css().replace('rgb','rgba').replace(')', ',1.0)')
+    })
+  }
+  return newPalette
+}
+
 function generatePalette (original) {
   let newPalette = {
     paletteName: original.paletteName,
@@ -29,4 +46,4 @@ function generateScale (color, n=10) {
   return chroma.scale(range).mode('lab').colors(n)
 }
 
-export {generatePalette}
+export {generatePalette, generateShades}
