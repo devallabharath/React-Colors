@@ -17,7 +17,7 @@ class Shades extends Component {
           Name={paletteName.toUpperCase() }
           Format={format}
           changeFormat={this.changeFormat}
-          goBack={this.props.history.goBack}
+          history={this.props.history}
           slider={false}
         />
         <div className="palette-colors">
