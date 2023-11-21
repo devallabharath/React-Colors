@@ -24,7 +24,7 @@ class Palette extends Component {
           slider={true}
           Level={level}
           changeLevel={this.changeLevel}
-          back='/'
+          goBack={this.props.history.goBack}
         />
         <div className="palette-colors">
           {colors[level].map(c => <ColorBox key={c.hex} type='color' Id={id} {...c} format={format} />)}

@@ -1,16 +1,15 @@
 import { PureComponent } from 'react';
 import Slider from 'rc-slider';
-import { Link } from 'react-router-dom';
 import { SlIcon, SlSelect, SlOption } from '@shoelace-style/shoelace/dist/react';
 import './navbar.css'
 
 class Navbar extends PureComponent {
   render () {
-    const { Name, Format, changeFormat, back, slider, Level, changeLevel } = this.props;
+    const { Name, Format, changeFormat, slider, Level, changeLevel } = this.props;
     return <nav>
       <div className='nav-part'>
-        <button>
-          <Link to={back}><SlIcon name='arrow-left-circle-fill' /></Link>
+        <button onClick={this.props.goBack}>
+          <SlIcon name='arrow-left-circle-fill' />
         </button>
         <h4>{Name}</h4>
       </div>
