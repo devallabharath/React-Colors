@@ -1,0 +1,16 @@
+.Home {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-palettes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 70%;
+  min-width: 600px;
+  max-width: 800px;
+}
