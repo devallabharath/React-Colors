@@ -1,10 +1,15 @@
-nav .top, .bottom {
+nav {
+  width: 100vw
+}
+
+nav .top,
+.bottom {
   display: flex;
   align-items: center;
   color: white;
   background-color: black;
   z-index: 1;
-  gap:5px;
+  gap: 5px;
 }
 
 nav .top {
@@ -25,7 +30,8 @@ nav .bottom {
   gap: 10px;
 }
 
-nav .back-button, .home-button {
+nav .back-button,
+.home-button {
   border: none;
   outline: none;
   display: flex;
@@ -36,8 +42,13 @@ nav .back-button, .home-button {
   cursor: pointer;
 }
 
-nav .back-button:hover, .home-button:hover {
+nav .back-button:hover,
+.home-button:hover {
   color: #76ced7
+}
+
+nav .empty-holder {
+  width: 25%;
 }
 
 .color-format {
@@ -88,7 +99,9 @@ nav .Slider {
   box-shadow: none;
 }
 
-.rc-slider-handle:hover {background-color: #76ced7;}
+.rc-slider-handle:hover {
+  background-color: #76ced7;
+}
 
 .rc-slider-handle-dragging {
   background-color: #76ced7 !important;
@@ -103,4 +116,7 @@ nav .Slider {
   border-radius: 0;
 }
 
-.rc-slider-mark {top:12px; font-size: 8px}
+.rc-slider-mark {
+  top: 12px;
+  font-size: 8px
+}
