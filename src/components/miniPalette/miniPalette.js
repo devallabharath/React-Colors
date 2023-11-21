@@ -1,6 +1,5 @@
 import { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-// import {useHistory} from 'react-router-dom'
 import './miniPalette.css'
 
 class MiniPalette extends PureComponent {
@@ -8,11 +7,12 @@ class MiniPalette extends PureComponent {
   render () {
     const { paletteName, colors, id } = this.props.palette
     return (
-      <div className="MiniPalette" onClick={this.openPalette}>
+      <div className="MiniPalette">
         <Link to={`/palettes/${id}`}></Link>
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
+              key={c.color}
               style={{ backgroundColor: c.color }}
               className='minipalette-color'
             />)}
@@ -22,11 +22,6 @@ class MiniPalette extends PureComponent {
         </div>
       </div >
     )
-  }
-
-  openPalette = () => {
-    // const history = useHistory()
-    // history.push(`/palettes/${this.props.palette.id}`, {from:'/'})
   }
 }
 
