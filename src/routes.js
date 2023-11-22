@@ -12,7 +12,8 @@ class Router extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path='/' render={() => <Home />} />
+          <Route exact path='/' render={(p) => <Home {...p}/>} />
+          <Route exact path='/palettes/new' render={(p) => <h1>new</h1>} />
           <Route
             exact
             path='/palettes/:id'
@@ -30,7 +31,7 @@ class Router extends Component {
               return <Shades Id={id} {...p} palette={generateShades(name,colorr)} />
             }}
           />
-          <Route path='*' render={() => <h1>Sorry</h1>} />
+          <Route path='*' render={() => <h1>Not Found</h1>} />
         </Switch>
       </BrowserRouter>
     )

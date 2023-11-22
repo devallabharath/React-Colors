@@ -9,7 +9,7 @@ class Navbar extends PureComponent {
     return (
       <nav>
         {home
-          ?this.home(Name)
+          ?this.home()
           :<div className="top">
             <div className='nav-part'>
               <button className='back-button' onClick={this.props.history.goBack}>
@@ -33,15 +33,18 @@ class Navbar extends PureComponent {
     )
   }
 
-  home = (Name) => {
+  home = () => {
+    const {history} = this.props
     return (
       <div className="top">
         <div className='nav-part'>
           {/* //todo: logo */}
-          <h3>React Colors</h3>
+          <h3>ReactColors</h3>
         </div>
-        <h4>{Name}</h4>
-        <span className='empty-holder'></span>
+        {/* <h3>{Name}</h3> */}
+        <button className='new-button' onClick={() => history.push('/palettes/new')}>
+          + New Palette
+        </button>
       </div>
     )
   }

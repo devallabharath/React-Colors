@@ -16,9 +16,9 @@ nav .top,
 }
 
 nav .top {
-  padding: 10px;
+  padding: 10px 0;
   height: 40px;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 nav .bottom {
@@ -35,23 +35,27 @@ nav .bottom {
 
 nav .back-button,
 .home-button {
-  border: none;
-  outline: none;
   display: flex;
   background: none;
   color: white;
   font-size: 20px;
   line-height: 20px;
-  cursor: pointer;
+}
+
+nav .new-button {
+  display: flex;
+  color: white;
+  background: #353535;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 13px;
 }
 
 nav .back-button:hover,
-.home-button:hover {
+.home-button:hover,
+.new-button:hover {
   color: #76ced7
-}
-
-nav .empty-holder {
-  width: 25%;
 }
 
 .color-format {
