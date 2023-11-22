@@ -18,6 +18,7 @@ class Palette extends Component {
     return (
       <div className="Palette">
         <Navbar
+          Type='palette'
           Name={paletteName}
           Format={format}
           changeFormat={this.changeFormat}

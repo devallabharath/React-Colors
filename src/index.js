@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'rc-slider/assets/index.css';
-import './index.css';
+import './styles/index.css';
+import '@shoelace-style/shoelace/dist/themes/dark.css'
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -15,6 +15,7 @@ class Shades extends Component {
     return (
       <div className="Shades" >
         <Navbar
+          Type='shades'
           Name={paletteName.toUpperCase()}
           Format={format}
           changeFormat={this.changeFormat}
