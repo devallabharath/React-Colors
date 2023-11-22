@@ -1,10 +1,16 @@
 .Palette {
-  height: 100vh
+  height: 100vh;
+  background-color: #151515;
+  padding-top: 65px;
+  overflow-y: scroll;
 }
 
 .palette-colors {
-  height: 90%;
-  animation: fadeIn .3s ease-in-out
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeIn .3s ease-in-out;
 }
 
 @keyframes fadeIn {
