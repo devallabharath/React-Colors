@@ -2,6 +2,7 @@ import { Component } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Home from './pages/home'
 import Palette from './pages/palette'
+import NewPalette from './pages/newPalette'
 import Shades from './pages/shades'
 import Colors from './scripts/colors'
 import { generatePalette, generateShades } from './scripts/colorHerlpers';
@@ -12,7 +13,8 @@ class Router extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path='/' render={() => <Home />} />
+          <Route exact path='/' render={(p) => <Home {...p}/>} />
+          <Route exact path='/palettes/new' render={(p) => <NewPalette {...p}/>} />
           <Route
             exact
             path='/palettes/:id'
@@ -30,7 +32,7 @@ class Router extends Component {
               return <Shades Id={id} {...p} palette={generateShades(name,colorr)} />
             }}
           />
-          <Route path='*' render={() => <h1>Sorry</h1>} />
+          <Route path='*' render={() => <h1>Not Found</h1>} />
         </Switch>
       </BrowserRouter>
     )

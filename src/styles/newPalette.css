@@ -1,11 +1,11 @@
-.Shades {
+.NewPalette {
   height: 100vh;
   background-color: #151515;
   padding-top: 40px;
   overflow-y: scroll;
 }
 
-.shades-colors {
+.newPalette-colors {
   width: 100vw;
   display: flex;
   flex-wrap: wrap;
