@@ -5,47 +5,86 @@ import '../styles/navbar.css'
 
 class Navbar extends PureComponent {
   render () {
-    const { Name, Format, changeFormat, home, slider, Level, changeLevel } = this.props;
+    const { Type } = this.props;
     return (
       <nav>
-        {home
-          ?this.home()
-          :<div className="top">
-            <div className='nav-part'>
-              <button className='back-button' onClick={this.props.history.goBack}>
-                <SlIcon name='arrow-left-circle-fill' />
-              </button>
-              <button className='home-button' onClick={() => this.props.history.push('/')}>
-                <SlIcon name='house-fill' />
-              </button>
-            </div>
-            <h4>{Name}</h4>
-            <SlSelect className='color-format' value={Format}
-              size='small' onSlChange={changeFormat}>
-              <SlOption value="hex"> Hex </SlOption>
-              <SlOption value="rgb"> RGB </SlOption>
-              <SlOption value="rgba"> RGBA </SlOption>
-            </SlSelect>
-          </div>
-        }
-        {slider && this.slider(Level, changeLevel)}
+        {Type === 'home' && this.homebar()}
+        {Type === 'new' && this.newbar()}
+        {Type === 'palette' && this.colorbar()}
+        {Type === 'shades' && this.colorbar()}
+        {Type === '405' && this.homebar(false)}
       </nav >
     )
   }
 
-  home = () => {
-    const {history} = this.props
+  homebar = (btn = true) => {
+    const { history } = this.props
     return (
       <div className="top">
         <div className='nav-part'>
-          {/* //todo: logo */}
           <h3>ReactColors</h3>
         </div>
-        {/* <h3>{Name}</h3> */}
-        <button className='new-button' onClick={() => history.push('/palettes/new')}>
-          + New Palette
-        </button>
+        {btn &&
+          <button className='new-button'
+            onClick={() => history.push('/palettes/new')}
+          >
+            + New Palette
+          </button>
+        }
       </div>
+    )
+  }
+
+  newbar = () => {
+    const { history, save } = this.props
+    return (
+      <div className="top">
+        <div className='nav-part'>
+          <button className='back-button' onClick={this.props.history.goBack}>
+            <SlIcon name='arrow-left-circle-fill' />
+          </button>
+          <button className='home-button' onClick={() => this.props.history.push('/')}>
+            <SlIcon name='house-fill' />
+          </button>
+        </div>
+        <div className='nav-part'>
+          <h3>New Palette</h3>
+        </div>
+        <div className="nav-part">
+          <button className='del-button' onClick={() => history.push('/')}>
+            Discard
+          </button>
+          <button className='save-button' onClick={save}>
+            Save
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  colorbar = () => {
+    const { Name, Format, changeFormat, slider, Level, changeLevel } = this.props;
+    return (
+      <>
+        <div className="top">
+          <div className='nav-part'>
+            <button className='back-button' onClick={this.props.history.goBack}>
+              <SlIcon name='arrow-left-circle-fill' />
+            </button>
+            <button className='home-button' onClick={() => this.props.history.push('/')}>
+              <SlIcon name='house-fill' />
+            </button>
+          </div>
+          <h4>{Name}</h4>
+          <SlSelect className='color-format' value={Format}
+            size='small' filled onSlChange={changeFormat}>
+            <SlOption value="hex"> Hex </SlOption>
+            <SlOption value="rgb"> RGB </SlOption>
+            <SlOption value="rgba"> RGBA </SlOption>
+          </SlSelect>
+        </div>
+        {slider && this.slider(Level, changeLevel)}
+      </>
     )
   }
 

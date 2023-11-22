@@ -10,7 +10,7 @@ class Home extends PureComponent {
     const {history} = this.props
     return (
       <div className="Home">
-        <Navbar Name='Palettes' home={true} history={history} />
+        <Navbar Type='home' history={history} />
         <div className="home-palettes">
           {Colors.map(c => <MiniPalette key={c.id} palette={c} />)}
         </div>
