@@ -1,8 +1,8 @@
 import { PureComponent } from 'react'
-import Colors from '../../scripts/colors'
-import Navbar from '../../components/navbar/navbar'
-import MiniPalette from '../../components/miniPalette/miniPalette'
-import './home.css'
+import Colors from '../scripts/colors'
+import Navbar from '../components/navbar'
+import MiniPalette from '../components/miniPalette'
+import '../styles/home.css'
 
 class Home extends PureComponent {
 

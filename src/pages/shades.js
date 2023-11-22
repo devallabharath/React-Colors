@@ -1,7 +1,7 @@
 import { Component } from 'react'
-import Navbar from '../../components/navbar/navbar'
-import ColorBox from '../../components/colorbox/colorbox'
-import './shades.css'
+import Navbar from '../components/navbar'
+import ColorBox from '../components/colorbox'
+import '../styles/shades.css'
 
 class Shades extends Component {
   constructor (props) {

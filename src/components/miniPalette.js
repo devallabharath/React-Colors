@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-import './miniPalette.css'
+import '../styles/miniPalette.css'
 
 class MiniPalette extends PureComponent {
 
