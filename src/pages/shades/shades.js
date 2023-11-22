@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import Navbar from '../../components/navbar/navbar'
 import ColorBox from '../../components/colorbox/colorbox'
+import './shades.css'
 
 class Shades extends Component {
   constructor (props) {
@@ -12,15 +13,15 @@ class Shades extends Component {
     const { paletteName, colors } = this.props.palette
     const { format } = this.state
     return (
-      <div className="Palette">
+      <div className="Shades" >
         <Navbar
-          Name={paletteName.toUpperCase() }
+          Name={paletteName.toUpperCase()}
           Format={format}
           changeFormat={this.changeFormat}
           history={this.props.history}
           slider={false}
         />
-        <div className="palette-colors">
+        <div className="shades-colors">
           {colors.map(c => <ColorBox key={c.hex} type='shade' {...c} format={format} />)}
         </div>
         {/* footer */}

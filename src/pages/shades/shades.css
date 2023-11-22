@@ -1,0 +1,19 @@
+.Shade {
+  height: 100vh;
+  background-color: #151515;
+  padding-top: 60px;
+  overflow-y: scroll;
+}
+
+.shade-colors {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeIn .3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: .5; }
+  100% { opacity: 1; }
+}

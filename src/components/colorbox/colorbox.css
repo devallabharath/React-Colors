@@ -1,11 +1,16 @@
 .ColorBox {
-  height: 25%;
-  width: 20%;
-  margin: 0 auto;
-  font-size: 12%;
+  /* flex: 1 1 25vw; */
+  width: 25vw;
+  height: 25vw;
+  /* width: 25vw;
+  height: 25vw; */
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 200px;
+  max-height: 200px;
   display: inline-block;
   position: relative;
-  margin-bottom: -4.5px;
+  /* margin-bottom: -4.5px; */
   text-transform: uppercase;
 }
 
@@ -29,8 +34,6 @@
 .ColorBox .details {
   width: 100%;
   font-size: 12px;
-  color: black;
-  background: #ffffff33;
   position: absolute;
   bottom: 0;
   padding: 5px;
