@@ -1,6 +1,7 @@
 import { PureComponent } from 'react'
 import { Link } from 'react-router-dom';
 import { SlCopyButton, SlTooltip, SlIcon } from '@shoelace-style/shoelace/dist/react';
+import chroma from 'chroma-js';
 import './colorbox.css'
 
 class ColorBox extends PureComponent {
@@ -23,8 +24,10 @@ class ColorBox extends PureComponent {
   }
 
   details = (name, icon) => {
+    const luminance = chroma(this.props.hex).luminance()
+    const [fg, bg] = luminance > 0.4 ? ['black','#ffffff55'] : ['white','#00000055']
     return (
-      <div className='details'>
+      <div className='details' style={{ color: fg, background: bg}}>
         <span className='color-name'>{name}</span>
         {icon && <SlIcon className='btn' name="caret-right-fill" />}
       </div>

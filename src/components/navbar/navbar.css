@@ -1,5 +1,9 @@
 nav {
-  width: 100vw
+  position: fixed;
+  top:0;
+  width: 100vw;
+  height: 65px;
+  z-index: 1;
 }
 
 nav .top,
@@ -8,18 +12,17 @@ nav .top,
   align-items: center;
   color: white;
   background-color: black;
-  z-index: 1;
   gap: 5px;
 }
 
 nav .top {
   padding: 10px;
-  min-height: min-content;
+  height: 40px;
   justify-content: space-between;
 }
 
 nav .bottom {
-  height: min-content;
+  height: 25px;
   background-color: #151515;
   justify-content: center;
   align-items: center;
