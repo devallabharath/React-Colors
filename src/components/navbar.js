@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import Slider from 'rc-slider';
 import { SlIcon, SlSelect, SlOption } from '@shoelace-style/shoelace/dist/react';
-import './navbar.css'
+import '../styles/navbar.css'
 
 class Navbar extends PureComponent {
   render () {

@@ -1,8 +1,8 @@
 import { Component } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import Home from './pages/home/home'
-import Palette from './pages/palette/palette'
-import Shades from './pages/shades/shades'
+import Home from './pages/home'
+import Palette from './pages/palette'
+import Shades from './pages/shades'
 import Colors from './scripts/colors'
 import { generatePalette, generateShades } from './scripts/colorHerlpers';
 
