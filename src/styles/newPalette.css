@@ -1,7 +1,7 @@
 .NewPalette {
   height: 100vh;
   background-color: #151515;
-  padding-top: 40px;
+  padding-top: 65px;
   overflow-y: scroll;
 }
 
@@ -12,6 +12,73 @@
   justify-content: center;
   animation: fadeIn .3s ease-in-out;
 }
+
+.NewBox {
+  width: 25vw;
+  height: 25vw;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 200px;
+  max-height: 200px;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.NewBox .edit-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+}
+
+.NewBox .picker::part(trigger) {
+  width: 25vw;
+  height: 25vw;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 0;
+}
+
+.NewBox .picker::part(trigger)::before {
+  box-shadow: none;
+}
+.NewBox .picker::part(trigger):hover::after {
+  opacity:1
+}
+
+.NewBox .picker::part(trigger)::after {
+  content: 'Edit';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.NewBox .details {
+  width: 100%;
+  font-size: 12px;
+  line-height: 12px;
+  position: absolute;
+  bottom: 0;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  cursor:text;
+}
+
+.NewBox .details .color-name {
+  width: calc(100% - 10px);
+  background: none;
+  border: none;
+  outline: none;
+  overflow: hidden;
+}
+
+.NewBox .details .btn {width: 10px; text-align: center;}
 
 @keyframes fadeIn {
   0% { opacity: .5; }

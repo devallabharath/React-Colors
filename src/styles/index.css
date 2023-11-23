@@ -1,5 +1,7 @@
 :root {
-  --primary: #76ced7
+  --primary: #76ced7;
+  --sl-tooltip-arrow-size: 0px;
+  --rem: 13;
 }
 
 body {
@@ -29,4 +31,6 @@ button {
   cursor: pointer;
 }
 
-.tooltip{background: '#fff'}
+sl-input::part(base) {
+  outline: none;
+}
