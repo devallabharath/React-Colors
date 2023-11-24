@@ -1,3 +1,5 @@
+import { nanoid } from "nanoid";
+
 const colors = [
   {
     paletteName: "Material UI Colors",
@@ -234,4 +236,24 @@ const colors = [
   }
 ];
 
+const template = [
+  { id: nanoid(), name: 'Brilliant Rose', color: '#F653A6' },
+  { id: nanoid(), name: 'Cornell Red', color: '#B31B1B' },
+  { id: nanoid(), name: 'Cream', color: '#FFFDD0' },
+  { id: nanoid(), name: 'Lavender Blush', color: '#FFF0F5' },
+  { id: nanoid(), name: 'Aerospace Orange', color: '#FF4F00' },
+  { id: nanoid(), name: 'Bole', color: '#79443B' },
+  { id: nanoid(), name: 'Dark Purple', color: '#301934' },
+  { id: nanoid(), name: 'Gold', color: '#FFD700' },
+  { id: nanoid(), name: 'Night Black', color: '#111111' },
+  { id: nanoid(), name: 'Aquamarine', color: '#00FFBF' },
+  { id: nanoid(), name: 'Melon', color: '#FDBCB4' },
+  { id: nanoid(), name: 'Turquoise', color: '#40E0D0' },
+  { id: nanoid(), name: 'Celtic Blue', color: '#246BCE' },
+  { id: nanoid(), name: 'Blue Violet', color: '#8A2BE2' },
+  { id: nanoid(), name: 'Baby Powder', color: '#FEFEFA' },
+  { id: nanoid(), name: 'Gunmetal', color: '#2A3439' }
+]
+
 export default colors
+export {template}

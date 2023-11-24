@@ -14,13 +14,19 @@ class Router extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path='/' render={(p) => <Home {...p}/>} />
-          <Route exact path='/palettes/new' render={(p) => <NewPalette {...p}/>} />
+          <Route
+            exact
+            path='/palettes/new'
+            render={(p) => {
+              return <NewPalette {...p} paletteNames={this.getPaletteNames()}/>
+            }}
+          />
           <Route
             exact
             path='/palettes/:id'
             render={(p) => {
               const colors = this.getColorsById(p.match.params.id)
-              return < Palette {...p} palette={generatePalette(colors)} />
+              return <Palette {...p} palette={generatePalette(colors)} />
             }}
           />
           <Route
@@ -37,6 +43,8 @@ class Router extends Component {
       </BrowserRouter>
     )
   }
+
+  getPaletteNames () { return Colors.map(c=>c.paletteName)}
 
   getColorsById (id) {return Colors.find(c=>c.id===id)}
 
