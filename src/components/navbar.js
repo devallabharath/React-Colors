@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
 import Slider from 'rc-slider';
-import { SlIcon, SlSelect, SlOption } from '@shoelace-style/shoelace/dist/react';
+import { SlIcon, SlSelect, SlOption, SlTooltip } from '@shoelace-style/shoelace/dist/react';
 import '../styles/navbar.css'
 
 class Navbar extends PureComponent {
@@ -28,7 +28,7 @@ class Navbar extends PureComponent {
           <button className='new-button'
             onClick={() => history.push('/palettes/new')}
           >
-            + New Palette
+            New Palette
           </button>
         }
       </div>
@@ -36,29 +36,43 @@ class Navbar extends PureComponent {
   }
 
   newbar = () => {
-    const { history, save } = this.props
+    const { Name, goBack, goHome, onSave, onDiscard } = this.props
     return (
-      <div className="top">
-        <div className='nav-part'>
-          <button className='back-button' onClick={this.props.history.goBack}>
-            <SlIcon name='arrow-left-circle-fill' />
-          </button>
-          <button className='home-button' onClick={() => this.props.history.push('/')}>
-            <SlIcon name='house-fill' />
-          </button>
+      <>
+        <div className="top">
+          <div className='nav-part'>
+            <button className='back-button' onClick={goBack}>
+              <SlIcon name='arrow-left-circle-fill' />
+            </button>
+            <button className='home-button' onClick={goHome}>
+              <SlIcon name='house-fill' />
+            </button>
+          </div>
+          <div className="nav-part">
+            <span className='Name' onClick={this.props.changeName}>
+              {Name??'New Palette'}
+              <SlIcon name='pencil-fill'/>
+            </span>
+          </div>
+          <div className="nav-part">
+            <SlTooltip content='Discard' placement='bottom'>
+              <button className='del-button' onClick={onDiscard}>
+                <SlIcon name='x' />
+              </button>
+            </SlTooltip>
+            <SlTooltip content='Save' placement='bottom'>
+              <button className='save-button' onClick={onSave}>
+                <SlIcon name='check-lg' />
+              </button>
+            </SlTooltip>
+          </div>
         </div>
-        <div className='nav-part'>
-          <h3>New Palette</h3>
+        <div className="bottom">
+          <button onClick={this.props.addBox}>Add New</button>
+          <button onClick={this.props.random}>Random All</button>
+          <button onClick={this.props.clearAll}>Clear All</button>
         </div>
-        <div className="nav-part">
-          <button className='del-button' onClick={() => history.push('/')}>
-            Discard
-          </button>
-          <button className='save-button' onClick={save}>
-            Save
-          </button>
-        </div>
-      </div>
+      </>
     )
   }
 
