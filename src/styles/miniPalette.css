@@ -1,7 +1,7 @@
 .MiniPalette {
   width: 25%;
-  min-width: 120px;
-  max-width: 160px;
+  /* min-width: 120px;
+  max-width: 160px; */
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -10,25 +10,57 @@
   color: #252525;
   background-color: #ffffff;
   border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.36) 0px 12px 20px 4px;
+  box-shadow: rgba(100, 100, 100, 0.56) 0px 3px 5px 4px;
   cursor: pointer;
   overflow: hidden;
   position: relative;
 }
 
-.MiniPalette a {
+.MiniPalette:hover {
+  background-color: var(--primary);
+}
+
+.MiniPalette .goto, .MiniPalette .options {
   position: absolute;
+  text-decoration: none;
+  color: inherit
+}
+
+.MiniPalette .menu-item::part(label) {
+  font-size: var(--sl-font-size-x-small);
+  padding-left: 5px;
+}
+
+.MiniPalette .menu-item::part(checked-icon),
+.MiniPalette .menu-item::part(submenu-icon) {width: 0}
+
+.MiniPalette .goto {
   top:0;
   bottom: 0;
   right: 0;
   left:0;
-  text-decoration: none;
-  color: inherit
+}
+
+.MiniPalette .options {
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+  color: #fff;
+  background-color: #151515;
+  display: flex;
+  font-size: var(--sl-font-size-small);
+  line-height: var(--sl-font-size-small);
+  border-radius: var(--sl-border-radius-small);
+}
+
+.MiniPalette .options:hover {
+  color: var(--primary)
 }
 
 .minipalette-colors {
   width: 100%;
   height: calc(100% - 20px);
+  background-color: #fff;
   border-radius: 4px;
   overflow: hidden;
   display: flex;
@@ -55,4 +87,22 @@
 .minipalette-name {
   font-size: 12px;
   text-wrap: nowrap;
+}
+
+@media only screen and (max-width: 600px) {
+  .MiniPalette {
+    width: 40%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: #252525;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: rgba(255, 255, 255, 0.36) 0px 3px 3px 3px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+  }
 }
