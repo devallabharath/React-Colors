@@ -63,7 +63,7 @@ class Router extends Component {
   }
 
   setLocalPalettes = (palette) => {
-    const local = localStorage.getItem('palettes')
+    const local = JSON.parse(localStorage.getItem('palettes'))
     const newPalettes = local ? [...local, palette] : [palette]
     localStorage.setItem('palettes', JSON.stringify(newPalettes))
   }
