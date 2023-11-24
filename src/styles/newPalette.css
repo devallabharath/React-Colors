@@ -60,25 +60,20 @@
 
 .NewBox .details {
   width: 100%;
-  font-size: 12px;
-  line-height: 12px;
+  font-size: var(--sl-font-size-small);
+  line-height: var(--sl-font-size-small);
   position: absolute;
-  bottom: 0;
-  padding: 5px;
+  padding: 2px 5px;
   display: flex;
   align-items: center;
-  cursor:text;
+  justify-content: space-between;
+  bottom: 0;
+  cursor:pointer;
 }
 
-.NewBox .details .color-name {
-  width: calc(100% - 10px);
-  background: none;
-  border: none;
-  outline: none;
-  overflow: hidden;
-}
+.NewBox .details .color-name { text-wrap: nowrap; overflow: hidden }
 
-.NewBox .details .btn {width: 10px; text-align: center;}
+.NewBox .details sl-icon { font-size: var(--sl-font-size-x-small)}
 
 @keyframes fadeIn {
   0% { opacity: .5; }

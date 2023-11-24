@@ -1,14 +1,63 @@
 :root {
-  --primary: #76ced7;
-  --sl-tooltip-arrow-size: 0px;
   --rem: 13;
+  --primary: #76ced7;
+  --font: 'SauceCodePro Nerd Font', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  --sl-color-primary-100: #c1ece9;
+  --sl-color-primary-200: #9de0db;
+  --sl-color-primary-300: #75d3ce;
+  --sl-color-primary-400: #42c6c1;
+  --sl-color-primary-500: #0db5b0;
+  --sl-color-primary-600: #08a19b;
+  --sl-color-primary-700: #048c87;
+  --sl-color-primary-800: #027874;
+  --sl-color-primary-900: #006561;
+  --sl-font-mono: var(--font);
+  --sl-font-sans: var(--font);
+  --sl-font-serif: var(--font);
+  --sl-font-size-2x-small: .6rem;
+  --sl-font-size-x-small: .8rem;
+  --sl-font-size-small: .9rem;
+  --sl-font-size-medium: 1rem;
+  --sl-font-size-large: 1.2rem;
+  --sl-font-size-x-large: 1.4rem;
+  --sl-font-size-2x-large: 1.6rem;
+  --sl-font-size-3x-large: 1.8rem;
+  --sl-font-size-4x-large: 2rem;
+  --sl-input-height-small: 1.4rem;
+  --sl-input-height-medium: 1.6rem;
+  --sl-input-height-large: 1.8rem;
+  --sl-input-border-width: 0;
+  --sl-button-font-size-small: var(--sl-font-size-small);
+  --sl-button-font-size-medium: var(--sl-font-size-medium);
+  --sl-button-font-size-large: var(--sl-font-size-large);
+  --sl-line-height-denser: .6;
+  --sl-line-height-dense: 1;
+  --sl-line-height-normal: 1.4;
+  --sl-line-height-loose: 1.8;
+  --sl-line-height-looser: 2.2;
+  --sl-tooltip-arrow-size: 0;
+  --sl-tooltip-font-size: var(--sl-font-size-x-small);
+  --sl-focus-ring: none;
+  --sl-toggle-size-small: .5rem;
+  --sl-toggle-size-medium: 1rem;
+  --sl-toggle-size-large: 1.2rem;
+  --sl-border-radius-xsmall: .1rem;
+  --sl-border-radius-small: .2rem;
+  --sl-border-radius-medium: .3rem;
+  --sl-border-radius-large: .4rem;
+  --sl-border-radius-x-large: .5rem;
+  --sl-shadow-x-small: 0 1px 1px rgb(0 0 0 / 18%);
+  --sl-shadow-small: 0 1px 1px rgb(0 0 0 / 24%);
+  --sl-shadow-medium: 0 2px 1px rgb(0 0 0 / 24%);
+  --sl-shadow-large: 0 2px 1px rgb(0 0 0 / 24%);
+  --sl-shadow-x-large: 0 4px 16px rgb(0 0 0 / 24%);
 }
 
 body {
   margin: 0;
-  font-family: 'SauceCodePro Nerd Font', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
@@ -18,6 +67,9 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 
 a {
@@ -29,8 +81,4 @@ button {
   border: none;
   outline: none;
   cursor: pointer;
-}
-
-sl-input::part(base) {
-  outline: none;
 }

@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
 import Slider from 'rc-slider';
-import { SlInput, SlIcon, SlSelect, SlOption, SlTooltip } from '@shoelace-style/shoelace/dist/react';
+import { SlIcon, SlSelect, SlOption, SlTooltip } from '@shoelace-style/shoelace/dist/react';
 import '../styles/navbar.css'
 
 class Navbar extends PureComponent {
@@ -36,36 +36,32 @@ class Navbar extends PureComponent {
   }
 
   newbar = () => {
-    const { history, save } = this.props
+    const { Name, goBack, goHome, onSave, onDiscard } = this.props
     return (
       <>
         <div className="top">
           <div className='nav-part'>
-            <button className='back-button' onClick={this.props.history.goBack}>
+            <button className='back-button' onClick={goBack}>
               <SlIcon name='arrow-left-circle-fill' />
             </button>
-            <button className='home-button' onClick={() => this.props.history.push('/')}>
+            <button className='home-button' onClick={goHome}>
               <SlIcon name='house-fill' />
             </button>
           </div>
-          <div className='nav-part'>
-            <SlInput
-              filled
-              size="small"
-              placeholder="Palette Name"
-              onSlChange={this.props.changeName}
-            >
-              <SlIcon style={{ marginRight: '10px' }} name="pencil" slot="suffix"></SlIcon>
-            </SlInput>
+          <div className="nav-part">
+            <span className='Name' onClick={this.props.changeName}>
+              {Name??'New Palette'}
+              <SlIcon name='pencil-fill'/>
+            </span>
           </div>
           <div className="nav-part">
             <SlTooltip content='Discard' placement='bottom'>
-              <button className='del-button' onClick={() => history.push('/')}>
+              <button className='del-button' onClick={onDiscard}>
                 <SlIcon name='x' />
               </button>
             </SlTooltip>
             <SlTooltip content='Save' placement='bottom'>
-              <button className='save-button' onClick={save}>
+              <button className='save-button' onClick={onSave}>
                 <SlIcon name='check-lg' />
               </button>
             </SlTooltip>

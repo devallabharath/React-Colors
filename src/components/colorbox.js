@@ -5,12 +5,21 @@ import chroma from 'chroma-js';
 import '../styles/colorbox.css'
 
 class ColorBox extends PureComponent {
+  constructor (props) {
+    super(props)
+    this.dynamicColor = chroma(this.props.hex).luminance() > 0.4
+      ? ['black', '#ffffff55']
+      : ['white', '#00000055']
+    this.fg = this.dynamicColor[0]
+    this.bg = this.dynamicColor[1]
+  }
+
   render () {
     const { type, name, Id, id, format, hex } = this.props
     const color = this.props[format]
     return (
       <div style={{ background: hex }} className="ColorBox">
-        <SlCopyButton className="copy-button" value={color} />
+        <SlCopyButton style={{color: this.fg}} className="copy-button" value={color} />
         {type === 'color'
           ? <Link to={`/shades/${Id}/${id}/${hex.replace('#', '')}`}>
             <SlTooltip content="See More">
@@ -24,10 +33,8 @@ class ColorBox extends PureComponent {
   }
 
   details = (name, icon) => {
-    const luminance = chroma(this.props.hex).luminance()
-    const [fg, bg] = luminance > 0.4 ? ['black','#ffffff55'] : ['white','#00000055']
     return (
-      <div className='details' style={{ color: fg, background: bg}}>
+      <div className='details' style={{ color: this.fg, background: this.bg }}>
         <span className='color-name'>{name}</span>
         {icon && <SlIcon className='btn' name="caret-right-fill" />}
       </div>
