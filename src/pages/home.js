@@ -6,12 +6,12 @@ import '../styles/home.css'
 class Home extends PureComponent {
 
   render () {
-    const {history, palettes} = this.props
+    const {history, palettes, deletePalette, editPalette} = this.props
     return (
       <div className="Home">
         <Navbar Type='home' history={history} />
         <div className="home-palettes">
-          {palettes.map(c => <MiniPalette key={c.id} palette={c} />)}
+          {palettes.map(c => <MiniPalette key={c.id} palette={c} deletePalette={deletePalette} editPalette={editPalette} />)}
         </div>
       </div>
     )

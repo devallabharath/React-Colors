@@ -37,7 +37,7 @@ class MiniPalette extends PureComponent {
             <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='eye-fill' />
           </SlMenuItem>
           <SlMenuItem className='menu-item'>Use Template
-            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
+            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='box-fill' />
           </SlMenuItem>
         </SlMenu>
       </SlDropdown>
@@ -50,11 +50,11 @@ class MiniPalette extends PureComponent {
               <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='pencil-fill' />
             </SlMenuItem>
           </Link>
-          <SlMenuItem className='menu-item'>Delete
+          <SlMenuItem className='menu-item' onClick={()=>this.props.deletePalette(id)}>Delete
             <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
           </SlMenuItem>
           <SlMenuItem className='menu-item'>Use Template
-            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
+            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='box-fill' />
           </SlMenuItem>
         </SlMenu>
       </SlDropdown>

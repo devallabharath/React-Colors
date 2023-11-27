@@ -19,7 +19,7 @@ class Router extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path='/' render={(p) => <Home {...p} palettes={this.state.palettes} />} />
+          <Route exact path='/' render={(p) => <Home {...p} palettes={this.state.palettes} deletePalette={this.deletePalette} />} />
           <Route
             exact
             path='/palettes/new'
@@ -71,6 +71,13 @@ class Router extends Component {
   getPaletteNames () { return this.state.palettes.map(c => c.paletteName) }
 
   getPaletteById (id) { return this.state.palettes.find(c => c.id === id) }
+
+  deletePalette = (id) => {
+    const local = JSON.parse(localStorage.getItem('palettes')).filter(p=>p.id!==id)
+    const state = this.state.palettes.filter(p=>p.id!==id)
+    localStorage.setItem('palettes', JSON.stringify(local))
+    this.setState({palettes: state})
+  }
 
 }
 
