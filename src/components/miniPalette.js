@@ -29,6 +29,7 @@ class MiniPalette extends PureComponent {
   }
 
   paletteMenu = (id) => {
+    const {Delete} = this.props
     if (defaultIds.includes(id)) {
       return <SlDropdown size='small'>
         <SlIcon className='options' slot='trigger' name='three-dots-vertical' />
@@ -50,7 +51,7 @@ class MiniPalette extends PureComponent {
               <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='pencil-fill' />
             </SlMenuItem>
           </Link>
-          <SlMenuItem className='menu-item' onClick={()=>this.props.deletePalette(id)}>Delete
+          <SlMenuItem className='menu-item' onClick={()=>Delete(id)}>Delete
             <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
           </SlMenuItem>
           <SlMenuItem className='menu-item'>Use Template
