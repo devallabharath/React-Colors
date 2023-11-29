@@ -2,13 +2,13 @@ import { PureComponent } from 'react'
 import Navbar from '../components/navbar'
 import MiniPalette from '../components/miniPalette'
 import '../styles/home.css'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
 class HomePage extends PureComponent {
 
   render () {
     const {navigate, Storage} = this.props
-    const palettes = Storage.getAllPalettes()
+    const palettes = Storage.palettes
     return (
       <div className="Home">
         <Navbar Type='home' navigate={navigate} />
@@ -31,6 +31,6 @@ class HomePage extends PureComponent {
 
 }
 
-const Home = (p) => <HomePage {...p} navigate={useNavigate()} params={useParams()}/>
+const Home = (p) => <HomePage {...p} location={useLocation()} navigate={useNavigate()} params={useParams()}/>
 
 export default Home

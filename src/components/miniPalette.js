@@ -12,17 +12,17 @@ class MiniPalette extends PureComponent {
     return (
       <div className="MiniPalette">
         <Link className='goto' to={`/palettes/${id}`}></Link>
-        {this.paletteMenu(id)}
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
-              key={c.color}
-              style={{ backgroundColor: c.color }}
-              className='minipalette-color'
+            key={c.color}
+            style={{ backgroundColor: c.color }}
+            className='minipalette-color'
             />)}
         </div>
         <div className="minipalette-footer">
-          <span className='minipalette-name'>{paletteName}</span>
+          <div className='minipalette-name'>{paletteName}</div>
+          {this.paletteMenu(id)}
         </div>
       </div >
     )
@@ -32,7 +32,7 @@ class MiniPalette extends PureComponent {
     const {Delete} = this.props
     if (defaultIds.includes(id)) {
       return <SlDropdown size='small'>
-        <SlIcon className='options' slot='trigger' name='three-dots-vertical' />
+        <SlIcon className='options' slot='trigger' name='three-dots' />
         <SlMenu>
           <SlMenuItem className='menu-item'>Show/Hide
             <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='eye-fill' />
@@ -44,7 +44,7 @@ class MiniPalette extends PureComponent {
       </SlDropdown>
     } else {
       return <SlDropdown size='small'>
-        <SlIcon className='options' slot='trigger' name='three-dots-vertical' />
+        <SlIcon className='options' slot='trigger' name='three-dots' />
         <SlMenu>
           <Link to={`/palettes/${id}`}>
             <SlMenuItem className='menu-item'>Edit

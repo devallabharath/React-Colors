@@ -136,7 +136,10 @@ class NewPalette extends Component {
     }
   }
 
-  savePalette = (palette) => {this.props.Storage.savePalette(palette)}
+  savePalette = (palette) => {
+    this.props.Storage.savePalette(palette)
+    this.props.navigate('/')
+  }
 
   makeBox = (id, name, color) => {
     const luminance = chroma(color).luminance()
