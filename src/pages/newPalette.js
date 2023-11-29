@@ -1,147 +1,68 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import Navbar from '../components/navbar'
-import {useParams, useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { SlColorPicker, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import Dialog from '../components/dialog'
 import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
 import { template } from '../scripts/colors'
 import '../styles/newPalette.css'
+const newColor = { id: nanoid(), name: 'New Color', color: '#555555' }
 
-class NewPalette extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      openRenamePalette: false,
-      openRenameColor: false,
-      current: [],
-      openConfirm: false,
-      paletteName: null,
-      id: null,
-      colors: []
-    }
-  }
+const NewPalette = ({ Storage }) => {
+  const [PaletteDlg, setPaletteDlg] = useState(false)
+  const [ColorDlg, setColorDlg] = useState(false)
+  const [ConfirmDlg, setConfirmDlg] = useState(false)
+  const [paletteName, setPaletteName] = useState(null)
+  const [Id, setId] = useState(null)
+  const [Colors, setColors] = useState([])
+  const [Current, setCurrent] = useState([])
+  const navigate = useNavigate()
 
-  render () {
-    const {navigate} = this.props
-    const { paletteName, current, colors, openRenamePalette, openRenameColor, openConfirm } = this.state
-    return (
-      <div className="NewPalette">
-        <Navbar
-          Type='new'
-          Name={paletteName}
-          goBack={() => this.setState({ openConfirm: true })}
-          goHome={() => this.setState({ openConfirm: true })}
-          addBox={this.addBox}
-          random={this.random}
-          clearAll={this.clearAll}
-          onDiscard={() => this.openConfirm()}
-          onSave={this.handlesave}
-          changeName={this.openRenamePalette}
+  const render = () => {return (
+    <div className="NewPalette">
+      <Navbar
+        Type='new'
+        Name={paletteName}
+        goBack={() => setConfirmDlg(true)}
+        goHome={() => setConfirmDlg(true)}
+        addBox={addColor}
+        random={addRandomColors}
+        clearAll={clearColors}
+        onDiscard={() => setConfirmDlg(true)}
+        onSave={savePalette}
+        changeName={() => setPaletteDlg(true)}
+      />
+      <div className="newPalette-colors">
+        <Dialog
+          Type='renamePalette'
+          paletteNames={Storage.getPaletteNames()}
+          Input={paletteName}
+          Display={PaletteDlg}
+          Close={() => setPaletteDlg(false)}
+          Rename={renamePalette}
         />
-        <div className="newPalette-colors">
-          <Dialog
-            Type='renamePalette'
-            paletteNames={this.props.Storage.getPaletteNames()}
-            Input={paletteName}
-            Display={openRenamePalette}
-            Close={() => this.setState({ openRenamePalette: false })}
-            Rename={this.changePaletteName}
-          />
-          <Dialog
-            Type='renameColor'
-            Id={current[0]}
-            Input={current[1]}
-            Display={openRenameColor}
-            Close={() => this.setState({ openRenameColor: false })}
-            Rename={this.changeColorName}
-          />
-          <Dialog
-            Type='confirm'
-            Display={openConfirm}
-            Yes={() => this.setState({ openConfirm: false })}
-            No={() => navigate('/')}
-            Close={() => this.setState({ openConfirm: false })}
-          />
-          {colors.map((c) => this.makeBox(c.id, c.name, c.color))}
-        </div>
+        <Dialog
+          Type='renameColor'
+          Id={Current[0]}
+          Input={Current[1]}
+          Display={ColorDlg}
+          Close={() => setColorDlg(false)}
+          Rename={renameColor}
+        />
+        <Dialog
+          Type='confirm'
+          Display={ConfirmDlg}
+          Yes={() => setConfirmDlg(false)}
+          No={() => navigate('/')}
+          Close={() => setConfirmDlg(false)}
+        />
+        {Colors.map((c) => makeBox(c.id, c.name, c.color))}
       </div>
-    )
+    </div>)
   }
 
-  addBox = () => {
-    this.setState({
-      colors: [{ id: nanoid(), name: 'New Color', color: '#555555' }, ...this.state.colors]
-    })
-  }
-
-  random = () => { this.setState({ colors: [...this.state.colors, ...template] }) }
-
-  clearAll = () => { this.setState({ colors: [] }) }
-
-  changePaletteName = (e) => {
-    e.preventDefault()
-    const data = new FormData(e.target)
-    const name = [...data.entries()][0][1]
-    this.setState({
-      paletteName: name,
-      id: name.toLowerCase().split(' ').join('_'),
-      openRenamePalette: false
-    })
-  }
-
-  changeColorName = (e) => {
-    e.preventDefault()
-    const data = new FormData(e.target)
-    const name = [...data.entries()][0][1]
-    const id = this.state.current[0]
-    const { colors } = this.state
-    this.setState({
-      colors: colors.map(c => {
-        if (c.id !== id) return c
-        return { ...c, name: name }
-      }),
-      current: [],
-      openRenameColor: false
-    })
-  }
-
-  changeColor = (id, color) => {
-    const { colors } = this.state
-    this.setState({
-      colors: colors.map(c => {
-        if (c.id !== id) return c
-        return { ...c, color: color }
-      })
-    })
-  }
-
-  openRenamePalette = () => this.setState({ openRenamePalette: true })
-
-  openRenameColor = (id, name) => this.setState({ openRenameColor: true, current: [id, name] })
-
-  openConfirm = () => this.setState({ openConfirm: true })
-
-  handlesave = () => {
-    const { paletteName, id, colors } = this.state
-    if (paletteName === null) {
-      this.openRenamePalette()
-    } else {
-      const palette = {
-        paletteName: paletteName,
-        id: id,
-        colors: colors.map(c => ({ name: c.name, color: c.color }))
-      }
-      this.savePalette(palette)
-    }
-  }
-
-  savePalette = (palette) => {
-    this.props.Storage.savePalette(palette)
-    this.props.navigate('/')
-  }
-
-  makeBox = (id, name, color) => {
+  const makeBox = (id, name, color) => {
     const luminance = chroma(color).luminance()
     const [fg, bg] = luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
     return (
@@ -151,19 +72,68 @@ class NewPalette extends Component {
           size='small'
           noFormatToggle
           value={color}
-          onSlChange={(e) => this.changeColor(id, e.target.value)}
+          onSlChange={(e) => changeColor(id, e.target.value)}
         />
         <div className='details'
           style={{ color: fg, background: bg }}
-          onClick={() => this.openRenameColor(id, name)}>
+          onClick={() => {setColorDlg(true);setCurrent([id, name])}}>
           <span className='color-name'>{name}</span>
           <SlIcon name='pencil-fill' />
         </div>
       </div>
     )
   }
+
+  const addColor = () => setColors((c) => [newColor, ...c])
+
+  const addRandomColors = () => setColors((c) => [...template, ...c])
+
+  const clearColors = () => setColors([])
+
+  const renamePalette = (e) => {
+    e.preventDefault()
+    const data = new FormData(e.target)
+    const name = [...data.entries()][0][1]
+    setPaletteName(name)
+    setId(name.toLowerCase().split(' ').join('_'))
+    setPaletteDlg(false)
+  }
+
+  const renameColor = (e) => {
+    e.preventDefault()
+    const data = new FormData(e.target)
+    const name = [...data.entries()][0][1]
+    const id = Current[0]
+    setColors((c) => c.map(c => {
+      if (c.id !== id) return c
+      return { ...c, name: name }
+    }))
+    setCurrent([])
+    setColorDlg(false)
+  }
+
+  const changeColor = (id, color) => {
+    setColors((c) => c.map(c => {
+      if (c.id !== id) return c
+      return { ...c, color: color }
+    }))
+  }
+
+  const savePalette = () => {
+    if (paletteName === null) {
+      setPaletteDlg(true)
+    } else {
+      const palette = {
+        paletteName: paletteName,
+        id: Id,
+        colors: Colors.map(c => ({ name: c.name, color: c.color }))
+      }
+      Storage.savePalette(palette)
+      navigate('/')
+    }
+  }
+
+  return render()
 }
 
-const New = (p) => {return <NewPalette {...p} params={useParams()} navigate={useNavigate()}/>}
-
-export default New
+export default NewPalette
