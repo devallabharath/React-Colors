@@ -48,8 +48,8 @@ class Dialog extends PureComponent {
     const { Input, Close, Rename } = this.props
     return <form onSubmit={Rename}>
       <SlInput
-        ref={this.input}
         autofocus
+        ref={this.input}
         name='paletteName'
         required={true}
         minlength={3}
