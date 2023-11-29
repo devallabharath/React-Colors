@@ -1,36 +1,33 @@
-import { PureComponent } from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import MiniPalette from '../components/miniPalette'
 import '../styles/home.css'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
-class HomePage extends PureComponent {
+const HomePage = ({ Storage }) => {
+  const [, refresh] = useState(false)
+  const navigate = useNavigate()
 
-  render () {
-    const {navigate, Storage} = this.props
-    const palettes = Storage.palettes
-    return (
-      <div className="Home">
-        <Navbar Type='home' navigate={navigate} />
-        <div className="home-palettes">
-          {palettes.map(c =>
-            <MiniPalette key={c.id}
-              palette={c}
-              Delete={this.deletePalette}
-            />
-          )}
-        </div>
+  function render () {
+    return (<div className="Home">
+      <Navbar Type='home' navigate={navigate} />
+      <div className="home-palettes">
+        {Storage.palettes.map(c =>
+          <MiniPalette key={c.id}
+            palette={c}
+            Delete={deletePalette}
+          />
+        )}
       </div>
-    )
+    </div>)
   }
 
-  deletePalette = (id) => {
-    this.props.Storage.deletePalette(id)
-    this.forceUpdate()
+  const deletePalette = (id) => {
+    Storage.deletePalette(id)
+    refresh((old) => !old)
   }
 
+  return render()
 }
 
-const Home = (p) => <HomePage {...p} location={useLocation()} navigate={useNavigate()} params={useParams()}/>
-
-export default Home
+export default HomePage
