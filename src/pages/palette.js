@@ -1,9 +1,11 @@
 import { Component } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import ColorBox from '../components/colorbox'
+import { generatePalette } from '../scripts/colorHerlpers';
 import '../styles/palette.css'
 
-class Palette extends Component {
+class PalettePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -13,7 +15,9 @@ class Palette extends Component {
   }
 
   render () {
-    const { paletteName, colors, id } = this.props.palette
+    const {params, Storage} = this.props
+    const palette = Storage.getPaletteById(params.id)
+    const { paletteName, colors, id } = generatePalette(palette)
     const { level, format } = this.state
     return (
       <div className="Palette">
@@ -25,7 +29,8 @@ class Palette extends Component {
           slider={true}
           Level={level}
           changeLevel={this.changeLevel}
-          history={this.props.history}
+          back={'/'}
+          navigate={this.props.navigate}
         />
         <div className="palette-colors">
           {colors[level].map(c => <ColorBox key={c.hex} type='color' Id={id} {...c} format={format} />)}
@@ -39,5 +44,7 @@ class Palette extends Component {
 
   changeFormat = (e) => { this.setState({ format: e.target.value }) }
 }
+
+const Palette = (p) => <PalettePage {...p} navigate={useNavigate()} params={useParams()}/>
 
 export default Palette

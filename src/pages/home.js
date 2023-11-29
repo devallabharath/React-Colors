@@ -2,20 +2,35 @@ import { PureComponent } from 'react'
 import Navbar from '../components/navbar'
 import MiniPalette from '../components/miniPalette'
 import '../styles/home.css'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
-class Home extends PureComponent {
+class HomePage extends PureComponent {
 
   render () {
-    const {history, palettes} = this.props
+    const {navigate, Storage} = this.props
+    const palettes = Storage.palettes
     return (
       <div className="Home">
-        <Navbar Type='home' history={history} />
+        <Navbar Type='home' navigate={navigate} />
         <div className="home-palettes">
-          {palettes.map(c => <MiniPalette key={c.id} palette={c} />)}
+          {palettes.map(c =>
+            <MiniPalette key={c.id}
+              palette={c}
+              Delete={this.deletePalette}
+            />
+          )}
         </div>
       </div>
     )
   }
+
+  deletePalette = (id) => {
+    this.props.Storage.deletePalette(id)
+    this.forceUpdate()
+  }
+
 }
+
+const Home = (p) => <HomePage {...p} location={useLocation()} navigate={useNavigate()} params={useParams()}/>
 
 export default Home

@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import Navbar from '../components/navbar'
+import {useParams, useNavigate} from 'react-router-dom'
 import { SlColorPicker, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import Dialog from '../components/dialog'
 import chroma from 'chroma-js'
@@ -22,6 +23,7 @@ class NewPalette extends Component {
   }
 
   render () {
+    const {navigate} = this.props
     const { paletteName, current, colors, openRenamePalette, openRenameColor, openConfirm } = this.state
     return (
       <div className="NewPalette">
@@ -40,7 +42,7 @@ class NewPalette extends Component {
         <div className="newPalette-colors">
           <Dialog
             Type='renamePalette'
-            paletteNames={this.props.paletteNames}
+            paletteNames={this.props.Storage.getPaletteNames()}
             Input={paletteName}
             Display={openRenamePalette}
             Close={() => this.setState({ openRenamePalette: false })}
@@ -58,7 +60,7 @@ class NewPalette extends Component {
             Type='confirm'
             Display={openConfirm}
             Yes={() => this.setState({ openConfirm: false })}
-            No={() => this.props.history.push('/')}
+            No={() => navigate('/')}
             Close={() => this.setState({ openConfirm: false })}
           />
           {colors.map((c) => this.makeBox(c.id, c.name, c.color))}
@@ -134,7 +136,10 @@ class NewPalette extends Component {
     }
   }
 
-  savePalette = (palette) => {this.props.Save(palette)}
+  savePalette = (palette) => {
+    this.props.Storage.savePalette(palette)
+    this.props.navigate('/')
+  }
 
   makeBox = (id, name, color) => {
     const luminance = chroma(color).luminance()
@@ -159,4 +164,6 @@ class NewPalette extends Component {
   }
 }
 
-export default NewPalette
+const New = (p) => {return <NewPalette {...p} params={useParams()} navigate={useNavigate()}/>}
+
+export default New

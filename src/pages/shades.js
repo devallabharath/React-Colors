@@ -1,16 +1,19 @@
 import { Component } from 'react'
 import Navbar from '../components/navbar'
 import ColorBox from '../components/colorbox'
+import { useNavigate, useParams } from 'react-router-dom'
+import { generateShades } from '../scripts/colorHerlpers'
 import '../styles/shades.css'
 
-class Shades extends Component {
+class ShadesPage extends Component {
   constructor (props) {
     super(props)
     this.state = { format: 'hex' }
   }
 
   render () {
-    const { paletteName, colors } = this.props.palette
+    let {id, name, color} = this.props.params
+    const { paletteName, colors } = generateShades(name, `#${color}`)
     const { format } = this.state
     return (
       <div className="Shades" >
@@ -19,7 +22,8 @@ class Shades extends Component {
           Name={paletteName.toUpperCase()}
           Format={format}
           changeFormat={this.changeFormat}
-          history={this.props.history}
+          back={`/palettes/${id}`}
+          navigate={this.props.navigate}
           slider={false}
         />
         <div className="shades-colors">
@@ -32,5 +36,8 @@ class Shades extends Component {
 
   changeFormat = (e) => { this.setState({ format: e.target.value }) }
 }
+
+const Shades = (p) => <ShadesPage {...p} params={useParams()} navigate={useNavigate()}/>
+
 
 export default Shades

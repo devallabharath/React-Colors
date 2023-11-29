@@ -4,6 +4,7 @@ import { SlIcon, SlSelect, SlOption, SlTooltip } from '@shoelace-style/shoelace/
 import '../styles/navbar.css'
 
 class Navbar extends PureComponent {
+
   render () {
     const { Type } = this.props;
     return (
@@ -18,7 +19,7 @@ class Navbar extends PureComponent {
   }
 
   homebar = (btn = true) => {
-    const { history } = this.props
+    const { navigate } = this.props
     return (
       <div className="top">
         <div className='nav-part'>
@@ -26,7 +27,7 @@ class Navbar extends PureComponent {
         </div>
         {btn &&
           <button className='new-button'
-            onClick={() => history.push('/palettes/new')}
+            onClick={() => navigate('/palettes/new')}
           >
             New Palette
           </button>
@@ -77,15 +78,15 @@ class Navbar extends PureComponent {
   }
 
   colorbar = () => {
-    const { Name, Format, changeFormat, slider, Level, changeLevel } = this.props;
+    const { Name, Format, changeFormat, slider, Level, changeLevel, navigate, back } = this.props;
     return (
       <>
         <div className="top">
           <div className='nav-part'>
-            <button className='back-button' onClick={this.props.history.goBack}>
+            <button className='back-button' onClick={()=>navigate(back)}>
               <SlIcon name='arrow-left-circle-fill' />
             </button>
-            <button className='home-button' onClick={() => this.props.history.push('/')}>
+            <button className='home-button' onClick={()=>navigate('/')}>
               <SlIcon name='house-fill' />
             </button>
           </div>
