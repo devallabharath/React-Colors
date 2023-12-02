@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlColorPicker, SlIcon } from '@shoelace-style/shoelace/dist/react'
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 import Dialog from '../components/dialog'
 import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
@@ -19,21 +20,21 @@ const NewPalette = ({ Storage }) => {
   const [Current, setCurrent] = useState([])
   const navigate = useNavigate()
 
-  const render = () => {return (
-    <div className="NewPalette">
-      <Navbar
-        Type='new'
-        Name={paletteName}
-        goBack={() => setConfirmDlg(true)}
-        goHome={() => setConfirmDlg(true)}
-        addBox={addColor}
-        random={addRandomColors}
-        clearAll={clearColors}
-        onDiscard={() => setConfirmDlg(true)}
-        onSave={savePalette}
-        changeName={() => setPaletteDlg(true)}
-      />
-      <div className="newPalette-colors">
+  const render = () => {
+    return (
+      <div className="NewPalette">
+        <Navbar
+          Type='new'
+          Name={paletteName}
+          goBack={() => setConfirmDlg(true)}
+          goHome={() => setConfirmDlg(true)}
+          addBox={addColor}
+          random={addRandomColors}
+          clearAll={clearColors}
+          onDiscard={() => setConfirmDlg(true)}
+          onSave={savePalette}
+          changeName={() => setPaletteDlg(true)}
+        />
         <Dialog
           Type='renamePalette'
           paletteNames={Storage.getPaletteNames()}
@@ -57,22 +58,43 @@ const NewPalette = ({ Storage }) => {
           No={() => navigate('/')}
           Close={() => setConfirmDlg(false)}
         />
-        {Colors.map((c) => makeBox(c.id, c.name, c.color))}
-      </div>
-    </div>)
+        <DragDropContext onDragEnd={sortColors}>
+          <Droppable droppableId='colors-container'>
+            {(provided, snapshot) => (
+              <div className="newPalette-colors" ref={provided.innerRef} {...provided.droppableProps}>
+                {Colors.map((c, i) =>
+                  <Draggable
+                    draggableId={`color-${i}`}
+                    index={i}
+                    key={c.id}
+                  >
+                    {(_prov, _snap) => makeBox(_prov, _snap, c.id, c.name, c.color)}
+                  </Draggable>
+                )}
+                {provided.placeholder}
+              </div>)}
+          </Droppable>
+        </DragDropContext>
+      </div>)
   }
 
-  const makeBox = (id, name, color) => {
+  const makeBox = (prov, snap, id, name, color) => {
     const luminance = chroma(color).luminance()
     const [fg, bg] = luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
     return (
-      <div key={id} className="NewBox">
+      <div
+        className={"NewBox " + (snap.isDragging ? "hovering" : "")}
+        ref={prov.innerRef}
+        {...prov.dragHandleProps}
+        {...prov.draggableProps}
+        style={{ background: color }}
+      >
         <span
           className='delete-icon'
           style={{ color: fg }}
-          onClick={()=>deleteColor(id)}
+          onClick={() => deleteColor(id)}
         >
-          <SlIcon name='trash-fill'/>
+          <SlIcon name='trash-fill' />
         </span>
         <SlColorPicker
           className='picker'
@@ -83,7 +105,7 @@ const NewPalette = ({ Storage }) => {
         />
         <div className='details'
           style={{ color: fg, background: bg }}
-          onClick={() => {setColorDlg(true);setCurrent([id, name])}}>
+          onClick={() => { setColorDlg(true); setCurrent([id, name]) }}>
           <span className='color-name'>{name}</span>
           <SlIcon className='edit-icon' name='pencil-fill' />
         </div>
@@ -126,7 +148,14 @@ const NewPalette = ({ Storage }) => {
     }))
   }
 
-  const deleteColor = (id) => setColors((c) => c.filter(c =>c.id!==id))
+  const deleteColor = (id) => setColors((c) => c.filter(c => c.id !== id))
+
+  const sortColors = ({ source, destination }) => {
+    let _arr = [...Colors]
+    const _item = _arr.splice(source.index, 1)[0]
+    _arr.splice(destination.index, 0, _item)
+    setColors(_arr)
+  }
 
   const savePalette = () => {
     if (paletteName === null) {
