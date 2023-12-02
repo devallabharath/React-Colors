@@ -1,5 +1,5 @@
 import { PureComponent, createRef } from 'react'
-import { SlDialog, SlInput, SlButton } from '@shoelace-style/shoelace/dist/react'
+import { SlDialog, SlInput, SlButton, SlColorPicker } from '@shoelace-style/shoelace/dist/react'
 import '../styles/dialog.css'
 
 class Dialog extends PureComponent {
@@ -27,6 +27,7 @@ class Dialog extends PureComponent {
         open={Display}
         onSlAfterHide={Close}
       >
+        {Type === 'colorPicker' && this.picker()}
         {Type === 'renamePalette' && this.renamePalette()}
         {Type === 'renameColor' && this.renameColor()}
         {Type === 'confirm' && <>
@@ -41,6 +42,19 @@ class Dialog extends PureComponent {
           </div>
         </>}
       </SlDialog>
+    )
+  }
+
+  picker = () => {
+    const {id, color, changeColor} = this.props
+    return (
+      <SlColorPicker
+        inline
+        size='small'
+        noFormatToggle
+        value={color}
+        onSlChange={(e) => changeColor(id, e.target.value)}
+      />
     )
   }
 

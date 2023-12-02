@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Navbar from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
-import { SlColorPicker, SlIcon } from '@shoelace-style/shoelace/dist/react'
+import { SlIcon } from '@shoelace-style/shoelace/dist/react'
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 import Dialog from '../components/dialog'
 import chroma from 'chroma-js'
@@ -14,6 +14,7 @@ const NewPalette = ({ Storage }) => {
   const [PaletteDlg, setPaletteDlg] = useState(false)
   const [ColorDlg, setColorDlg] = useState(false)
   const [ConfirmDlg, setConfirmDlg] = useState(false)
+  const [Picker, setPickerDlg] = useState(false)
   const [paletteName, setPaletteName] = useState(null)
   const [Id, setId] = useState(null)
   const [Colors, setColors] = useState([])
@@ -58,6 +59,14 @@ const NewPalette = ({ Storage }) => {
           No={() => navigate('/')}
           Close={() => setConfirmDlg(false)}
         />
+        <Dialog
+          Type='colorPicker'
+          Display={Picker}
+          id={Current[0]}
+          color={Current[1]}
+          changeColor={changeColor}
+          Close={() => setPickerDlg(false)}
+        />
         <DragDropContext onDragEnd={sortColors}>
           <Droppable droppableId='colors-container'>
             {(provided, snapshot) => (
@@ -96,16 +105,15 @@ const NewPalette = ({ Storage }) => {
         >
           <SlIcon name='trash-fill' />
         </span>
-        <SlColorPicker
-          className='picker'
-          size='small'
-          noFormatToggle
-          value={color}
-          onSlChange={(e) => changeColor(id, e.target.value)}
-        />
+        <span
+          className='picker-icon'
+          onClick={() => { setCurrent([id, color]); setPickerDlg(true) }}
+          style={{ color: fg }}>
+          <SlIcon name='eyedropper' />
+        </span>
         <div className='details'
           style={{ color: fg, background: bg }}
-          onClick={() => { setColorDlg(true); setCurrent([id, name]) }}>
+          onClick={() => { setCurrent([id, name]); setColorDlg(true) }}>
           <span className='color-name'>{name}</span>
           <SlIcon className='edit-icon' name='pencil-fill' />
         </div>
@@ -146,6 +154,7 @@ const NewPalette = ({ Storage }) => {
       if (c.id !== id) return c
       return { ...c, color: color }
     }))
+    setPickerDlg(false)
   }
 
   const deleteColor = (id) => setColors((c) => c.filter(c => c.id !== id))
