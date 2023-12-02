@@ -67,6 +67,13 @@ const NewPalette = ({ Storage }) => {
     const [fg, bg] = luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
     return (
       <div key={id} className="NewBox">
+        <span
+          className='delete-icon'
+          style={{ color: fg }}
+          onClick={()=>deleteColor(id)}
+        >
+          <SlIcon name='trash-fill'/>
+        </span>
         <SlColorPicker
           className='picker'
           size='small'
@@ -78,7 +85,7 @@ const NewPalette = ({ Storage }) => {
           style={{ color: fg, background: bg }}
           onClick={() => {setColorDlg(true);setCurrent([id, name])}}>
           <span className='color-name'>{name}</span>
-          <SlIcon name='pencil-fill' />
+          <SlIcon className='edit-icon' name='pencil-fill' />
         </div>
       </div>
     )
@@ -118,6 +125,8 @@ const NewPalette = ({ Storage }) => {
       return { ...c, color: color }
     }))
   }
+
+  const deleteColor = (id) => setColors((c) => c.filter(c =>c.id!==id))
 
   const savePalette = () => {
     if (paletteName === null) {

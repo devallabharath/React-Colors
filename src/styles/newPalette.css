@@ -26,10 +26,16 @@
   cursor: pointer;
 }
 
-.NewBox .edit-btn {
+.NewBox .delete-icon {
+  display: none;
   position: absolute;
-  top: 50%;
+  top: 3px;
+  right: 3px;
   z-index: 5;
+}
+
+.NewBox:hover .delete-icon {
+  display: block
 }
 
 .NewBox .picker::part(trigger) {
@@ -73,7 +79,14 @@
 
 .NewBox .details .color-name { text-wrap: nowrap; overflow: hidden }
 
-.NewBox .details sl-icon { font-size: var(--sl-font-size-x-small)}
+.NewBox .details sl-icon {
+  font-size: var(--sl-font-size-x-small);
+  display: none;
+}
+
+.NewBox:hover .details sl-icon {
+  display: block;
+}
 
 @keyframes fadeIn {
   0% { opacity: .5; }
