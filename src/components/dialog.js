@@ -1,5 +1,5 @@
 import { PureComponent, createRef } from 'react'
-import { SlDialog, SlInput, SlButton } from '@shoelace-style/shoelace/dist/react'
+import { SlDialog, SlInput, SlButton, SlColorPicker } from '@shoelace-style/shoelace/dist/react'
 import '../styles/dialog.css'
 
 class Dialog extends PureComponent {
@@ -8,7 +8,7 @@ class Dialog extends PureComponent {
     this.input = createRef()
   }
 
-  Validate = (e) => {
+  ValidatePalette = (e) => {
     const { paletteNames } = this.props
     const name = e.target.value
     const duplicate = paletteNames.includes(name)
@@ -27,6 +27,7 @@ class Dialog extends PureComponent {
         open={Display}
         onSlAfterHide={Close}
       >
+        {Type === 'colorPicker' && this.picker()}
         {Type === 'renamePalette' && this.renamePalette()}
         {Type === 'renameColor' && this.renameColor()}
         {Type === 'confirm' && <>
@@ -44,6 +45,19 @@ class Dialog extends PureComponent {
     )
   }
 
+  picker = () => {
+    const {id, color, changeColor} = this.props
+    return (
+      <SlColorPicker
+        inline
+        size='small'
+        noFormatToggle
+        value={color}
+        onSlChange={(e) => changeColor(id, e.target.value)}
+      />
+    )
+  }
+
   renamePalette = () => {
     const { Input, Close, Rename } = this.props
     return <form onSubmit={Rename}>
@@ -55,15 +69,11 @@ class Dialog extends PureComponent {
         minlength={3}
         placeholder="Palette Name"
         value={Input}
-        onSlInput={this.Validate}
+        onSlInput={this.ValidatePalette}
       />
       <div className='footer'>
-        <SlButton variant="normal" onClick={Close}>
-          Cancel
-        </SlButton>
-        <SlButton type='submit' variant="primary">
-          Rename
-        </SlButton>
+        <SlButton variant="normal" onClick={Close}>Cancel</SlButton>
+        <SlButton type='submit' variant="primary">Rename</SlButton>
       </div>
     </form>
   }
@@ -79,12 +89,8 @@ class Dialog extends PureComponent {
         value={Input}
       />
       <div className='footer'>
-        <SlButton variant="normal" onClick={Close}>
-          Cancel
-        </SlButton>
-        <SlButton type='submit' variant="primary">
-          Rename
-        </SlButton>
+        <SlButton variant="normal" onClick={Close}>Cancel</SlButton>
+        <SlButton type='submit' variant="primary">Rename</SlButton>
       </div>
     </form>
   }

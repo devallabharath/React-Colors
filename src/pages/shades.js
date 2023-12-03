@@ -1,43 +1,34 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import Navbar from '../components/navbar'
 import ColorBox from '../components/colorbox'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { generateShades } from '../scripts/colorHerlpers'
 import '../styles/shades.css'
 
-class ShadesPage extends Component {
-  constructor (props) {
-    super(props)
-    this.state = { format: 'hex' }
-  }
+const ShadesPage = () => {
+  const [Format, setFormat] = useState('hex')
+  const navigate = useNavigate()
+  const params = useParams()
+  const {id, name, color} = params
+  const { paletteName, colors } = generateShades(name, `#${color}`)
 
-  render () {
-    let {id, name, color} = this.props.params
-    const { paletteName, colors } = generateShades(name, `#${color}`)
-    const { format } = this.state
-    return (
-      <div className="Shades" >
-        <Navbar
-          Type='shades'
-          Name={paletteName.toUpperCase()}
-          Format={format}
-          changeFormat={this.changeFormat}
-          back={`/palettes/${id}`}
-          navigate={this.props.navigate}
-          slider={false}
-        />
-        <div className="shades-colors">
-          {colors.map(c => <ColorBox key={c.hex} type='shade' {...c} format={format} />)}
-        </div>
-        {/* footer */}
+  return (
+    <div className="Shades" >
+      <Navbar
+        Type='shades'
+        Name={paletteName.toUpperCase()}
+        Format={Format}
+        changeFormat={(e)=>setFormat(e.target.value)}
+        back={`/palettes/${id}`}
+        navigate={navigate}
+        slider={false}
+      />
+      <div className="shades-colors">
+        {colors.map(c => <ColorBox key={c.hex} type='shade' {...c} format={Format} />)}
       </div>
-    )
-  }
-
-  changeFormat = (e) => { this.setState({ format: e.target.value }) }
+      {/* footer */}
+    </div>
+  )
 }
 
-const Shades = (p) => <ShadesPage {...p} params={useParams()} navigate={useNavigate()}/>
-
-
-export default Shades
+export default ShadesPage

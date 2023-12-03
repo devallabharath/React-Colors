@@ -6,8 +6,6 @@ class Storage {
     this.getLocalPalettes()
   }
 
-  getAllPalettes = () => this.palettes
-
   getLocalPalettes = () => {
     const localPalettes = localStorage.getItem('palettes')
     if (localPalettes) {
@@ -24,6 +22,7 @@ class Storage {
     const local = JSON.parse(localStorage.getItem('palettes'))
     const newPalettes = local ? [...local, palette] : [palette]
     localStorage.setItem('palettes', JSON.stringify(newPalettes))
+    this.palettes = [...this.palettes, palette]
   }
 
   deletePalette = (id) => {
