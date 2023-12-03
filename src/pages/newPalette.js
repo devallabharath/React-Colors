@@ -71,7 +71,7 @@ const NewPalette = ({ Storage }) => {
           changeColor={changeColor}
           Close={() => setPickerDlg(false)}
         />
-        <SortContainer onSortEnd={sortColors} axis='xy' distance={10}>
+        <SortContainer onSortEnd={sortColors} axis='xy'>
           {Colors.map((c, i) =>
             <SortElement
               index={i}
