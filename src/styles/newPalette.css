@@ -20,7 +20,10 @@
   width: 160px;
   height: 160px;
   position: relative;
+  cursor: grab;
 }
+
+.NewBox:active {cursor: grabbing}
 
 .NewBox .delete-icon {
   display: none;
@@ -69,6 +72,10 @@
 
 .NewBox:hover .details sl-icon {
   display: block;
+}
+
+.NewBox sl-icon {
+  transition: all 0.3s ease-in-out;
 }
 
 @keyframes fadeIn {

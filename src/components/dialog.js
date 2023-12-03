@@ -8,7 +8,7 @@ class Dialog extends PureComponent {
     this.input = createRef()
   }
 
-  Validate = (e) => {
+  ValidatePalette = (e) => {
     const { paletteNames } = this.props
     const name = e.target.value
     const duplicate = paletteNames.includes(name)
@@ -69,15 +69,11 @@ class Dialog extends PureComponent {
         minlength={3}
         placeholder="Palette Name"
         value={Input}
-        onSlInput={this.Validate}
+        onSlInput={this.ValidatePalette}
       />
       <div className='footer'>
-        <SlButton variant="normal" onClick={Close}>
-          Cancel
-        </SlButton>
-        <SlButton type='submit' variant="primary">
-          Rename
-        </SlButton>
+        <SlButton variant="normal" onClick={Close}>Cancel</SlButton>
+        <SlButton type='submit' variant="primary">Rename</SlButton>
       </div>
     </form>
   }
@@ -93,12 +89,8 @@ class Dialog extends PureComponent {
         value={Input}
       />
       <div className='footer'>
-        <SlButton variant="normal" onClick={Close}>
-          Cancel
-        </SlButton>
-        <SlButton type='submit' variant="primary">
-          Rename
-        </SlButton>
+        <SlButton variant="normal" onClick={Close}>Cancel</SlButton>
+        <SlButton type='submit' variant="primary">Rename</SlButton>
       </div>
     </form>
   }

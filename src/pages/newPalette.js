@@ -2,7 +2,8 @@ import { useState } from 'react'
 import Navbar from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
+import { sortableContainer, sortableElement } from 'react-sortable-hoc';
+import { arrayMove } from 'react-sortable-hoc';
 import Dialog from '../components/dialog'
 import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
@@ -20,6 +21,9 @@ const NewPalette = ({ Storage }) => {
   const [Colors, setColors] = useState([])
   const [Current, setCurrent] = useState([])
   const navigate = useNavigate()
+
+  const SortContainer = sortableContainer(({ children }) => <div className="newPalette-colors">{children}</div>)
+  const SortElement = sortableElement(({c}) => makeBox(c.id, c.name, c.color))
 
   const render = () => {
     return (
@@ -67,35 +71,24 @@ const NewPalette = ({ Storage }) => {
           changeColor={changeColor}
           Close={() => setPickerDlg(false)}
         />
-        <DragDropContext onDragEnd={sortColors}>
-          <Droppable droppableId='colors-container'>
-            {(provided, snapshot) => (
-              <div className="newPalette-colors" ref={provided.innerRef} {...provided.droppableProps}>
-                {Colors.map((c, i) =>
-                  <Draggable
-                    draggableId={`color-${i}`}
-                    index={i}
-                    key={c.id}
-                  >
-                    {(_prov, _snap) => makeBox(_prov, _snap, c.id, c.name, c.color)}
-                  </Draggable>
-                )}
-                {provided.placeholder}
-              </div>)}
-          </Droppable>
-        </DragDropContext>
+        <SortContainer onSortEnd={sortColors} axis='xy'>
+          {Colors.map((c, i) =>
+            <SortElement
+              index={i}
+              key={`${c.color}${i}`}
+              c={c}
+            />
+          )}
+        </SortContainer>
       </div>)
   }
 
-  const makeBox = (prov, snap, id, name, color) => {
+  const makeBox = (id, name, color) => {
     const luminance = chroma(color).luminance()
     const [fg, bg] = luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
     return (
       <div
-        className={"NewBox " + (snap.isDragging ? "hovering" : "")}
-        ref={prov.innerRef}
-        {...prov.dragHandleProps}
-        {...prov.draggableProps}
+        className="NewBox"
         style={{ background: color }}
       >
         <span
@@ -159,12 +152,9 @@ const NewPalette = ({ Storage }) => {
 
   const deleteColor = (id) => setColors((c) => c.filter(c => c.id !== id))
 
-  const sortColors = ({ source, destination }) => {
-    let _arr = [...Colors]
-    const _item = _arr.splice(source.index, 1)[0]
-    _arr.splice(destination.index, 0, _item)
-    setColors(_arr)
-  }
+  const sortColors = ({ oldIndex, newIndex }) => {
+    setColors((colors) => arrayMove(colors, oldIndex, newIndex))
+  };
 
   const savePalette = () => {
     if (paletteName === null) {
