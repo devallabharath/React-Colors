@@ -29,8 +29,11 @@ const HomePage = ({ Storage }) => {
           No={()=>setDeleteDlg(false)}
         />
         {Storage.palettes.map(c =>
-          <MiniPalette key={c.id}
+          <MiniPalette
+            key={c.id}
+            Storage={Storage}
             palette={c}
+            Hide={hidePalette}
             Delete={openDeleteDlg}
           />
         )}
@@ -41,6 +44,16 @@ const HomePage = ({ Storage }) => {
   const openDeleteDlg = (id) => {
     setCurrent([id])
     setDeleteDlg(true)
+  }
+
+  const hidePalette = (id) => {
+    Storage.hidePalette(id)
+    refresh((old) => !old)
+  }
+
+  const showPalette = (id) => {
+    Storage.showPalette(id)
+    refresh((old)=> !old)
   }
 
   const deletePalette = () => {
