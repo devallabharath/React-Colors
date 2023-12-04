@@ -14,7 +14,7 @@ const newColor = { id: nanoid(), name: 'New Color', color: '#555555' }
 const NewPalette = ({ Storage }) => {
   const [PaletteDlg, setPaletteDlg] = useState(false)
   const [ColorDlg, setColorDlg] = useState(false)
-  const [ConfirmDlg, setConfirmDlg] = useState(false)
+  const [LeaveDlg, setLeaveDlg] = useState(false)
   const [Picker, setPickerDlg] = useState(false)
   const [paletteName, setPaletteName] = useState(null)
   const [Id, setId] = useState(null)
@@ -33,12 +33,12 @@ const NewPalette = ({ Storage }) => {
         <Navbar
           Type='new'
           Name={paletteName}
-          goBack={() => setConfirmDlg(true)}
-          goHome={() => setConfirmDlg(true)}
+          goBack={leavePage}
+          goHome={leavePage}
           addBox={addColor}
           random={addRandomColors}
           clearAll={clearColors}
-          onDiscard={() => setConfirmDlg(true)}
+          onDiscard={leavePage}
           onSave={savePalette}
           changeName={() => setPaletteDlg(true)}
         />
@@ -70,16 +70,16 @@ const NewPalette = ({ Storage }) => {
         />
         <Dialog
           Type='YesNo'
-          Label='Confirm'
-          Content='Are you sure to leave?'
-          Display={ConfirmDlg}
+          Label='Are you sure ?'
+          Content='All the data will be erased...'
+          Display={LeaveDlg}
           NoName='Stay'
           NoVariant='primary'
-          No={() => setConfirmDlg(false)}
+          No={() => setLeaveDlg(false)}
           YesName='Leave'
           YesVariant='danger'
           Yes={() => navigate('/')}
-          Close={() => setConfirmDlg(false)}
+          Close={() => setLeaveDlg(false)}
         />
         <Dialog
           Type='Picker'
@@ -201,6 +201,11 @@ const NewPalette = ({ Storage }) => {
       Storage.savePalette(palette)
       navigate('/')
     }
+  }
+
+  const leavePage = () => {
+    if (Colors.length === 0 && paletteName === null) navigate('/')
+    setLeaveDlg(true)
   }
 
   return render()
