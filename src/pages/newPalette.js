@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Navbar from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
@@ -14,12 +14,14 @@ const newColor = { name: 'New Color', color: '#555555' }
 const NewPalette = ({ Storage }) => {
   const [PaletteDlg, setPaletteDlg] = useState(false)
   const [ColorDlg, setColorDlg] = useState(false)
-  const [ConfirmDlg, setConfirmDlg] = useState(false)
+  const [LeaveDlg, setLeaveDlg] = useState(false)
   const [Picker, setPickerDlg] = useState(false)
   const [paletteName, setPaletteName] = useState(null)
   const [Id, setId] = useState(null)
   const [Colors, setColors] = useState([])
   const [Current, setCurrent] = useState([])
+  const paletteNameInput = useRef(0)
+  const colorNameInput = useRef(0)
   const navigate = useNavigate()
 
   const SortContainer = sortableContainer(({ children }) => <div className="newPalette-colors">{children}</div>)
@@ -31,40 +33,57 @@ const NewPalette = ({ Storage }) => {
         <Navbar
           Type='new'
           Name={paletteName}
-          goBack={() => setConfirmDlg(true)}
-          goHome={() => setConfirmDlg(true)}
+          goBack={leavePage}
+          goHome={leavePage}
           addBox={addColor}
           random={addRandomColors}
           clearAll={clearColors}
-          onDiscard={() => setConfirmDlg(true)}
+          onDiscard={leavePage}
           onSave={savePalette}
           changeName={() => setPaletteDlg(true)}
         />
         <Dialog
-          Type='renamePalette'
-          paletteNames={Storage.getPaletteNames()}
-          Input={paletteName}
+          Type='Rename'
+          Label='Rename Palette'
           Display={PaletteDlg}
+          IRef={paletteNameInput}
+          IName='paletteName'
+          IMin={3}
+          IValue={paletteName}
+          IHolder='Palette Name'
+          IValidate={validatePaletteName}
+          OnSubmit={renamePalette}
           Close={() => setPaletteDlg(false)}
-          Rename={renamePalette}
         />
         <Dialog
-          Type='renameColor'
-          Id={Current[0]}
-          Input={Current[1]}
+          Type='Rename'
+          Label='Rename Color'
           Display={ColorDlg}
+          IRef={colorNameInput}
+          IName='colorName'
+          IMin={3}
+          IValue={Current[1]}
+          IHolder='Color Name'
+          IValidate={validateColorName}
+          OnSubmit={renameColor}
           Close={() => setColorDlg(false)}
-          Rename={renameColor}
         />
         <Dialog
-          Type='confirm'
-          Display={ConfirmDlg}
-          Yes={() => setConfirmDlg(false)}
-          No={() => navigate('/')}
-          Close={() => setConfirmDlg(false)}
+          Type='YesNo'
+          Label='Are you sure ?'
+          Content='All the data will be erased...'
+          Display={LeaveDlg}
+          NoName='Stay'
+          NoVariant='primary'
+          No={() => setLeaveDlg(false)}
+          YesName='Leave'
+          YesVariant='danger'
+          Yes={() => navigate('/')}
+          Close={() => setLeaveDlg(false)}
         />
         <Dialog
-          Type='colorPicker'
+          Type='Picker'
+          Label='Pick a color'
           Display={Picker}
           id={Current[0]}
           color={Current[1]}
@@ -120,6 +139,13 @@ const NewPalette = ({ Storage }) => {
 
   const clearColors = () => setColors([])
 
+  const validatePaletteName = (e) => {
+    const paletteNames  = Storage.getPaletteNames()
+    const duplicate = paletteNames.includes(e.target.value)
+    const msg = duplicate ? 'This name already taken, choose another' : ''
+    paletteNameInput.current.setCustomValidity(msg)
+  }
+
   const renamePalette = (e) => {
     e.preventDefault()
     const data = new FormData(e.target)
@@ -127,6 +153,13 @@ const NewPalette = ({ Storage }) => {
     setPaletteName(name)
     setId(name.toLowerCase().split(' ').join('_'))
     setPaletteDlg(false)
+  }
+
+  const validateColorName = (e) => {
+    const colorNames  = Colors.map((c)=>c.name)
+    const duplicate = colorNames.includes(e.target.value)
+    const msg = duplicate ? 'This name already taken, choose another' : ''
+    colorNameInput.current.setCustomValidity(msg)
   }
 
   const renameColor = (e) => {
@@ -168,6 +201,11 @@ const NewPalette = ({ Storage }) => {
       Storage.savePalette(palette)
       navigate('/')
     }
+  }
+
+  const leavePage = () => {
+    if (Colors.length === 0 && paletteName === null) navigate('/')
+    setLeaveDlg(true)
   }
 
   return render()
