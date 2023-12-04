@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Navbar from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
@@ -20,6 +20,8 @@ const NewPalette = ({ Storage }) => {
   const [Id, setId] = useState(null)
   const [Colors, setColors] = useState([])
   const [Current, setCurrent] = useState([])
+  const paletteNameInput = useRef(0)
+  const colorNameInput = useRef(0)
   const navigate = useNavigate()
 
   const SortContainer = sortableContainer(({ children }) => <div className="newPalette-colors">{children}</div>)
@@ -41,30 +43,47 @@ const NewPalette = ({ Storage }) => {
           changeName={() => setPaletteDlg(true)}
         />
         <Dialog
-          Type='renamePalette'
-          paletteNames={Storage.getPaletteNames()}
-          Input={paletteName}
+          Type='Rename'
+          Label='Rename Palette'
           Display={PaletteDlg}
+          IRef={paletteNameInput}
+          IName='paletteName'
+          IMin={3}
+          IValue={paletteName}
+          IHolder='Palette Name'
+          IValidate={validatePaletteName}
+          OnSubmit={renamePalette}
           Close={() => setPaletteDlg(false)}
-          Rename={renamePalette}
         />
         <Dialog
-          Type='renameColor'
-          Id={Current[0]}
-          Input={Current[1]}
+          Type='Rename'
+          Label='Rename Color'
           Display={ColorDlg}
+          IRef={colorNameInput}
+          IName='colorName'
+          IMin={3}
+          IValue={Current[1]}
+          IHolder='Color Name'
+          IValidate={validateColorName}
+          OnSubmit={renameColor}
           Close={() => setColorDlg(false)}
-          Rename={renameColor}
         />
         <Dialog
-          Type='confirm'
+          Type='YesNo'
+          Label='Confirm'
+          Content='Are you sure to leave?'
           Display={ConfirmDlg}
-          Yes={() => setConfirmDlg(false)}
-          No={() => navigate('/')}
+          NoName='Stay'
+          NoVariant='primary'
+          No={() => setConfirmDlg(false)}
+          YesName='Leave'
+          YesVariant='danger'
+          Yes={() => navigate('/')}
           Close={() => setConfirmDlg(false)}
         />
         <Dialog
-          Type='colorPicker'
+          Type='Picker'
+          Label='Pick a color'
           Display={Picker}
           id={Current[0]}
           color={Current[1]}
@@ -120,6 +139,13 @@ const NewPalette = ({ Storage }) => {
 
   const clearColors = () => setColors([])
 
+  const validatePaletteName = (e) => {
+    const paletteNames  = Storage.getPaletteNames()
+    const duplicate = paletteNames.includes(e.target.value)
+    const msg = duplicate ? 'This name already taken, choose another' : ''
+    paletteNameInput.current.setCustomValidity(msg)
+  }
+
   const renamePalette = (e) => {
     e.preventDefault()
     const data = new FormData(e.target)
@@ -127,6 +153,13 @@ const NewPalette = ({ Storage }) => {
     setPaletteName(name)
     setId(name.toLowerCase().split(' ').join('_'))
     setPaletteDlg(false)
+  }
+
+  const validateColorName = (e) => {
+    const colorNames  = Colors.map((c)=>c.name)
+    const duplicate = colorNames.includes(e.target.value)
+    const msg = duplicate ? 'This name already taken, choose another' : ''
+    colorNameInput.current.setCustomValidity(msg)
   }
 
   const renameColor = (e) => {
