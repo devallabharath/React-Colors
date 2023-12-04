@@ -9,7 +9,7 @@ import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
 import { template } from '../scripts/colors'
 import '../styles/newPalette.css'
-const newColor = { id: nanoid(), name: 'New Color', color: '#555555' }
+const newColor = { name: 'New Color', color: '#555555' }
 
 const NewPalette = ({ Storage }) => {
   const [PaletteDlg, setPaletteDlg] = useState(false)
@@ -133,7 +133,7 @@ const NewPalette = ({ Storage }) => {
     )
   }
 
-  const addColor = () => setColors((c) => [newColor, ...c])
+  const addColor = () => setColors((c) => [{id:nanoid(), ...newColor}, ...c])
 
   const addRandomColors = () => setColors((c) => [...template, ...c])
 
