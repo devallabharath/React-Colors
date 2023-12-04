@@ -1,19 +1,14 @@
 .MiniPalette {
-  /* width: 25vw;
-  height: 25vw;
-  max-width: 158px;
-  max-height: 158px; */
-  width: 158px;
-  height: 158px;
-  padding: 4px 4px 0 4px;
+  width: 152px;
+  height: 152px;
+  padding: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
   color: #252525;
   background-color: #ffffff;
   border-radius: 4px;
-  box-shadow: rgba(100, 100, 100, 0.56) 0px 3px 5px 4px;
+  box-shadow: rgba(100, 100, 100, 0.56) 0px 1px 3px 2px;
   cursor: pointer;
   overflow: hidden;
   position: relative;
@@ -50,11 +45,9 @@
 }
 
 .minipalette-footer {
-  width: 100%;
   height: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: start;
   align-items: center;
   gap: 3px
 }
@@ -69,7 +62,7 @@
 .MiniPalette .options {
   position: absolute;
   bottom: 0;
-  right: 3px;
+  right: 4px;
   padding: 3px;
   box-sizing: border-box;
   color: #000;
@@ -92,21 +85,3 @@
 
 .MiniPalette .menu-item::part(checked-icon),
 .MiniPalette .menu-item::part(submenu-icon) {width: 0}
-
-/* @media only screen and (max-width: 600px) {
-  .MiniPalette {
-    width: 40%;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    color: #252525;
-    background-color: #ffffff;
-    border-radius: 4px;
-    box-shadow: rgba(255, 255, 255, 0.36) 0px 3px 3px 3px;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-  }
-} */

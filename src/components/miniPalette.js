@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import { SlDropdown, SlMenu, SlMenuItem, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import '../styles/miniPalette.css'
 
-const defaultIds = ["material-ui-colors", "flat-ui-colors-v1", "flat-ui-colors-dutch", "flat-ui-colors-american", "flat-ui-colors-aussie", "flat-ui-colors-british", "flat-ui-colors-spanish", "flat-ui-colors-indian", "flat-ui-colors-french",]
-
 class MiniPalette extends PureComponent {
 
   render () {
@@ -15,9 +13,9 @@ class MiniPalette extends PureComponent {
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
-            key={c.color}
-            style={{ backgroundColor: c.color }}
-            className='minipalette-color'
+              key={c.color}
+              style={{ backgroundColor: c.color }}
+              className='minipalette-color'
             />)}
         </div>
         <div className="minipalette-footer">
@@ -29,37 +27,23 @@ class MiniPalette extends PureComponent {
   }
 
   paletteMenu = (id) => {
-    const {Delete} = this.props
-    if (defaultIds.includes(id)) {
-      return <SlDropdown size='small'>
-        <SlIcon className='options' slot='trigger' name='three-dots' />
-        <SlMenu>
-          <SlMenuItem className='menu-item'>Show/Hide
-            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='eye-fill' />
+    const { Delete } = this.props
+    return <SlDropdown size='small'>
+      <SlIcon className='options' slot='trigger' name='three-dots' />
+      <SlMenu>
+        <Link to={`/palettes/${id}`}>
+          <SlMenuItem className='menu-item'>Edit
+            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='pencil-fill' />
           </SlMenuItem>
-          <SlMenuItem className='menu-item'>Use Template
-            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='box-fill' />
-          </SlMenuItem>
-        </SlMenu>
-      </SlDropdown>
-    } else {
-      return <SlDropdown size='small'>
-        <SlIcon className='options' slot='trigger' name='three-dots' />
-        <SlMenu>
-          <Link to={`/palettes/${id}`}>
-            <SlMenuItem className='menu-item'>Edit
-              <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='pencil-fill' />
-            </SlMenuItem>
-          </Link>
-          <SlMenuItem className='menu-item' onClick={()=>Delete(id)}>Delete
-            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
-          </SlMenuItem>
-          <SlMenuItem className='menu-item'>Use Template
-            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='box-fill' />
-          </SlMenuItem>
-        </SlMenu>
-      </SlDropdown>
-    }
+        </Link>
+        <SlMenuItem className='menu-item' onClick={() => Delete(id)}>Delete
+          <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
+        </SlMenuItem>
+        <SlMenuItem className='menu-item'>Use Template
+          <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='box-fill' />
+        </SlMenuItem>
+      </SlMenu>
+    </SlDropdown>
   }
 }
 
