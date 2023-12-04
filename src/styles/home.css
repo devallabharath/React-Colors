@@ -1,19 +1,56 @@
 .Home {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 50px;
   overflow-y: scroll;
 }
 
 .home-palettes {
+  padding: 1 auto;
+  padding-top: 65px;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  width: 70%;
-  min-width: 600px;
-  max-width: 800px;
+  gap: 5px;
+  animation: fadeIn .3s ease-in-out;
+}
+
+
+/* huge */
+@media screen and (min-width: 1821px) {
+  .home-palettes {
+    padding-left: calc((100vw - 6 * 160px) / 2);
+    padding-right: calc((100vw - 6 * 160px) / 2)
+  }
+}
+
+/* large */
+@media screen and (max-width: 1820px) {
+  .home-palettes {
+    padding-left: calc((100vw - 5 * 160px) / 2);
+    padding-right: calc((100vw - 5 * 160px) / 2)
+  }
+}
+
+/* medium */
+@media screen and (max-width: 1024px) {
+  .home-palettes {
+    padding-left: calc((100vw - 4 * 160px) / 2);
+    padding-right: calc((100vw - 4 * 160px) / 2)
+  }
+}
+
+/* small */
+@media screen and (max-width: 767px) {
+  .home-palettes {
+    padding-left: calc((100vw - 3 * 160px) / 2);
+    padding-right: calc((100vw - 3 * 160px) / 2)
+  }
+}
+
+/* tiny */
+@media screen and (max-width: 480px) {
+  .home-palettes {
+    padding-left: calc((100vw - 2 * 160px) / 2);
+    padding-right: calc((100vw - 2 * 160px) / 2)
+  }
 }

@@ -6,14 +6,12 @@
 }
 
 .newPalette-colors {
-  align-self: auto;
   padding: 1 auto;
   padding-top: 65px;
   width: 100%;
-  height: min-content;
   display: flex;
   flex-wrap: wrap;
-  animation: fadeIn .3s ease-in-out;
+  animation: all .3s ease-in-out;
 }
 
 .NewBox {
@@ -76,16 +74,6 @@
 
 .NewBox sl-icon {
   transition: all 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: .5;
-  }
-
-  100% {
-    opacity: 1;
-  }
 }
 
 /* huge */
