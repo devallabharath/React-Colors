@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Drawer from '../components/drawer'
@@ -11,7 +11,18 @@ const HomePage = ({ Storage }) => {
   const [Sidebar, setSidebar] = useState(false)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
+  const [Always, setAlways] = useState(window.innerWidth > 1360)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    function change () {
+      const bool = window.innerWidth > 1360
+      setAlways(bool)
+      setSidebar(bool)
+    }
+    window.addEventListener('resize', change)
+    return () => window.removeEventListener('resize', change)
+  }, [])
 
   function render () {
     return (<div className="Home">
@@ -19,6 +30,7 @@ const HomePage = ({ Storage }) => {
       <div className="home-palettes">
         <Drawer
           Display={Sidebar}
+          Contained={Always}
           Close={() => setSidebar(false)}
         />
         <Dialog
