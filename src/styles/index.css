@@ -1,9 +1,8 @@
 :root {
   --rem: 13;
   --primary: #76ced7;
-  --font: 'SauceCodePro Nerd Font', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
   --sl-color-primary-100: #c1ece9;
   --sl-color-primary-200: #9de0db;
   --sl-color-primary-300: #75d3ce;
@@ -58,6 +57,10 @@
 body {
   margin: 0;
   font-family: var(--font);
+  font-feature-settings: normal;
+  font-kerning: auto;
+  font-optical-sizing: auto;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
@@ -74,7 +77,7 @@ body {
 
 a {
   text-decoration: none;
-  color: inherit
+  color: inherit;
 }
 
 button {

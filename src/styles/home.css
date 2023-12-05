@@ -2,6 +2,7 @@
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
+  position: relative;
 }
 
 .home-palettes {
@@ -14,6 +15,12 @@
   animation: fadeIn .3s ease-in-out;
 }
 
+.Drawer::part(base) {
+  top: 40px;
+  height: calc(100% - 40px);
+  width: 50vw;
+  max-width: 270px;
+}
 
 /* huge */
 @media screen and (min-width: 1821px) {

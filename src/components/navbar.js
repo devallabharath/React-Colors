@@ -19,10 +19,11 @@ class Navbar extends PureComponent {
   }
 
   homebar = (btn = true) => {
-    const { navigate } = this.props
+    const { navigate, openSidebar } = this.props
     return (
       <div className="top">
         <div className='nav-part'>
+          <SlIcon className='ham-menu' name='list' onClick={openSidebar}/>
           <h3>ReactColors</h3>
         </div>
         {btn &&

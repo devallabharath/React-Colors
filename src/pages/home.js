@@ -1,20 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
+import Drawer from '../components/drawer'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
 import '../styles/home.css'
 
 const HomePage = ({ Storage }) => {
-  const [, refresh] = useState(false)
+  const [state, refresh] = useState(false)
+  const [Sidebar, setSidebar] = useState(false)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
+  const [Always, setAlways] = useState(window.innerWidth > 1360)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    function change () {
+      const bool = window.innerWidth > 1360
+      setAlways(bool)
+      setSidebar(bool)
+    }
+    window.addEventListener('resize', change)
+    return () => window.removeEventListener('resize', change)
+  }, [])
 
   function render () {
     return (<div className="Home">
-      <Navbar Type='home' navigate={navigate} />
+      <Navbar Type='home' navigate={navigate} openSidebar={openSidebar} />
       <div className="home-palettes">
+        <Drawer
+          Display={Sidebar}
+          Contained={Always}
+          Close={() => setSidebar(false)}
+        />
         <Dialog
           Type='YesNo'
           Label='Are you sure?'
@@ -26,7 +44,7 @@ const HomePage = ({ Storage }) => {
           Yes={deletePalette}
           NoName='Cancle'
           NoVariant='secondary'
-          No={()=>setDeleteDlg(false)}
+          No={() => setDeleteDlg(false)}
         />
         {Storage.palettes.map(c =>
           <MiniPalette
@@ -41,26 +59,19 @@ const HomePage = ({ Storage }) => {
     </div>)
   }
 
-  const openDeleteDlg = (id) => {
-    setCurrent([id])
-    setDeleteDlg(true)
-  }
+  const openSidebar = () => { setSidebar(true) }
 
-  const hidePalette = (id) => {
-    Storage.hidePalette(id)
-    refresh((old) => !old)
-  }
+  const openDeleteDlg = (id) => { setCurrent([id]); setDeleteDlg(true) }
 
-  const showPalette = (id) => {
-    Storage.showPalette(id)
-    refresh((old)=> !old)
-  }
+  const hidePalette = (id) => { Storage.hidePalette(id); refresh(!state) }
+
+  const showPalette = (id) => { Storage.showPalette(id); refresh(!state) }
 
   const deletePalette = () => {
     const id = Current[0]
     Storage.deletePalette(id)
     setDeleteDlg(false)
-    refresh((old) => !old)
+    refresh(!state)
   }
 
   return render()
