@@ -30,7 +30,17 @@ nav .bottom {
 
 .nav-part {
   display: flex;
+  align-items: center;
   gap: 10px;
+}
+
+.ham-menu {
+  font-size: x-large;
+  cursor: pointer;
+}
+
+.ham-menu:hover {
+  color: var(--primary)
 }
 
 nav .back-button,
