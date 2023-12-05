@@ -8,7 +8,7 @@ import '../styles/home.css'
 
 const HomePage = ({ Storage }) => {
   const [state, refresh] = useState(false)
-  const [Sidebar, setSidebar] = useState(false)
+  const [Sidebar, setSidebar] = useState(window.innerWidth > 1360)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
   const [Always, setAlways] = useState(window.innerWidth > 1360)
