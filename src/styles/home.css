@@ -6,8 +6,7 @@
 }
 
 .home-palettes {
-  padding: 1 auto;
-  padding-top: 65px;
+  padding: 65px 0;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
