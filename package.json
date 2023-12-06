@@ -1,8 +1,7 @@
 {
-  "name": "colors",
+  "name": "react-colors",
   "version": "0.1.0",
-  "homepage": "https://devallabharath.github.io/React-Colors",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@shoelace-style/shoelace": "^2.11.2",
     "chroma-js": "^2.4.2",
