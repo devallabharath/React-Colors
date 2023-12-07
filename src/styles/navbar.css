@@ -1,8 +1,9 @@
 nav {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100vw;
-  height: 65px;
+  height: 85px;
   z-index: 5;
 }
 
@@ -10,19 +11,21 @@ nav .top,
 .bottom {
   display: flex;
   align-items: center;
+  padding: 0 20px;
   color: white;
-  background-color: black;
+  background-color: #151515;
+  box-shadow: var(--sl-shadow-x-large);
   gap: 5px;
 }
 
 nav .top {
-  padding: 10px 0;
-  height: 40px;
-  justify-content: space-evenly;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 nav .bottom {
-  height: 25px;
+  height: 35px;
   background-color: #252525;
   justify-content: center;
   align-items: center;
@@ -30,12 +33,11 @@ nav .bottom {
 
 .nav-part {
   display: flex;
-  align-items: center;
   gap: 10px;
 }
 
 .ham-menu {
-  font-size: x-large;
+  font-size: var(--sl-font-size-3x-large);
   cursor: pointer;
 }
 
@@ -48,8 +50,8 @@ nav .back-button,
   display: flex;
   background: none;
   color: #bbb;
-  font-size: var(--sl-font-size-x-large);
-  line-height: var(--sl-font-size-x-large);
+  font-size: var(--sl-font-size-2x-large);
+  line-height: var(--sl-font-size-2x-large);
 }
 
 nav .new-button,
@@ -60,8 +62,8 @@ nav .del-button {
   background: #353535;
   padding: 5px;
   border-radius: var(--sl-border-radius-medium);
-  font-size: var(--sl-font-size-small);
-  line-height: var(--sl-font-size-small);
+  font-size: var(--sl-font-size-large);
+  line-height: var(--sl-font-size-large);
 }
 
 nav .back-button:hover,
@@ -72,8 +74,8 @@ nav .back-button:hover,
 nav .Name {
   display: flex;
   gap: 3px;
-  font-size: var(--sl-font-size-large);
-  line-height: var(--sl-font-size-large);
+  font-size: var(--sl-font-size-x-large);
+  line-height: var(--sl-font-size-x-large);
   align-items: center;
   font-weight: 600;
   background: #353535;
@@ -83,8 +85,8 @@ nav .Name {
 }
 
 nav .Name sl-icon {
-  font-size: var(--sl-font-size-small);
-  line-height: var(--sl-font-size-small);
+  font-size: var(--sl-font-size-medium);
+  line-height: var(--sl-font-size-medium);
 }
 
 nav .new-button:hover,
@@ -103,10 +105,10 @@ nav .del-button:hover {
 }
 
 .color-format::part(combobox) {
-  width: 70px;
-  min-height: 20px;
-  padding: 0 5px;
-  gap: 2px;
+  font-size: larger;
+  width: 100px;
+  padding: 5px 10px;
+  gap: 3px;
   box-shadow: none;
 }
 
@@ -116,8 +118,8 @@ nav .del-button:hover {
 }
 
 .color-format sl-option::part(base) {
-  font-size: var(--sl-font-size-small);
-  padding: 0
+  font-size: var(--sl-font-size-medium);
+  padding: 5px
 }
 
 nav .bottom button {

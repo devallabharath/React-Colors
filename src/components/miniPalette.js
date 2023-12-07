@@ -10,6 +10,7 @@ class MiniPalette extends PureComponent {
     return (
       <div className="MiniPalette">
         <Link className='goto' to={`/palettes/${id}`}></Link>
+        {this.paletteMenu(id)}
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
@@ -20,7 +21,6 @@ class MiniPalette extends PureComponent {
         </div>
         <div className="minipalette-footer">
           <div className='minipalette-name'>{paletteName}</div>
-          {this.paletteMenu(id)}
         </div>
       </div >
     )

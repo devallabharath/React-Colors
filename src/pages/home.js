@@ -8,15 +8,15 @@ import '../styles/home.css'
 
 const HomePage = ({ Storage }) => {
   const [state, refresh] = useState(false)
-  const [Sidebar, setSidebar] = useState(window.innerWidth > 1360)
+  const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
-  const [Always, setAlways] = useState(window.innerWidth > 1360)
+  const [Always, setAlways] = useState(window.innerWidth > 1280)
   const navigate = useNavigate()
 
   useEffect(() => {
     function change () {
-      const bool = window.innerWidth > 1360
+      const bool = window.innerWidth > 1280
       setAlways(bool)
       setSidebar(bool)
     }

@@ -11,6 +11,7 @@ const Drawer = (props) => {
         open={Display}
         onSlAfterHide={Close}
         contained={Contained}
+        noHeader
       >
         This is the sidebar
       </SlDrawer>

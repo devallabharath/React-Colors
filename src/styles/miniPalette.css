@@ -1,14 +1,14 @@
 .MiniPalette {
-  width: 152px;
-  height: 152px;
+  width: 172px;
+  height: 172px;
   padding: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #252525;
-  background-color: #ffffff;
+  color: #000;
+  background-color: #fff;
   border-radius: 4px;
-  box-shadow: rgba(100, 100, 100, 0.56) 0px 1px 3px 2px;
+  box-shadow: var(--sl-shadow-x-large);
   cursor: pointer;
   overflow: hidden;
   position: relative;
@@ -16,6 +16,9 @@
 
 .MiniPalette:hover {
   background-color: var(--primary);
+  .options {
+    background-color: var(--primary)
+  }
 }
 
 .MiniPalette .goto {
@@ -45,7 +48,7 @@
 }
 
 .minipalette-footer {
-  height: 20px;
+  padding-top: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -53,24 +56,26 @@
 }
 
 .minipalette-name {
-  font-size: 12px;
+  font-size: .9rem;
+  line-height: .9rem;
+  display: flex;
+  align-items: center;
   text-wrap: nowrap;
-  width: calc(100% - 20px);
   overflow: hidden;
 }
 
 .MiniPalette .options {
   position: absolute;
-  bottom: 0;
+  height: calc(100% / 4.735);
+  top: 4.25px;
   right: 4px;
-  padding: 3px;
-  box-sizing: border-box;
+  padding: 0 6px;
   color: #000;
-  background-color: none;
-  display: flex;
-  font-size: var(--sl-font-size-x-small);
-  line-height: var(--sl-font-size-x-small);
-  border-radius: var(--sl-border-radius-small);
+  background-color: #fff;
+  box-sizing: border-box;
+  font-size: var(--sl-font-size-x-large);
+  line-height: var(--sl-font-size-x-large);
+  border-top-right-radius: var(--sl-border-radius-small);
 }
 
 .MiniPalette .options:hover {
@@ -81,6 +86,10 @@
 .MiniPalette .menu-item::part(label) {
   font-size: var(--sl-font-size-x-small);
   padding-left: 5px;
+}
+
+.MiniPalette .menu-item::part(base) {
+  padding: 3px 10px;
 }
 
 .MiniPalette .menu-item::part(checked-icon),

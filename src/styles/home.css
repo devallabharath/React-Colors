@@ -14,49 +14,45 @@
   animation: fadeIn .3s ease-in-out;
 }
 
-.Drawer::part(base) {
-  top: 40px;
-  height: calc(100% - 40px);
+.Drawer::part(panel) {
+  top: 50px;
   width: 50vw;
+  height: calc(100% - 50px);
   max-width: 270px;
+  background-color: #1b1b1b;
 }
 
 /* huge */
 @media screen and (min-width: 1821px) {
   .home-palettes {
-    padding-left: calc((100vw - 6 * 160px) / 2);
-    padding-right: calc((100vw - 6 * 160px) / 2)
+    padding: 85px calc((100vw - 5 * 180px) / 2);
   }
 }
 
 /* large */
 @media screen and (max-width: 1820px) {
   .home-palettes {
-    padding-left: calc((100vw - 5 * 160px) / 2);
-    padding-right: calc((100vw - 5 * 160px) / 2)
+    padding: 85px calc((100vw - 4 * 180px) / 2);
   }
 }
 
 /* medium */
 @media screen and (max-width: 1024px) {
   .home-palettes {
-    padding-left: calc((100vw - 4 * 160px) / 2);
-    padding-right: calc((100vw - 4 * 160px) / 2)
+    padding: 85px calc((100vw - 3 * 180px) / 2);
   }
 }
 
 /* small */
 @media screen and (max-width: 767px) {
   .home-palettes {
-    padding-left: calc((100vw - 3 * 160px) / 2);
-    padding-right: calc((100vw - 3 * 160px) / 2)
+    padding: 85px calc((100vw - 2 * 180px) / 2);
   }
 }
 
 /* tiny */
 @media screen and (max-width: 480px) {
   .home-palettes {
-    padding-left: calc((100vw - 2 * 160px) / 2);
-    padding-right: calc((100vw - 2 * 160px) / 2)
+    padding: 85px calc((100vw - 1 * 180px) / 2);
   }
 }
