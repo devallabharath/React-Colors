@@ -8,7 +8,7 @@ import NewPalette from './pages/newPalette'
 import Shades from './pages/shades'
 import Storage from './scripts/storage'
 
-const Router = () => <BrowserRouter>
+const Router = () => <BrowserRouter basename='/React-Colors'>
   <Routes>
     <Route path='/' element={<Home Storage={Storage} />} />
     {/* <Route path='/palettes' element={<Home Storage={Storage} />} /> */}
