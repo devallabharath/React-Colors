@@ -16,6 +16,13 @@
   animation: fadeIn .3s ease-in-out;
 }
 
+.Home .Empty {
+  padding-top: 95px;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
 .Drawer::part(panel) {
   top: 50px;
   height: calc(100% - 50px);

@@ -7,15 +7,14 @@ class MiniPalette extends PureComponent {
 
   render () {
     const { paletteName, colors, id } = this.props.palette
-    const {Type} = this.props
+    const { Type } = this.props
     return (
       <div className="MiniPalette">
         {Type === 'home' && <>
           <Link className='goto' to={`/palettes/${id}`}></Link>
-          {this.paletteMenu(id)}
         </>}
-        {Type === 'trash' && this.rightIcon('trash') && this.leftIcon()}
-        {Type === 'hidden' && this.rightIcon('')}
+        {this.leftIcon(id)}
+        {this.rightIcon(id)}
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
@@ -31,27 +30,34 @@ class MiniPalette extends PureComponent {
     )
   }
 
-  leftIcon = () => {
-    const {leftIconClick} = this.props
+  leftIcon = (id) => {
+    const { Type, leftIconClick } = this.props
+    if (Type !== 'trash') return
     return (
-      <div className="leftIcon" onClick={()=>leftIconClick(this.props.palette.id)}>
-        <SlIcon name='arrow-left' />
-      </div>
+      <SlIcon
+        className="Icon leftIcon"
+        name='arrow-left'
+        onClick={() => leftIconClick(id)}
+        style={{ fontSize: 'var(--sl-font-size-medium)' }}
+      />
     )
   }
 
-  rightIcon = (type) => {
-    const icon = type === 'trash' ? 'trash-fill' : 'eye-fill'
-    const {rightIconClick} = this.props
+  rightIcon = (id) => {
+    const { Type, rightIconClick } = this.props
+    if (Type === 'home') return this.paletteMenu(id)
     return (
-      <div className="Icon" onClick={()=>rightIconClick(this.props.palette.id)}>
-        <SlIcon name={icon} />
-      </div>
+      <SlIcon
+        className='Icon rightIcon'
+        name={Type === 'trash' ? 'trash-fill' : 'eye-fill'}
+        onClick={() => rightIconClick(id)}
+      />
     )
   }
 
   paletteMenu = (id) => {
-    const { Delete, Hide } = this.props
+    const { Type, Delete, Hide } = this.props
+    if (Type !== 'home') return
     return <SlDropdown size='small'>
       <SlIcon className='options' slot='trigger' name='three-dots' />
       <SlMenu>

@@ -3,7 +3,7 @@ import "../styles/drawer.css"
 
 const Drawer = (props) => {
   const render = () => {
-    const { Display, Close, Contained, navigate, Storage } = props
+    const { Display, Close, Contained, navigate, Count } = props
     const smallScreen = window.innerWidth < 300
     return (
       <SlDrawer
@@ -23,18 +23,18 @@ const Drawer = (props) => {
                 <SlIcon slot="suffix" name="plus-square-fill" />
               </SlMenuItem>
             }
-            <SlMenuItem className="trashbtn" onClick={() => navigate('/trash')}>
-              Trash Bin
-              <SlIcon slot="suffix" name="trash-fill" />
-              <SlBadge slot="suffix" variant="primary" pill>
-                {Storage.deleted.length}
-              </SlBadge>
-            </SlMenuItem>
             <SlMenuItem className="hiddenbtn" onClick={() => navigate('/hidden')}>
               Hidden
               <SlIcon slot="suffix" name="eye-fill" />
               <SlBadge slot="suffix" variant="primary" pill>
-              {Storage.hidden.length}
+              {Count[0]}
+              </SlBadge>
+            </SlMenuItem>
+            <SlMenuItem className="trashbtn" onClick={() => navigate('/trash')}>
+              Trash Bin
+              <SlIcon slot="suffix" name="trash-fill" />
+              <SlBadge slot="suffix" variant="primary" pill>
+                {Count[1]}
               </SlBadge>
             </SlMenuItem>
           </div>

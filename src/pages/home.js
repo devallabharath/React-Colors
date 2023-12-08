@@ -25,6 +25,10 @@ const HomePage = ({ Storage }) => {
   }, [])
 
   function render () {
+    const count = [
+      Storage.getHiddenPalettes().length,
+      Storage.getDeletedPalettes().length
+    ]
     return (<div className="Home">
       <Navbar Type='home' navigate={navigate} openSidebar={openSidebar} />
       <div className="home-palettes">
@@ -33,7 +37,7 @@ const HomePage = ({ Storage }) => {
           Contained={Always}
           Close={() => setSidebar(false)}
           navigate={navigate}
-          Storage={Storage}
+          Count= {count}
         />
         <Dialog
           Type='YesNo'

@@ -1,59 +1,88 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useRefresh } from '../scripts/hooks'
 import Navbar from '../components/navbar'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
+import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import '../styles/home.css'
 
 const HomePage = ({ Storage }) => {
-  const [state, refresh] = useState(false)
   const [DeleteDlg, setDeleteDlg] = useState(false)
-  const [Current, setCurrent] = useState([])
+  const [DeleteAllDlg, setDeleteAllDlg] = useState(false)
+  const [Current, setCurrent] = useState(null)
+  const Refresh = useRefresh()
   const navigate = useNavigate()
 
   function render () {
+    const Trash = Storage.getDeletedPalettes()
     return (<div className="Home">
-      <Navbar Type='trash' navigate={navigate} empty={emptyTrash} />
-      <div className="home-palettes">
-        <Dialog
-          Type='YesNo'
-          Label='Are you sure?'
-          Content='This action will delete the palette permanently...'
-          Display={DeleteDlg}
-          id={Current[0]}
-          YesName='Delete'
-          YesVariant='danger'
-          Yes={deletePalette}
-          NoName='Cancle'
-          NoVariant='secondary'
-          No={() => setDeleteDlg(false)}
-        />
-        {Storage.getDeletedPalettes().map(c =>
-          <MiniPalette
+      <Navbar Type='trash' navigate={navigate} onBtnClick={clearDlg} />
+      <Dialog
+        Type='YesNo'
+        Label='Are you sure?'
+        Content='This action will delete the palette permanently...'
+        Display={DeleteDlg}
+        id={Current}
+        YesName='Delete'
+        YesVariant='danger'
+        Yes={deletePalette}
+        NoName='Cancle'
+        NoVariant='secondary'
+        No={() => setDeleteDlg(false)}
+      />
+      <Dialog
+        Type='YesNo'
+        Label='Are you sure?'
+        Content='This action will clear the Trash...'
+        Display={DeleteAllDlg}
+        id={null}
+        YesName='Clear'
+        YesVariant='danger'
+        Yes={clearTrash}
+        NoName='Cancle'
+        NoVariant='secondary'
+        No={() => setDeleteAllDlg(false)}
+      />
+      {Trash.length !== 0
+        ? <div className="home-palettes">
+          {Trash.map(c => <MiniPalette
             Type="trash"
             key={c.id}
             Storage={Storage}
             palette={c}
             leftIconClick={restorePalette}
-            rightIconClick={openDeleteDlg}
-          />
-        )}
-      </div>
-    </div>)
+            rightIconClick={deleteDlg}
+          />)}
+        </div>
+        : <div className="Empty">
+          No palettes...
+          <SlButton type='primary' onClick={() => navigate('/')}>
+            Go Home
+          </SlButton>
+        </div>
+      }
+    </div>
+    )
   }
 
   const restorePalette = (id) => { Storage.restorePalette(id) }
 
-  const openDeleteDlg = (id) => { setCurrent([id]); setDeleteDlg(true) }
+  const deleteDlg = (id) => { setCurrent(id); setDeleteDlg(true) }
+
+  const clearDlg = (id) => { setDeleteAllDlg(true) }
 
   const deletePalette = () => {
-    const id = Current[0]
-    Storage.deletePalette(id)
+    Storage.deleteFromBin(Current)
     setDeleteDlg(false)
-    refresh(!state)
+    Refresh()
   }
 
-  const emptyTrash = () => {}
+  const clearTrash = () => {
+    Storage.clearTrash()
+    setDeleteAllDlg(false)
+    Refresh()
+  }
 
   return render()
 }

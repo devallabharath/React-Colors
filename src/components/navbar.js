@@ -43,15 +43,15 @@ class Navbar extends PureComponent {
   }
 
   trashHiddenbar = (type) => {
-    const { navigate, empty, unHide } = this.props
+    const { navigate, onBtnClick } = this.props
     return (
       <div className="top">
         <div className='nav-part'>
           <SlIcon className='home-button' name='house-fill' onClick={() => navigate('/')} />
         </div>
         <h2>{type}</h2>
-        <button className='new-button' onClick={type==='Trash'? empty: unHide}>
-          {type==='Trash' ? 'Empty Bin' : 'Unhide All'}
+        <button className='new-button' onClick={onBtnClick}>
+          Clear
         </button>
       </div>
     )
