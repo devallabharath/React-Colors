@@ -66,7 +66,10 @@ const HomePage = ({ Storage }) => {
     )
   }
 
-  const restorePalette = (id) => { Storage.restorePalette(id) }
+  const restorePalette = (id) => {
+    Storage.restorePalette(id)
+    Refresh()
+  }
 
   const deleteDlg = (id) => { setCurrent(id); setDeleteDlg(true) }
 

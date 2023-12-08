@@ -83,24 +83,34 @@
 .MiniPalette .Icon {
   position: absolute;
   top: 4.35px;
-  right: 3.95px;
   height: calc(100% / 4.78);
   padding: 0 8.45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--sl-font-size-medium);
+  font-size: var(--sl-font-size-large);
   background-color: #fff;
   cursor: pointer;
 }
 
-.MiniPalette .options:hover {
-  color: var(--primary);
+.MiniPalette .Icon:hover {
+  color: red;
   background-color: #151515
 }
 
-.MiniPalette .Icon:hover {
-  color: red;
+.MiniPalette .rightIcon {
+  right: 3.95px;
+  font-size: var(--sl-font-size-medium);
+  border-top-right-radius: var(--sl-border-radius-small);
+}
+
+.MiniPalette .leftIcon {
+  font-size: var(--sl-font-size-medium);
+  border-top-left-radius: var(--sl-border-radius-small);
+}
+
+.MiniPalette .options:hover {
+  color: var(--primary);
   background-color: #151515
 }
 
