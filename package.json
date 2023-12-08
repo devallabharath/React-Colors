@@ -2,6 +2,7 @@
   "name": "react-colors",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://devallabharath.github.io/React-Colors",
   "dependencies": {
     "@shoelace-style/shoelace": "^2.11.2",
     "chroma-js": "^2.4.2",
@@ -15,8 +16,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "predeploy": " git checkout main && git pull && npm run build",
+    "deploy": "gh-pages -b website -d build",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
