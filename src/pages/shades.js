@@ -16,7 +16,7 @@ const ShadesPage = () => {
     <div className="Shades" >
       <Navbar
         Type='shades'
-        Name={paletteName.toUpperCase()}
+        Name={paletteName}
         Format={Format}
         changeFormat={(e)=>setFormat(e.target.value)}
         back={`/palettes/${id}`}

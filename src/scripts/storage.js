@@ -25,12 +25,12 @@ class Storage {
 
   getHiddenPalettes = () => {
     const local = JSON.parse(localStorage.getItem('palettes'))
-    return local.filter((p)=>this.hidden.includes(p.id))
+    return local.filter((p) => this.hidden.includes(p.id))
   }
 
   getDeletedPalettes = () => {
     const local = JSON.parse(localStorage.getItem('palettes'))
-    return local.filter((p)=>this.deleted.includes(p.id))
+    return local.filter((p) => this.deleted.includes(p.id))
   }
 
   getPaletteNames () { return this.palettes.map(c => c.paletteName) }
@@ -59,6 +59,12 @@ class Storage {
     this.getPalettes()
   }
 
+  showAllPalettes = () => {
+    localStorage.setItem('hidden', '[]')
+    this.hidden = []
+    this.getPalettes()
+  }
+
   deletePalette = (id) => {
     const temp = [...this.deleted, id]
     localStorage.setItem('deleted', JSON.stringify(temp))
@@ -67,9 +73,10 @@ class Storage {
   }
 
   restorePalette = (id) => {
-    const temp = this.deleted.filter((pid)=>pid!==id)
+    const temp = this.deleted.filter((pid) => pid !== id)
     localStorage.setItem('deleted', JSON.stringify(temp))
     this.deleted = temp
+    this.getPalettes()
   }
 
   deleteFromBin = (id) => {
@@ -77,7 +84,13 @@ class Storage {
     const temp = local.filter(p => p.id !== id)
     localStorage.setItem('palettes', JSON.stringify(temp))
     const deleted = JSON.parse(localStorage.getItem('deleted'))
-    localStorage.setItem('deleted', deleted.filter((pid)=>pid!==id))
+    localStorage.setItem('deleted', JSON.stringify(deleted.filter((pid) => pid !== id)))
+  }
+
+  clearTrash = () => {
+    localStorage.setItem('deleted', '[]')
+    this.deleted = []
+    this.getPalettes()
   }
 }
 

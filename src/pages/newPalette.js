@@ -33,7 +33,6 @@ const NewPalette = ({ Storage }) => {
         <Navbar
           Type='new'
           Name={paletteName}
-          goBack={leavePage}
           goHome={leavePage}
           addBox={addColor}
           random={addRandomColors}
