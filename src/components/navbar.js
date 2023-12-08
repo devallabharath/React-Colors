@@ -33,7 +33,7 @@ class Navbar extends PureComponent {
           <button className='new-button'
             onClick={() => navigate('/palettes/new')}
           >
-            + New Palette
+            + Add New
           </button>
         }
       </div>
@@ -41,14 +41,11 @@ class Navbar extends PureComponent {
   }
 
   newbar = () => {
-    const { Name, goBack, goHome, onSave, onDiscard } = this.props
+    const { Name, goHome, onSave, onDiscard } = this.props
     return (
       <>
         <div className="top">
           <div className='nav-part'>
-            <button className='back-button' onClick={goBack}>
-              <SlIcon name='arrow-left-circle-fill' />
-            </button>
             <button className='home-button' onClick={goHome}>
               <SlIcon name='house-fill' />
             </button>

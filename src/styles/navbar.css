@@ -11,7 +11,7 @@ nav .top,
 .bottom {
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 .8rem;
   color: white;
   background-color: #151515;
   box-shadow: var(--sl-shadow-x-large);
@@ -106,7 +106,7 @@ nav .del-button:hover {
 .color-format::part(combobox) {
   font-size: var(--sl-font-size-medium);
   width: 20%;
-  max-width: 100px;
+  max-width: 5rem;
   padding: 5px;
   gap: 3px;
   /* box-shadow: none; */
