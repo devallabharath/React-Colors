@@ -8,15 +8,15 @@ import '../styles/home.css'
 
 const HomePage = ({ Storage }) => {
   const [state, refresh] = useState(false)
-  const [Sidebar, setSidebar] = useState(window.innerWidth > 1360)
+  const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
-  const [Always, setAlways] = useState(window.innerWidth > 1360)
+  const [Always, setAlways] = useState(window.innerWidth > 1280)
   const navigate = useNavigate()
 
   useEffect(() => {
     function change () {
-      const bool = window.innerWidth > 1360
+      const bool = window.innerWidth > 1280
       setAlways(bool)
       setSidebar(bool)
     }
@@ -25,6 +25,10 @@ const HomePage = ({ Storage }) => {
   }, [])
 
   function render () {
+    const count = [
+      Storage.getHiddenPalettes().length,
+      Storage.getDeletedPalettes().length
+    ]
     return (<div className="Home">
       <Navbar Type='home' navigate={navigate} openSidebar={openSidebar} />
       <div className="home-palettes">
@@ -32,6 +36,8 @@ const HomePage = ({ Storage }) => {
           Display={Sidebar}
           Contained={Always}
           Close={() => setSidebar(false)}
+          navigate={navigate}
+          Count= {count}
         />
         <Dialog
           Type='YesNo'
@@ -48,8 +54,8 @@ const HomePage = ({ Storage }) => {
         />
         {Storage.palettes.map(c =>
           <MiniPalette
+            Type='home'
             key={c.id}
-            Storage={Storage}
             palette={c}
             Hide={hidePalette}
             Delete={openDeleteDlg}
@@ -64,8 +70,6 @@ const HomePage = ({ Storage }) => {
   const openDeleteDlg = (id) => { setCurrent([id]); setDeleteDlg(true) }
 
   const hidePalette = (id) => { Storage.hidePalette(id); refresh(!state) }
-
-  const showPalette = (id) => { Storage.showPalette(id); refresh(!state) }
 
   const deletePalette = () => {
     const id = Current[0]

@@ -10,6 +10,8 @@ class Navbar extends PureComponent {
     return (
       <nav>
         {Type === 'home' && this.homebar()}
+        {Type === 'trash' && this.trashHiddenbar('Trash')}
+        {Type === 'hidden' && this.trashHiddenbar('Hidden')}
         {Type === 'new' && this.newbar()}
         {Type === 'palette' && this.colorbar()}
         {Type === 'shades' && this.colorbar()}
@@ -20,40 +22,55 @@ class Navbar extends PureComponent {
 
   homebar = (btn = true) => {
     const { navigate, openSidebar } = this.props
+    const largeScr = window.innerWidth > 1280
     return (
       <div className="top">
         <div className='nav-part'>
-          <SlIcon className='ham-menu' name='list' onClick={openSidebar}/>
-          <h3>ReactColors</h3>
+          {!largeScr && <>
+            <SlIcon className='ham-menu' name='list' onClick={openSidebar} />
+          </>}
         </div>
+        <h2>Palettes</h2>
         {btn &&
           <button className='new-button'
             onClick={() => navigate('/palettes/new')}
           >
-            New Palette
+            + Add New
           </button>
         }
       </div>
     )
   }
 
+  trashHiddenbar = (type) => {
+    const { navigate, onBtnClick } = this.props
+    return (
+      <div className="top">
+        <div className='nav-part'>
+          <SlIcon className='home-button' name='house-fill' onClick={() => navigate('/')} />
+        </div>
+        <h2>{type}</h2>
+        <button className='new-button' onClick={onBtnClick}>
+          Clear
+        </button>
+      </div>
+    )
+  }
+
   newbar = () => {
-    const { Name, goBack, goHome, onSave, onDiscard } = this.props
+    const { Name, goHome, onSave, onDiscard } = this.props
     return (
       <>
         <div className="top">
           <div className='nav-part'>
-            <button className='back-button' onClick={goBack}>
-              <SlIcon name='arrow-left-circle-fill' />
-            </button>
             <button className='home-button' onClick={goHome}>
               <SlIcon name='house-fill' />
             </button>
           </div>
           <div className="nav-part">
             <span className='Name' onClick={this.props.changeName}>
-              {Name??'New Palette'}
-              <SlIcon name='pencil-fill'/>
+              {Name ?? 'New Palette'}
+              <SlIcon name='pencil-fill' />
             </span>
           </div>
           <div className="nav-part">
@@ -84,14 +101,14 @@ class Navbar extends PureComponent {
       <>
         <div className="top">
           <div className='nav-part'>
-            <button className='back-button' onClick={()=>navigate(back)}>
+            <button className='back-button' onClick={() => navigate(back)}>
               <SlIcon name='arrow-left-circle-fill' />
             </button>
-            <button className='home-button' onClick={()=>navigate('/')}>
+            <button className='home-button' onClick={() => navigate('/')}>
               <SlIcon name='house-fill' />
             </button>
           </div>
-          <h4>{Name}</h4>
+          <h2>{Name}</h2>
           <SlSelect className='color-format' value={Format}
             size='small' filled onSlChange={changeFormat}>
             <SlOption value="hex"> Hex </SlOption>

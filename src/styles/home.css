@@ -1,63 +1,78 @@
 .Home {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
   overflow-y: scroll;
   position: relative;
 }
 
 .home-palettes {
-  padding: 1 auto;
-  padding-top: 65px;
-  width: 100%;
   display: flex;
+  height: min-content;
   flex-wrap: wrap;
   gap: 5px;
+  padding: 60px 0 50px 0;
   animation: fadeIn .3s ease-in-out;
 }
 
-.Drawer::part(base) {
-  top: 40px;
-  height: calc(100% - 40px);
-  width: 50vw;
-  max-width: 270px;
+.Home .Empty {
+  padding-top: 95px;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
 }
 
-/* huge */
-@media screen and (min-width: 1821px) {
+.Drawer::part(panel) {
+  top: 50px;
+  height: calc(100% - 50px);
+}
+
+/* monitor */
+@media screen and (min-width: 1501px) {
   .home-palettes {
-    padding-left: calc((100vw - 6 * 160px) / 2);
-    padding-right: calc((100vw - 6 * 160px) / 2)
+    width: calc(5 * 180px);
   }
 }
 
-/* large */
-@media screen and (max-width: 1820px) {
+/* laptop */
+@media screen and (max-width: 1500px) {
   .home-palettes {
-    padding-left: calc((100vw - 5 * 160px) / 2);
-    padding-right: calc((100vw - 5 * 160px) / 2)
+    width: calc(4 * 180px);
   }
 }
 
-/* medium */
-@media screen and (max-width: 1024px) {
+/* small laptop */
+@media screen and (max-width: 1140px) {
   .home-palettes {
-    padding-left: calc((100vw - 4 * 160px) / 2);
-    padding-right: calc((100vw - 4 * 160px) / 2)
+    width: calc(4 * 180px);
   }
 }
 
-/* small */
-@media screen and (max-width: 767px) {
+/* tablet */
+@media screen and (max-width: 940px) {
   .home-palettes {
-    padding-left: calc((100vw - 3 * 160px) / 2);
-    padding-right: calc((100vw - 3 * 160px) / 2)
+    width: calc(4 * 180px);
   }
 }
 
-/* tiny */
-@media screen and (max-width: 480px) {
+/* small tablet */
+@media screen and (max-width: 740px) {
   .home-palettes {
-    padding-left: calc((100vw - 2 * 160px) / 2);
-    padding-right: calc((100vw - 2 * 160px) / 2)
+    width: calc(3 * 180px);
+  }
+}
+
+/* phone */
+@media screen and (max-width: 540px) {
+  .home-palettes {
+    width: calc(2 * 180px);
+  }
+}
+
+/* small phone */
+@media screen and (max-width: 359px) {
+  .home-palettes {
+    width: calc(1 * 180px);
   }
 }

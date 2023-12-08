@@ -1,8 +1,8 @@
 nav {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100vw;
-  height: 65px;
   z-index: 5;
 }
 
@@ -10,19 +10,21 @@ nav .top,
 .bottom {
   display: flex;
   align-items: center;
+  padding: 0 .8rem;
   color: white;
-  background-color: black;
+  background-color: #151515;
+  box-shadow: var(--sl-shadow-x-large);
   gap: 5px;
 }
 
 nav .top {
-  padding: 10px 0;
-  height: 40px;
-  justify-content: space-evenly;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 nav .bottom {
-  height: 25px;
+  height: 35px;
   background-color: #252525;
   justify-content: center;
   align-items: center;
@@ -30,12 +32,11 @@ nav .bottom {
 
 .nav-part {
   display: flex;
-  align-items: center;
   gap: 10px;
 }
 
 .ham-menu {
-  font-size: x-large;
+  font-size: var(--sl-font-size-3x-large);
   cursor: pointer;
 }
 
@@ -48,8 +49,8 @@ nav .back-button,
   display: flex;
   background: none;
   color: #bbb;
-  font-size: var(--sl-font-size-x-large);
-  line-height: var(--sl-font-size-x-large);
+  font-size: var(--sl-font-size-2x-large);
+  line-height: var(--sl-font-size-2x-large);
 }
 
 nav .new-button,
@@ -60,8 +61,12 @@ nav .del-button {
   background: #353535;
   padding: 5px;
   border-radius: var(--sl-border-radius-medium);
-  font-size: var(--sl-font-size-small);
-  line-height: var(--sl-font-size-small);
+  font-size: var(--sl-font-size-large);
+  line-height: var(--sl-font-size-large);
+}
+
+nav .new-button {
+  font-size: var(--sl-font-size-medium);
 }
 
 nav .back-button:hover,
@@ -72,8 +77,8 @@ nav .back-button:hover,
 nav .Name {
   display: flex;
   gap: 3px;
-  font-size: var(--sl-font-size-large);
-  line-height: var(--sl-font-size-large);
+  font-size: var(--sl-font-size-x-large);
+  line-height: var(--sl-font-size-x-large);
   align-items: center;
   font-weight: 600;
   background: #353535;
@@ -83,8 +88,8 @@ nav .Name {
 }
 
 nav .Name sl-icon {
-  font-size: var(--sl-font-size-small);
-  line-height: var(--sl-font-size-small);
+  font-size: var(--sl-font-size-medium);
+  line-height: var(--sl-font-size-medium);
 }
 
 nav .new-button:hover,
@@ -93,21 +98,17 @@ nav .new-button:hover,
   background-color: var(--primary)
 }
 
-nav .del-button sl-icon {
-  font-size: 13px;
-  font-weight: bolder;
-}
-
 nav .del-button:hover {
   background-color: #e04848
 }
 
 .color-format::part(combobox) {
-  width: 70px;
-  min-height: 20px;
-  padding: 0 5px;
-  gap: 2px;
-  box-shadow: none;
+  font-size: var(--sl-font-size-medium);
+  width: 20%;
+  max-width: 5rem;
+  padding: 5px;
+  gap: 3px;
+  /* box-shadow: none; */
 }
 
 .color-format::part(listbox) {
@@ -116,8 +117,8 @@ nav .del-button:hover {
 }
 
 .color-format sl-option::part(base) {
-  font-size: var(--sl-font-size-small);
-  padding: 0
+  font-size: var(--sl-font-size-medium);
+  padding: 5px
 }
 
 nav .bottom button {

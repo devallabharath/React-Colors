@@ -7,9 +7,14 @@ class MiniPalette extends PureComponent {
 
   render () {
     const { paletteName, colors, id } = this.props.palette
+    const { Type } = this.props
     return (
       <div className="MiniPalette">
-        <Link className='goto' to={`/palettes/${id}`}></Link>
+        {Type === 'home' && <>
+          <Link className='goto' to={`/palettes/${id}`}></Link>
+        </>}
+        {this.leftIcon(id)}
+        {this.rightIcon(id)}
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
@@ -20,14 +25,39 @@ class MiniPalette extends PureComponent {
         </div>
         <div className="minipalette-footer">
           <div className='minipalette-name'>{paletteName}</div>
-          {this.paletteMenu(id)}
         </div>
       </div >
     )
   }
 
+  leftIcon = (id) => {
+    const { Type, leftIconClick } = this.props
+    if (Type !== 'trash') return
+    return (
+      <SlIcon
+        className="Icon leftIcon"
+        name='arrow-left'
+        onClick={() => leftIconClick(id)}
+        style={{ fontSize: 'var(--sl-font-size-medium)' }}
+      />
+    )
+  }
+
+  rightIcon = (id) => {
+    const { Type, rightIconClick } = this.props
+    if (Type === 'home') return this.paletteMenu(id)
+    return (
+      <SlIcon
+        className='Icon rightIcon'
+        name={Type === 'trash' ? 'trash-fill' : 'eye-fill'}
+        onClick={() => rightIconClick(id)}
+      />
+    )
+  }
+
   paletteMenu = (id) => {
-    const { Delete, Hide } = this.props
+    const { Type, Delete, Hide } = this.props
+    if (Type !== 'home') return
     return <SlDropdown size='small'>
       <SlIcon className='options' slot='trigger' name='three-dots' />
       <SlMenu>

@@ -1,20 +1,66 @@
 .Palette {
+  width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
   background-color: #151515;
-  padding-top: 65px;
-  padding-bottom: 10px;
   overflow-y: scroll;
+  position: relative;
 }
 
 .palette-colors {
-  width: 100vw;
+  height: min-content;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  animation: fadeIn .3s ease-in-out;
+  padding: 95px 0 50px 0;
+  animation: all .3s ease-in-out;
 }
 
-@keyframes fadeIn {
-  0% { opacity: .5; }
-  100% { opacity: 1; }
+/* monitor */
+@media screen and (min-width: 1501px) {
+  .palette-colors {
+    width: calc(5 * 180px);
+  }
+}
+
+/* laptop */
+@media screen and (max-width: 1500px) {
+  .palette-colors {
+    width: calc(4 * 180px);
+  }
+}
+
+/* small laptop */
+@media screen and (max-width: 1140px) {
+  .palette-colors {
+    width: calc(4 * 180px);
+  }
+}
+
+/* tablet */
+@media screen and (max-width: 940px) {
+  .palette-colors {
+    width: calc(4 * 180px);
+  }
+}
+
+/* small tablet */
+@media screen and (max-width: 740px) {
+  .palette-colors {
+    width: calc(3 * 180px);
+  }
+}
+
+/* phone */
+@media screen and (max-width: 540px) {
+  .palette-colors {
+    width: calc(2 * 180px);
+  }
+}
+
+/* small phone */
+@media screen and (max-width: 359px) {
+  .palette-colors {
+    width: calc(1 * 180px);
+  }
 }
