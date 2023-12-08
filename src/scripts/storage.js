@@ -2,7 +2,6 @@ import Colors from './colors'
 
 class Storage {
   constructor (props) {
-    // localStorage.clear()
     if (!localStorage.getItem('setup-done')) this.initialSetup()
     this.hidden = JSON.parse(localStorage.getItem('hidden'))
     this.deleted = JSON.parse(localStorage.getItem('deleted'))
@@ -88,6 +87,9 @@ class Storage {
   }
 
   clearTrash = () => {
+    const local = JSON.parse(localStorage.getItem('palettes'))
+    const temp = local.filter((p)=> !this.deleted.includes(p.id))
+    localStorage.setItem('palettes', JSON.stringify(temp))
     localStorage.setItem('deleted', '[]')
     this.deleted = []
     this.getPalettes()

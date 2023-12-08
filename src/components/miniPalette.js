@@ -36,7 +36,7 @@ class MiniPalette extends PureComponent {
     return (
       <SlIcon
         className="Icon leftIcon"
-        name='arrow-left'
+        name='arrow-90deg-left'
         onClick={() => leftIconClick(id)}
         style={{ fontSize: 'var(--sl-font-size-medium)' }}
       />
@@ -49,7 +49,7 @@ class MiniPalette extends PureComponent {
     return (
       <SlIcon
         className='Icon rightIcon'
-        name={Type === 'trash' ? 'trash-fill' : 'eye-fill'}
+        name={Type === 'trash' ? 'trash' : 'eye-fill'}
         onClick={() => rightIconClick(id)}
       />
     )
