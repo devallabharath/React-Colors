@@ -10,6 +10,8 @@ class Navbar extends PureComponent {
     return (
       <nav>
         {Type === 'home' && this.homebar()}
+        {Type === 'trash' && this.trashHiddenbar('Trash')}
+        {Type === 'hidden' && this.trashHiddenbar('Hidden')}
         {Type === 'new' && this.newbar()}
         {Type === 'palette' && this.colorbar()}
         {Type === 'shades' && this.colorbar()}
@@ -36,6 +38,21 @@ class Navbar extends PureComponent {
             + Add New
           </button>
         }
+      </div>
+    )
+  }
+
+  trashHiddenbar = (type) => {
+    const { navigate, empty, unHide } = this.props
+    return (
+      <div className="top">
+        <div className='nav-part'>
+          <SlIcon className='home-button' name='house-fill' onClick={() => navigate('/')} />
+        </div>
+        <h2>{type}</h2>
+        <button className='new-button' onClick={type==='Trash'? empty: unHide}>
+          {type==='Trash' ? 'Empty Bin' : 'Unhide All'}
+        </button>
       </div>
     )
   }

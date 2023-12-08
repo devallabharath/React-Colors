@@ -1,44 +1,24 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
-import Drawer from '../components/drawer'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
 import '../styles/home.css'
 
 const HomePage = ({ Storage }) => {
   const [state, refresh] = useState(false)
-  const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
-  const [Always, setAlways] = useState(window.innerWidth > 1280)
   const navigate = useNavigate()
-
-  useEffect(() => {
-    function change () {
-      const bool = window.innerWidth > 1280
-      setAlways(bool)
-      setSidebar(bool)
-    }
-    window.addEventListener('resize', change)
-    return () => window.removeEventListener('resize', change)
-  }, [])
 
   function render () {
     return (<div className="Home">
-      <Navbar Type='home' navigate={navigate} openSidebar={openSidebar} />
+      <Navbar Type='trash' navigate={navigate} empty={emptyTrash} />
       <div className="home-palettes">
-        <Drawer
-          Display={Sidebar}
-          Contained={Always}
-          Close={() => setSidebar(false)}
-          navigate={navigate}
-          Storage={Storage}
-        />
         <Dialog
           Type='YesNo'
           Label='Are you sure?'
-          Content='This action will delete the palette...'
+          Content='This action will delete the palette permanently...'
           Display={DeleteDlg}
           id={Current[0]}
           YesName='Delete'
@@ -48,24 +28,23 @@ const HomePage = ({ Storage }) => {
           NoVariant='secondary'
           No={() => setDeleteDlg(false)}
         />
-        {Storage.palettes.map(c =>
+        {Storage.getDeletedPalettes().map(c =>
           <MiniPalette
-            Type='home'
+            Type="trash"
             key={c.id}
+            Storage={Storage}
             palette={c}
-            Hide={hidePalette}
-            Delete={openDeleteDlg}
+            leftIconClick={restorePalette}
+            rightIconClick={openDeleteDlg}
           />
         )}
       </div>
     </div>)
   }
 
-  const openSidebar = () => { setSidebar(true) }
+  const restorePalette = (id) => { Storage.restorePalette(id) }
 
   const openDeleteDlg = (id) => { setCurrent([id]); setDeleteDlg(true) }
-
-  const hidePalette = (id) => { Storage.hidePalette(id); refresh(!state) }
 
   const deletePalette = () => {
     const id = Current[0]
@@ -73,6 +52,8 @@ const HomePage = ({ Storage }) => {
     setDeleteDlg(false)
     refresh(!state)
   }
+
+  const emptyTrash = () => {}
 
   return render()
 }

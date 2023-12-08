@@ -7,10 +7,15 @@ class MiniPalette extends PureComponent {
 
   render () {
     const { paletteName, colors, id } = this.props.palette
+    const {Type} = this.props
     return (
       <div className="MiniPalette">
-        <Link className='goto' to={`/palettes/${id}`}></Link>
-        {this.paletteMenu(id)}
+        {Type === 'home' && <>
+          <Link className='goto' to={`/palettes/${id}`}></Link>
+          {this.paletteMenu(id)}
+        </>}
+        {Type === 'trash' && this.rightIcon('trash') && this.leftIcon()}
+        {Type === 'hidden' && this.rightIcon('')}
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
@@ -23,6 +28,25 @@ class MiniPalette extends PureComponent {
           <div className='minipalette-name'>{paletteName}</div>
         </div>
       </div >
+    )
+  }
+
+  leftIcon = () => {
+    const {leftIconClick} = this.props
+    return (
+      <div className="leftIcon" onClick={()=>leftIconClick(this.props.palette.id)}>
+        <SlIcon name='arrow-left' />
+      </div>
+    )
+  }
+
+  rightIcon = (type) => {
+    const icon = type === 'trash' ? 'trash-fill' : 'eye-fill'
+    const {rightIconClick} = this.props
+    return (
+      <div className="Icon" onClick={()=>rightIconClick(this.props.palette.id)}>
+        <SlIcon name={icon} />
+      </div>
     )
   }
 

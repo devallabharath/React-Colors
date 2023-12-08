@@ -79,6 +79,10 @@ class Storage {
     const deleted = JSON.parse(localStorage.getItem('deleted'))
     localStorage.setItem('deleted', deleted.filter((pid)=>pid!==id))
   }
+
+  emptyTrash = () => {
+    
+  }
 }
 
 const storage = new Storage()
