@@ -1,21 +1,23 @@
 .NewPalette {
   height: 100vh;
   width: 100vw;
+  display: flex;
+  justify-content: center;
   overflow-y: scroll;
   background-color: #151515;
 }
 
 .newPalette-colors {
-  padding: 65px 0;
-  width: 100%;
+  padding: 95px 0 50px 0;
+  height: min-content;
   display: flex;
   flex-wrap: wrap;
   animation: all .3s ease-in-out;
 }
 
 .NewBox {
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
   position: relative;
   cursor: grab;
 }
@@ -75,42 +77,51 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* huge */
-@media screen and (min-width: 1821px) {
+/* monitor */
+@media screen and (min-width: 1501px) {
   .newPalette-colors {
-    padding-left: calc((100vw - 6 * 160px) / 2);
-    padding-right: calc((100vw - 6 * 160px) / 2)
+    width: calc(5 * 180px);
   }
 }
 
-/* large */
-@media screen and (max-width: 1820px) {
+/* laptop */
+@media screen and (max-width: 1500px) {
   .newPalette-colors {
-    padding-left: calc((100vw - 5 * 160px) / 2);
-    padding-right: calc((100vw - 5 * 160px) / 2)
+    width: calc(4 * 180px);
   }
 }
 
-/* medium */
-@media screen and (max-width: 1024px) {
+/* small laptop */
+@media screen and (max-width: 1140px) {
   .newPalette-colors {
-    padding-left: calc((100vw - 4 * 160px) / 2);
-    padding-right: calc((100vw - 4 * 160px) / 2)
+    width: calc(4 * 180px);
   }
 }
 
-/* small */
-@media screen and (max-width: 767px) {
+/* tablet */
+@media screen and (max-width: 940px) {
   .newPalette-colors {
-    padding-left: calc((100vw - 3 * 160px) / 2);
-    padding-right: calc((100vw - 3 * 160px) / 2)
+    width: calc(4 * 180px);
   }
 }
 
-/* tiny */
-@media screen and (max-width: 480px) {
+/* small tablet */
+@media screen and (max-width: 740px) {
   .newPalette-colors {
-    padding-left: calc((100vw - 2 * 160px) / 2);
-    padding-right: calc((100vw - 2 * 160px) / 2)
+    width: calc(3 * 180px);
+  }
+}
+
+/* phone */
+@media screen and (max-width: 540px) {
+  .newPalette-colors {
+    width: calc(2 * 180px);
+  }
+}
+
+/* small phone */
+@media screen and (max-width: 359px) {
+  .newPalette-colors {
+    width: calc(1 * 180px);
   }
 }

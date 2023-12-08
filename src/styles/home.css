@@ -1,16 +1,18 @@
 .Home {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
   overflow-y: scroll;
   position: relative;
 }
 
 .home-palettes {
-  padding: 65px 0;
-  width: 100%;
   display: flex;
+  height: min-content;
   flex-wrap: wrap;
   gap: 5px;
+  padding: 60px 0 50px 0;
   animation: fadeIn .3s ease-in-out;
 }
 
@@ -22,37 +24,51 @@
   background-color: #1b1b1b;
 }
 
-/* huge */
-@media screen and (min-width: 1821px) {
+/* monitor */
+@media screen and (min-width: 1501px) {
   .home-palettes {
-    padding: 85px calc((100vw - 5 * 180px) / 2);
+    width: calc(5 * 180px);
   }
 }
 
-/* large */
-@media screen and (max-width: 1820px) {
+/* laptop */
+@media screen and (max-width: 1500px) {
   .home-palettes {
-    padding: 85px calc((100vw - 4 * 180px) / 2);
+    width: calc(4 * 180px);
   }
 }
 
-/* medium */
-@media screen and (max-width: 1024px) {
+/* small laptop */
+@media screen and (max-width: 1140px) {
   .home-palettes {
-    padding: 85px calc((100vw - 3 * 180px) / 2);
+    width: calc(4 * 180px);
   }
 }
 
-/* small */
-@media screen and (max-width: 767px) {
+/* tablet */
+@media screen and (max-width: 940px) {
   .home-palettes {
-    padding: 85px calc((100vw - 2 * 180px) / 2);
+    width: calc(4 * 180px);
   }
 }
 
-/* tiny */
-@media screen and (max-width: 480px) {
+/* small tablet */
+@media screen and (max-width: 740px) {
   .home-palettes {
-    padding: 85px calc((100vw - 1 * 180px) / 2);
+    width: calc(3 * 180px);
+  }
+}
+
+/* phone */
+@media screen and (max-width: 540px) {
+  .home-palettes {
+    width: calc(2 * 180px);
+  }
+}
+
+/* small phone */
+@media screen and (max-width: 359px) {
+  .home-palettes {
+    width: calc(1 * 180px);
   }
 }

@@ -66,6 +66,10 @@ nav .del-button {
   line-height: var(--sl-font-size-large);
 }
 
+nav .new-button {
+  font-size: var(--sl-font-size-medium);
+}
+
 nav .back-button:hover,
 .home-button:hover {
   color: var(--primary)
@@ -95,21 +99,17 @@ nav .new-button:hover,
   background-color: var(--primary)
 }
 
-nav .del-button sl-icon {
-  font-size: 13px;
-  font-weight: bolder;
-}
-
 nav .del-button:hover {
   background-color: #e04848
 }
 
 .color-format::part(combobox) {
-  font-size: larger;
-  width: 100px;
-  padding: 5px 10px;
+  font-size: var(--sl-font-size-medium);
+  width: 20%;
+  max-width: 100px;
+  padding: 5px;
   gap: 3px;
-  box-shadow: none;
+  /* box-shadow: none; */
 }
 
 .color-format::part(listbox) {

@@ -15,13 +15,12 @@ class ColorBox extends PureComponent {
   }
 
   render () {
-    const { type, name, Id, id, format, hex } = this.props
-    const color = this.props[format]
+    const { type, Id, format, name, hex } = this.props
     return (
       <div style={{ background: hex }} className="ColorBox">
-        <SlCopyButton style={{color: this.fg}} className="copy-button" value={color} />
+        <SlCopyButton style={{ color: this.fg }} className="copy-button" value={format} />
         {type === 'color'
-          ? <Link to={`/shades/${Id}/${id}/${hex.replace('#', '')}`}>
+          ? <Link to={`/palettes/${Id}/${name.slice(0, -4)}/${hex.replace('#', '')}`}>
             <SlTooltip content="See More">
               {this.details(name, true)}
             </SlTooltip>
@@ -36,7 +35,7 @@ class ColorBox extends PureComponent {
     return (
       <div className='details' style={{ color: this.fg, background: this.bg }}>
         <span className='color-name'>{name}</span>
-        {icon && <SlIcon className='btn' name="caret-right-fill" />}
+        {icon && <SlIcon className='caret' name="caret-right-fill" />}
       </div>
     )
   }

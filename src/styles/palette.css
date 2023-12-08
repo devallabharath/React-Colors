@@ -1,50 +1,66 @@
 .Palette {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
   background-color: #151515;
   overflow-y: scroll;
   position: relative;
 }
 
 .palette-colors {
-  width: 100%;
-  padding: 85px 0 0 0;
+  height: min-content;
   display: flex;
   flex-wrap: wrap;
+  padding: 95px 0 50px 0;
   animation: all .3s ease-in-out;
 }
 
-/* huge */
-@media screen and (min-width: 1821px) {
-  .Palette {
-    padding: 0 calc((100vw - 6 * 160px) / 2);
+/* monitor */
+@media screen and (min-width: 1501px) {
+  .palette-colors {
+    width: calc(5 * 180px);
   }
 }
 
-/* large */
-@media screen and (max-width: 1820px) {
-  .Palette {
-    padding: 0 calc((100vw - 5 * 160px) / 2);
+/* laptop */
+@media screen and (max-width: 1500px) {
+  .palette-colors {
+    width: calc(4 * 180px);
   }
 }
 
-/* medium */
-@media screen and (max-width: 1024px) {
-  .Palette {
-    padding: 0 calc((100vw - 4 * 160px) / 2);
+/* small laptop */
+@media screen and (max-width: 1140px) {
+  .palette-colors {
+    width: calc(4 * 180px);
   }
 }
 
-/* small */
-@media screen and (max-width: 767px) {
-  .Palette {
-    padding: 0 calc((100vw - 3 * 160px) / 2);
+/* tablet */
+@media screen and (max-width: 940px) {
+  .palette-colors {
+    width: calc(4 * 180px);
   }
 }
 
-/* tiny */
-@media screen and (max-width: 480px) {
-  .Palette {
-    padding: 0 calc((100vw - 2 * 160px) / 2);
+/* small tablet */
+@media screen and (max-width: 740px) {
+  .palette-colors {
+    width: calc(3 * 180px);
+  }
+}
+
+/* phone */
+@media screen and (max-width: 540px) {
+  .palette-colors {
+    width: calc(2 * 180px);
+  }
+}
+
+/* small phone */
+@media screen and (max-width: 359px) {
+  .palette-colors {
+    width: calc(1 * 180px);
   }
 }

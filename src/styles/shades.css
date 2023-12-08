@@ -1,19 +1,66 @@
 .Shades {
   height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
   background-color: #151515;
-  padding-top: 40px;
   overflow-y: scroll;
 }
 
 .shades-colors {
-  width: 100vw;
+  width: 100%;
+  height: min-content;
+  padding: 60px 0 50px 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  animation: fadeIn .3s ease-in-out;
+  animation: all .3s ease-in-out;
 }
 
-@keyframes fadeIn {
-  0% { opacity: .5; }
-  100% { opacity: 1; }
+/* monitor */
+@media screen and (min-width: 1501px) {
+  .shades-colors {
+    width: calc(5 * 180px);
+  }
+}
+
+/* laptop */
+@media screen and (max-width: 1500px) {
+  .shades-colors {
+    width: calc(4 * 180px);
+  }
+}
+
+/* small laptop */
+@media screen and (max-width: 1140px) {
+  .shades-colors {
+    width: calc(4 * 180px);
+  }
+}
+
+/* tablet */
+@media screen and (max-width: 940px) {
+  .shades-colors {
+    width: calc(4 * 180px);
+  }
+}
+
+/* small tablet */
+@media screen and (max-width: 740px) {
+  .shades-colors {
+    width: calc(3 * 180px);
+  }
+}
+
+/* phone */
+@media screen and (max-width: 540px) {
+  .shades-colors {
+    width: calc(2 * 180px);
+  }
+}
+
+/* small phone */
+@media screen and (max-width: 359px) {
+  .shades-colors {
+    width: calc(1 * 180px);
+  }
 }
