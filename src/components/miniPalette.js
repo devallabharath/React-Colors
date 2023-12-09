@@ -1,13 +1,17 @@
-import { PureComponent } from 'react'
+import { PureComponent, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { SlDropdown, SlMenu, SlMenuItem, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import '../styles/miniPalette.css'
 
 class MiniPalette extends PureComponent {
+  constructor (props) {
+    super(props)
+    this.current = createRef()
+  }
 
   render () {
     const { paletteName, colors, id } = this.props.palette
-    const { Type } = this.props
+    const { Type, Favs } = this.props
     return (
       <div className="MiniPalette">
         {Type === 'home' && <>
@@ -25,9 +29,30 @@ class MiniPalette extends PureComponent {
         </div>
         <div className="minipalette-footer">
           <div className='minipalette-name'>{paletteName}</div>
+          {Type === 'home' && this.loveIcon(id, Favs)}
         </div>
       </div >
     )
+  }
+
+  loveIcon = (id, Favs) => {
+    const iconId = `love${id}`
+    const iconClass = Favs.includes(id) ? 'liked heart-like-button' : 'heart-like-button'
+    return (
+      <div className="Love" onClick={() => this.loveClick(iconId, id)}>
+        <div id={iconId} className={iconClass}></div>
+      </div>
+    )
+  }
+
+  loveClick = (iconId, id) => {
+    const button = document.querySelector(`#${iconId}`);
+    this.props.Love(id)
+    if (button.classList.contains("liked")) {
+      button.classList.remove("liked");
+    } else {
+      button.classList.add("liked");
+    }
   }
 
   leftIcon = (id) => {
@@ -46,17 +71,21 @@ class MiniPalette extends PureComponent {
   rightIcon = (id) => {
     const { Type, rightIconClick } = this.props
     if (Type === 'home') return this.paletteMenu(id)
+    let icon
+    if (Type === 'trash') icon = 'trash'
+    if (Type === 'hidden') icon = 'eye-fill'
+    if (Type === 'favourite') icon = 'heart'
     return (
       <SlIcon
         className='Icon rightIcon'
-        name={Type === 'trash' ? 'trash' : 'eye-fill'}
+        name={icon}
         onClick={() => rightIconClick(id)}
       />
     )
   }
 
   paletteMenu = (id) => {
-    const { Type, Delete, Hide } = this.props
+    const { Type, Hide, Delete } = this.props
     if (Type !== 'home') return
     return <SlDropdown size='small'>
       <SlIcon className='options' slot='trigger' name='three-dots' />

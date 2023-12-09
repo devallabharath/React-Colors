@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/home'
 import Trash from './pages/trash'
 import Hidden from './pages/hidden'
+import Favourites from './pages/favourites'
 // import Config from './pages/config'
 import Palette from './pages/palette'
 import NewPalette from './pages/newPalette'
@@ -13,6 +14,7 @@ const Router = () => <BrowserRouter basename='/React-Colors'>
     <Route path='/' element={<Home Storage={Storage} />} />
     {/* <Route path='/palettes' element={<Home Storage={Storage} />} /> */}
     <Route path='/hidden' element={<Hidden Storage={Storage} />} />
+    <Route path='/favourites' element={<Favourites Storage={Storage} />} />
     <Route path='/trash' element={<Trash Storage={Storage} />} />
     {/* <Route path='/config' element={<Config Storage={Storage} />} /> */}
     <Route path='/palettes/new' element={<NewPalette Storage={Storage} />} />
