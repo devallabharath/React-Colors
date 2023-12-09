@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useRefresh } from '../scripts/hooks'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Drawer from '../components/drawer'
@@ -7,11 +8,11 @@ import Dialog from '../components/dialog'
 import '../styles/home.css'
 
 const HomePage = ({ Storage }) => {
-  const [state, refresh] = useState(false)
   const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
   const [Always, setAlways] = useState(window.innerWidth > 1280)
+  const Refresh = useRefresh()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -26,8 +27,9 @@ const HomePage = ({ Storage }) => {
 
   function render () {
     const count = [
-      Storage.getHiddenPalettes().length,
-      Storage.getDeletedPalettes().length
+      Storage.hidden.length,
+      Storage.favourites.length,
+      Storage.deleted.length
     ]
     return (<div className="Home">
       <Navbar Type='home' navigate={navigate} openSidebar={openSidebar} />
@@ -57,8 +59,10 @@ const HomePage = ({ Storage }) => {
             Type='home'
             key={c.id}
             palette={c}
+            Favs={Storage.favourites}
             Hide={hidePalette}
             Delete={openDeleteDlg}
+            Love={toggleFavourite}
           />
         )}
       </div>
@@ -69,13 +73,15 @@ const HomePage = ({ Storage }) => {
 
   const openDeleteDlg = (id) => { setCurrent([id]); setDeleteDlg(true) }
 
-  const hidePalette = (id) => { Storage.hidePalette(id); refresh(!state) }
+  const hidePalette = (id) => { Storage.hidePalette(id); Refresh() }
+
+  const toggleFavourite = (id) => { Storage.toggleFavourite(id); Refresh() }
 
   const deletePalette = () => {
     const id = Current[0]
     Storage.deletePalette(id)
     setDeleteDlg(false)
-    refresh(!state)
+    Refresh()
   }
 
   return render()

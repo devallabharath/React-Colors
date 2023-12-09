@@ -25,16 +25,23 @@ const Drawer = (props) => {
             }
             <SlMenuItem className="hiddenbtn" onClick={() => navigate('/hidden')}>
               Hidden
-              <SlIcon slot="suffix" name="eye-fill" />
-              <SlBadge slot="suffix" variant="primary" pill>
+              <SlIcon slot="suffix" name="eye-slash-fill" />
+              <SlBadge slot="prefix" variant="primary" pill>
               {Count[0]}
+              </SlBadge>
+            </SlMenuItem>
+            <SlMenuItem className="hiddenbtn" onClick={() => navigate('/favourites')}>
+              Favourites
+              <SlIcon slot="suffix" name="heart-fill" />
+              <SlBadge slot="prefix" variant="primary" pill>
+              {Count[1]}
               </SlBadge>
             </SlMenuItem>
             <SlMenuItem className="trashbtn" onClick={() => navigate('/trash')}>
               Trash Bin
               <SlIcon slot="suffix" name="trash-fill" />
-              <SlBadge slot="suffix" variant="primary" pill>
-                {Count[1]}
+              <SlBadge slot="prefix" variant="primary" pill>
+                {Count[2]}
               </SlBadge>
             </SlMenuItem>
           </div>

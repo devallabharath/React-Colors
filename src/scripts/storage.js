@@ -2,9 +2,11 @@ import Colors from './colors'
 
 class Storage {
   constructor (props) {
+    // localStorage.clear()
     if (!localStorage.getItem('setup-done')) this.initialSetup()
     this.hidden = JSON.parse(localStorage.getItem('hidden'))
     this.deleted = JSON.parse(localStorage.getItem('deleted'))
+    this.favourites = JSON.parse(localStorage.getItem('favourites'))
     this.palettes = []
     this.getPalettes()
   }
@@ -14,6 +16,7 @@ class Storage {
     localStorage.setItem('palettes', JSON.stringify(Colors))
     localStorage.setItem('hidden', '[]')
     localStorage.setItem('deleted', '[]')
+    localStorage.setItem('favourites', '[]')
   }
 
   getPalettes = () => {
@@ -25,6 +28,11 @@ class Storage {
   getHiddenPalettes = () => {
     const local = JSON.parse(localStorage.getItem('palettes'))
     return local.filter((p) => this.hidden.includes(p.id))
+  }
+
+  getFavouritePalettes = () => {
+    const local = JSON.parse(localStorage.getItem('palettes'))
+    return local.filter((p) => this.favourites.includes(p.id))
   }
 
   getDeletedPalettes = () => {
@@ -41,6 +49,28 @@ class Storage {
     const newPalettes = local ? [...local, palette] : [palette]
     localStorage.setItem('palettes', JSON.stringify(newPalettes))
     this.palettes = [...this.palettes, palette]
+  }
+
+  toggleFavourite = (id) => {
+    if (this.favourites.includes(id)) return this.removeFavourite(id)
+    this.addFavourite(id)
+  }
+
+  addFavourite = (id) => {
+    const temp = [...this.favourites, id]
+    localStorage.setItem('favourites', JSON.stringify(temp))
+    this.favourites = temp
+  }
+
+  removeFavourite = (id) => {
+    const temp = this.favourites.filter((pid)=> pid!==id)
+    localStorage.setItem('favourites', JSON.stringify(temp))
+    this.favourites = temp
+  }
+
+  clearFavourites = () => {
+    localStorage.setItem('favourites', '[]')
+    this.favourites = []
   }
 
   hidePalette = (id) => {

@@ -12,6 +12,7 @@ class Navbar extends PureComponent {
         {Type === 'home' && this.homebar()}
         {Type === 'trash' && this.trashHiddenbar('Trash')}
         {Type === 'hidden' && this.trashHiddenbar('Hidden')}
+        {Type === 'favourites' && this.trashHiddenbar('Favourites')}
         {Type === 'new' && this.newbar()}
         {Type === 'palette' && this.colorbar()}
         {Type === 'shades' && this.colorbar()}
