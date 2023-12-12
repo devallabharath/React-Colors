@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRefresh } from '../scripts/hooks'
 import Navbar from '../components/navbar'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
 import { SlButton } from '@shoelace-style/shoelace/dist/react'
+import { PaletteContext } from '../scripts/storage'
 import '../styles/home.css'
 
-const HomePage = ({ Storage }) => {
+const HomePage = () => {
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [DeleteAllDlg, setDeleteAllDlg] = useState(false)
   const [Current, setCurrent] = useState(null)
   const Refresh = useRefresh()
   const navigate = useNavigate()
+  const Storage = useContext(PaletteContext)
 
   function render () {
     const Trash = Storage.getDeletedPalettes()

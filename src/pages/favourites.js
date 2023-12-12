@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Dialog from '../components/dialog'
 import MiniPalette from '../components/miniPalette'
 import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import { useRefresh } from '../scripts/hooks'
+import { PaletteContext } from '../scripts/storage'
 import '../styles/home.css'
 
-const HomePage = ({ Storage }) => {
+const Favourites = () => {
   const [Dlg, setDlg] = useState(false)
   const Refresh = useRefresh()
   const navigate = useNavigate()
+  const Storage = useContext(PaletteContext)
 
   function render () {
     const Favourites = Storage.getFavouritePalettes()
@@ -68,4 +70,4 @@ const HomePage = ({ Storage }) => {
   return render()
 }
 
-export default HomePage
+export default Favourites

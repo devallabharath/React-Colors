@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Dialog from '../components/dialog'
 import MiniPalette from '../components/miniPalette'
 import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import { useRefresh } from '../scripts/hooks'
+import { PaletteContext } from '../scripts/storage'
 import '../styles/home.css'
 
-const HomePage = ({ Storage }) => {
+const HomePage = () => {
   const [Dlg, setDlg] = useState(false)
   const Refresh = useRefresh()
   const navigate = useNavigate()
+  const Storage = useContext(PaletteContext)
 
   function render () {
     const Hidden = Storage.getHiddenPalettes()

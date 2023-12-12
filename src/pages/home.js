@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRefresh } from '../scripts/hooks'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Drawer from '../components/drawer'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
+import { PaletteContext } from '../scripts/storage'
 import '../styles/home.css'
 
-const HomePage = ({ Storage }) => {
+const HomePage = () => {
   const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
   const [Always, setAlways] = useState(window.innerWidth > 1280)
   const Refresh = useRefresh()
   const navigate = useNavigate()
+  const Storage = useContext(PaletteContext)
 
   useEffect(() => {
     function change () {
@@ -25,12 +27,7 @@ const HomePage = ({ Storage }) => {
     return () => window.removeEventListener('resize', change)
   }, [])
 
-  function render () {
-    const count = [
-      Storage.hidden.length,
-      Storage.favourites.length,
-      Storage.deleted.length
-    ]
+  const render = () => {
     return (<div className="Home">
       <Navbar Type='home' navigate={navigate} openSidebar={openSidebar} />
       <div className="home-palettes">
@@ -39,7 +36,7 @@ const HomePage = ({ Storage }) => {
           Contained={Always}
           Close={() => setSidebar(false)}
           navigate={navigate}
-          Count= {count}
+          Count= {Storage.getCount()}
         />
         <Dialog
           Type='YesNo'
@@ -54,12 +51,12 @@ const HomePage = ({ Storage }) => {
           NoVariant='secondary'
           No={() => setDeleteDlg(false)}
         />
-        {Storage.palettes.map(c =>
+        {Storage.getPalettes().map(c =>
           <MiniPalette
             Type='home'
             key={c.id}
             palette={c}
-            Favs={Storage.favourites}
+            Favs={Storage.getFavouriteIds()}
             Hide={hidePalette}
             Delete={openDeleteDlg}
             Love={toggleFavourite}
