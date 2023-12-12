@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 import Navbar from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
@@ -8,10 +8,11 @@ import Dialog from '../components/dialog'
 import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
 import { template } from '../scripts/colors'
+import { PaletteContext } from '../scripts/storage'
 import '../styles/newPalette.css'
 const newColor = { name: 'New Color', color: '#555555' }
 
-const NewPalette = ({ Storage }) => {
+const NewPalette = () => {
   const [PaletteDlg, setPaletteDlg] = useState(false)
   const [ColorDlg, setColorDlg] = useState(false)
   const [LeaveDlg, setLeaveDlg] = useState(false)
@@ -23,6 +24,7 @@ const NewPalette = ({ Storage }) => {
   const paletteNameInput = useRef(0)
   const colorNameInput = useRef(0)
   const navigate = useNavigate()
+  const Storage = useContext(PaletteContext)
 
   const SortContainer = sortableContainer(({ children }) => <div className="newPalette-colors">{children}</div>)
   const SortElement = sortableElement(({c}) => makeBox(c.id, c.name, c.color))

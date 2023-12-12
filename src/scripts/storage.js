@@ -1,5 +1,5 @@
 import Colors from './colors'
-import { useEffect } from 'react'
+import { createContext, useEffect } from 'react'
 import { useLocalStorage } from './hooks'
 
 function Storage () {
@@ -67,29 +67,24 @@ function Storage () {
   }
 
   return {
-    getPalettes,
-    getHiddenIds,
-    getFavouriteIds,
-    getDeletedIds,
-    getCount,
-    getHiddenPalettes,
-    getFavouritePalettes,
-    getDeletedPalettes,
-    getPaletteNames,
-    getPaletteById,
-    savePalette,
-    toggleFavourite,
-    addFavourite,
-    removeFavourite,
-    clearFavourites,
-    hidePalette,
-    showPalette,
-    showAllPalettes,
-    deletePalette,
-    restorePalette,
-    deleteFromBin,
-    clearTrash
+    getPalettes, getHiddenIds, getFavouriteIds, getDeletedIds,
+    getCount, getHiddenPalettes, getFavouritePalettes, getDeletedPalettes,
+    getPaletteNames, getPaletteById, savePalette, toggleFavourite,
+    addFavourite, removeFavourite, clearFavourites, hidePalette,
+    showPalette, showAllPalettes, deletePalette, restorePalette,
+    deleteFromBin, clearTrash
   }
+
 }
 
-export default Storage
+const PaletteContext = createContext()
+
+const PaletteProvider = (props) => {
+  return (
+    <PaletteContext.Provider value={Storage()}>
+      {props.children}
+    </PaletteContext.Provider>
+  )
+}
+
+export { PaletteProvider, PaletteContext }

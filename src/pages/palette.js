@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import ColorBox from '../components/colorbox'
 import { generatePalette } from '../scripts/colorHerlpers';
+import { PaletteContext } from '../scripts/storage'
 import '../styles/palette.css'
 
-const PalettePage = ({ Storage }) => {
+const PalettePage = () => {
   const [Level, setLevel] = useState(500)
   const [Format, setFormat] = useState('hex')
   const navigate = useNavigate()
   const params = useParams()
+  const Storage = useContext(PaletteContext)
   const palette = Storage.getPaletteById(params.id)
   const { paletteName, colors, id } = generatePalette(palette)
 

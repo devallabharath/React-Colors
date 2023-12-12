@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRefresh } from '../scripts/hooks'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Drawer from '../components/drawer'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
+import { PaletteContext } from '../scripts/storage'
 import '../styles/home.css'
 
-const HomePage = (props) => {
+const HomePage = () => {
   const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
   const [Always, setAlways] = useState(window.innerWidth > 1280)
   const Refresh = useRefresh()
   const navigate = useNavigate()
-  const Storage = props.Storage()
+  const Storage = useContext(PaletteContext)
 
   useEffect(() => {
     function change () {
