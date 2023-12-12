@@ -14,9 +14,7 @@ class MiniPalette extends PureComponent {
     const { Type, Favs } = this.props
     return (
       <div className="MiniPalette">
-        {Type === 'home' && <>
-          <Link className='goto' to={`/palettes/${id}`}></Link>
-        </>}
+        <Link className='goto' to={`/palettes/${id}`}></Link>
         {this.leftIcon(id)}
         {this.rightIcon(id)}
         <div className="minipalette-colors">

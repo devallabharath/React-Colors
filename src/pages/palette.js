@@ -25,7 +25,7 @@ const PalettePage = () => {
         slider={true}
         Level={Level}
         changeLevel={(v) => setLevel(v)}
-        back={'/'}
+        back={-1}
         navigate={navigate}
       />
       <div className="palette-colors">
