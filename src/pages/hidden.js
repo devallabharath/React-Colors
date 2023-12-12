@@ -7,10 +7,11 @@ import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import { useRefresh } from '../scripts/hooks'
 import '../styles/home.css'
 
-const HomePage = ({ Storage }) => {
+const HomePage = (props) => {
   const [Dlg, setDlg] = useState(false)
   const Refresh = useRefresh()
   const navigate = useNavigate()
+  const Storage = props.Storage()
 
   function render () {
     const Hidden = Storage.getHiddenPalettes()

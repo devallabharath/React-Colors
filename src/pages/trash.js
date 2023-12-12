@@ -7,12 +7,13 @@ import Dialog from '../components/dialog'
 import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import '../styles/home.css'
 
-const HomePage = ({ Storage }) => {
+const HomePage = (props) => {
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [DeleteAllDlg, setDeleteAllDlg] = useState(false)
   const [Current, setCurrent] = useState(null)
   const Refresh = useRefresh()
   const navigate = useNavigate()
+  const Storage = props.Storage()
 
   function render () {
     const Trash = Storage.getDeletedPalettes()

@@ -7,10 +7,11 @@ import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import { useRefresh } from '../scripts/hooks'
 import '../styles/home.css'
 
-const HomePage = ({ Storage }) => {
+const Favourites = (props) => {
   const [Dlg, setDlg] = useState(false)
   const Refresh = useRefresh()
   const navigate = useNavigate()
+  const Storage = props.Storage()
 
   function render () {
     const Favourites = Storage.getFavouritePalettes()
@@ -68,4 +69,4 @@ const HomePage = ({ Storage }) => {
   return render()
 }
 
-export default HomePage
+export default Favourites
