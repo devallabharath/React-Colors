@@ -86,7 +86,9 @@ class MiniPalette extends PureComponent {
     const { Type, Hide, Delete } = this.props
     if (Type !== 'home') return
     return <SlDropdown size='small'>
-      <SlIcon className='options' slot='trigger' name='three-dots' />
+      <div className="options" slot='trigger'>
+        <SlIcon className='icon'  name='three-dots' />
+      </div>
       <SlMenu>
         <SlMenuItem className='menu-item'>Edit
           <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='pencil-fill' />
