@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react'
+import { useState, useRef } from 'react'
 import Navbar from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
@@ -7,12 +7,11 @@ import { arrayMove } from 'react-sortable-hoc';
 import Dialog from '../components/dialog'
 import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
-import { template } from '../scripts/colors'
-import { PaletteContext } from '../scripts/storage'
+import { template } from '../utils/colors'
 import '../styles/newPalette.css'
 const newColor = { name: 'New Color', color: '#555555' }
 
-const NewPalette = () => {
+const NewPalette = (props) => {
   const [PaletteDlg, setPaletteDlg] = useState(false)
   const [ColorDlg, setColorDlg] = useState(false)
   const [LeaveDlg, setLeaveDlg] = useState(false)
@@ -24,7 +23,8 @@ const NewPalette = () => {
   const paletteNameInput = useRef(0)
   const colorNameInput = useRef(0)
   const navigate = useNavigate()
-  const Storage = useContext(PaletteContext)
+  const Storage = props.Storage
+  const paletteNames  = Storage.getPaletteNames()
 
   const SortContainer = sortableContainer(({ children }) => <div className="newPalette-colors">{children}</div>)
   const SortElement = sortableElement(({c}) => makeBox(c.id, c.name, c.color))
@@ -141,7 +141,6 @@ const NewPalette = () => {
   const clearColors = () => setColors([])
 
   const validatePaletteName = (e) => {
-    const paletteNames  = Storage.getPaletteNames()
     const duplicate = paletteNames.includes(e.target.value)
     const msg = duplicate ? 'This name already taken, choose another' : ''
     paletteNameInput.current.setCustomValidity(msg)

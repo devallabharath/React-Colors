@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Navbar from '../components/navbar'
 import ColorBox from '../components/colorbox'
 import { useParams, useNavigate } from 'react-router-dom'
-import { generateShades } from '../scripts/colorHerlpers'
+import { generateShades } from '../utils/colors'
 import '../styles/shades.css'
 
 const ShadesPage = () => {
