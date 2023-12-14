@@ -36,6 +36,7 @@ const Navbar = (props) => {
         </nav >
         {isDrawer &&
           <Drawer
+            Type={props.Type}
             Display={Sidebar}
             Contained={Always}
             Close={() => setSidebar(false)}
