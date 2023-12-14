@@ -62,12 +62,12 @@
   cursor: pointer;
 }
 
-.heart-like-button {
+.heart {
   position: relative;
   width: 10px;
   height: 15px;
 }
-.heart-like-button:before {
+.heart:before {
   position: absolute;
   top: 0;
   left: 0;
@@ -80,7 +80,7 @@
   content: "";
   transition: background .4s;
 }
-.heart-like-button:after {
+.heart:after {
   position: absolute;
   top: 0;
   right: 9px;
@@ -94,11 +94,11 @@
   transition: background .4s;
 }
 
-.heart-like-button.liked::before,
-.heart-like-button.liked::after {
+.heart.liked::before,
+.heart.liked::after {
   background-color: #d65076;
 }
-.heart-like-button.liked {
+.heart.liked {
   animation: liked .4s ease;
 }
 @keyframes liked {
@@ -127,44 +127,22 @@
   height: 25px;
   width: 25px;
   top: 7px;
-  right: 7px;
   color: #000;
   background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--sl-font-size-large);
+  font-size: var(--sl-font-size-medium);
   box-shadow: var(--sl-shadow-medium);
   border-radius: 50%;
 }
 
-.MiniPalette .Icon {
-  position: absolute;
-  top: 4.35px;
-  height: calc(100% / 4.78);
-  padding: 0 8.45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--sl-font-size-large);
-  background-color: #fff;
-  cursor: pointer;
-}
-
-.MiniPalette .Icon:hover {
-  color: red;
-  background-color: #151515
-}
-
 .MiniPalette .rightIcon {
-  right: 3.95px;
-  font-size: var(--sl-font-size-medium);
-  border-top-right-radius: var(--sl-border-radius-small);
+  right: 7px;
 }
 
 .MiniPalette .leftIcon {
-  font-size: var(--sl-font-size-medium);
-  border-top-left-radius: var(--sl-border-radius-small);
+  left: 7px;
 }
 
 .MiniPalette .options:hover {
