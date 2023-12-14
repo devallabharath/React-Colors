@@ -1,12 +1,11 @@
-import { useContext, useRef } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { SlDropdown, SlMenu, SlMenuItem, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import '../styles/miniPalette.css'
-import { PaletteContext } from '../scripts/storage'
 
 const MiniPalette = (props) => {
   const ref = useRef()
-  const Storage = useContext(PaletteContext)
+  const Storage = props.Storage
 
   const render = () => {
     const { Type } = props

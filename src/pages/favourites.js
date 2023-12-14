@@ -1,18 +1,17 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Dialog from '../components/dialog'
 import MiniPalette from '../components/miniPalette'
 import { SlButton } from '@shoelace-style/shoelace/dist/react'
-import { useRefresh } from '../scripts/hooks'
-import { PaletteContext } from '../scripts/storage'
+import { useRefresh } from '../utils/hooks'
 import '../styles/home.css'
 
-const Favourites = () => {
+const Favourites = (props) => {
   const [Dlg, setDlg] = useState(false)
   const Refresh = useRefresh()
   const navigate = useNavigate()
-  const Storage = useContext(PaletteContext)
+  const Storage = props.Storage
 
   function render () {
     const Favourites = Storage.getFavouritePalettes()
@@ -33,12 +32,14 @@ const Favourites = () => {
       />
       {Favourites.length !== 0
         ? <div className="home-palettes">
-          {Favourites.map(c => <MiniPalette
-            Type="favourite"
-            key={c.id}
-            palette={c}
-            rightIconClick={removeFavourite}
-          />
+          {Favourites.map(c =>
+            <MiniPalette
+              Type="favourite"
+              key={c.id}
+              palette={c}
+              Storage={Storage}
+              rightIconClick={removeFavourite}
+            />
           )}
         </div>
         : <div className="Empty">

@@ -1,16 +1,14 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import Slider from 'rc-slider';
 import Drawer from './drawer';
 import { SlIcon, SlSelect, SlOption, SlTooltip } from '@shoelace-style/shoelace/dist/react';
 import '../styles/navbar.css'
 import { useNavigate } from 'react-router-dom';
-import { PaletteContext } from '../scripts/storage';
 
 const Navbar = (props) => {
   const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [Always, setAlways] = useState(window.innerWidth > 1280)
   const navigate = useNavigate()
-  const Storage = useContext(PaletteContext)
 
   useEffect(() => {
     function change () {
@@ -41,7 +39,6 @@ const Navbar = (props) => {
             Display={Sidebar}
             Contained={Always}
             Close={() => setSidebar(false)}
-            Count={Storage.getCount()}
           />
         }
       </>
@@ -165,4 +162,4 @@ const Navbar = (props) => {
   return render()
 }
 
-export default Navbar;
+export default Navbar

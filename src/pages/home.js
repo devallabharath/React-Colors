@@ -1,16 +1,14 @@
-import { useState, useContext } from 'react'
-import { useRefresh } from '../scripts/hooks'
+import { useState } from 'react'
+import { useRefresh } from '../utils/hooks'
 import Navbar from '../components/navbar'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
-import { PaletteContext } from '../scripts/storage'
 import '../styles/home.css'
 
-const HomePage = () => {
+const HomePage = ({Storage}) => {
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
   const Refresh = useRefresh()
-  const Storage = useContext(PaletteContext)
 
   const render = () => {
     return (<div className="Home">
@@ -34,7 +32,7 @@ const HomePage = () => {
             Type='home'
             key={p.id}
             palette={p}
-            Favs={Storage.getFavouriteIds()}
+            Storage={Storage}
             Hide={hidePalette}
             Delete={openDeleteDlg}
             Love={toggleFavourite}
@@ -48,7 +46,7 @@ const HomePage = () => {
 
   const hidePalette = (id) => { Storage.hidePalette(id); Refresh() }
 
-  const toggleFavourite = (id) => { Storage.toggleFavourite(id); Refresh() }
+  const toggleFavourite = (id) => { Storage.toggleFavourite(id) }
 
   const deletePalette = () => {
     const id = Current[0]
