@@ -1,43 +1,21 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { useRefresh } from '../scripts/hooks'
-import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
-import Drawer from '../components/drawer'
 import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
 import { PaletteContext } from '../scripts/storage'
 import '../styles/home.css'
 
 const HomePage = () => {
-  const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
-  const [Always, setAlways] = useState(window.innerWidth > 1280)
   const Refresh = useRefresh()
-  const navigate = useNavigate()
   const Storage = useContext(PaletteContext)
-
-  useEffect(() => {
-    function change () {
-      const bool = window.innerWidth > 1280
-      setAlways(bool)
-      setSidebar(bool)
-    }
-    window.addEventListener('resize', change)
-    return () => window.removeEventListener('resize', change)
-  }, [])
 
   const render = () => {
     return (<div className="Home">
-      <Navbar Type='home' navigate={navigate} openSidebar={openSidebar} />
+      <Navbar Type='home' isDrawer={true} />
       <div className="home-palettes">
-        <Drawer
-          Display={Sidebar}
-          Contained={Always}
-          Close={() => setSidebar(false)}
-          navigate={navigate}
-          Count= {Storage.getCount()}
-        />
         <Dialog
           Type='YesNo'
           Label='Are you sure?'
@@ -51,11 +29,11 @@ const HomePage = () => {
           NoVariant='secondary'
           No={() => setDeleteDlg(false)}
         />
-        {Storage.getPalettes().map(c =>
+        {Storage.getPalettes().map(p =>
           <MiniPalette
             Type='home'
-            key={c.id}
-            palette={c}
+            key={p.id}
+            palette={p}
             Favs={Storage.getFavouriteIds()}
             Hide={hidePalette}
             Delete={openDeleteDlg}
@@ -65,8 +43,6 @@ const HomePage = () => {
       </div>
     </div>)
   }
-
-  const openSidebar = () => { setSidebar(true) }
 
   const openDeleteDlg = (id) => { setCurrent([id]); setDeleteDlg(true) }
 

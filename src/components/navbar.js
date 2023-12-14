@@ -1,34 +1,61 @@
-import { PureComponent } from 'react';
+import { useState, useEffect, useContext } from 'react'
 import Slider from 'rc-slider';
+import Drawer from './drawer';
 import { SlIcon, SlSelect, SlOption, SlTooltip } from '@shoelace-style/shoelace/dist/react';
 import '../styles/navbar.css'
+import { useNavigate } from 'react-router-dom';
+import { PaletteContext } from '../scripts/storage';
 
-class Navbar extends PureComponent {
+const Navbar = (props) => {
+  const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
+  const [Always, setAlways] = useState(window.innerWidth > 1280)
+  const navigate = useNavigate()
+  const Storage = useContext(PaletteContext)
 
-  render () {
-    const { Type } = this.props;
+  useEffect(() => {
+    function change () {
+      const bool = window.innerWidth > 1280
+      setAlways(bool)
+      setSidebar(bool)
+    }
+    window.addEventListener('resize', change)
+    return () => window.removeEventListener('resize', change)
+  }, [])
+
+  const render = () => {
+    const { Type, isDrawer } = props;
     return (
-      <nav>
-        {Type === 'home' && this.homebar()}
-        {Type === 'trash' && this.trashHiddenbar('Trash')}
-        {Type === 'hidden' && this.trashHiddenbar('Hidden')}
-        {Type === 'favourites' && this.trashHiddenbar('Favourites')}
-        {Type === 'new' && this.newbar()}
-        {Type === 'palette' && this.colorbar()}
-        {Type === 'shades' && this.colorbar()}
-        {Type === '405' && this.homebar(false)}
-      </nav >
+      <>
+        <nav>
+          {Type === 'home' && homebar()}
+          {Type === 'trash' && trashHiddenbar('Trash')}
+          {Type === 'hidden' && trashHiddenbar('Hidden')}
+          {Type === 'favourites' && trashHiddenbar('Favourites')}
+          {Type === 'new' && newbar()}
+          {Type === 'palette' && colorbar(true)}
+          {Type === 'shades' && colorbar()}
+          {Type === '405' && homebar(false)}
+        </nav >
+        {isDrawer &&
+          <Drawer
+            Display={Sidebar}
+            Contained={Always}
+            Close={() => setSidebar(false)}
+            Count={Storage.getCount()}
+          />
+        }
+      </>
+
     )
   }
 
-  homebar = (btn = true) => {
-    const { navigate, openSidebar } = this.props
+  const homebar = (btn = true) => {
     const largeScr = window.innerWidth > 1280
     return (
       <div className="top">
         <div className='nav-part'>
           {!largeScr && <>
-            <SlIcon className='ham-menu' name='list' onClick={openSidebar} />
+            <SlIcon className='ham-menu' name='list' onClick={() => setSidebar(true)} />
           </>}
         </div>
         <h2>Palettes</h2>
@@ -43,8 +70,8 @@ class Navbar extends PureComponent {
     )
   }
 
-  trashHiddenbar = (type) => {
-    const { navigate, onBtnClick } = this.props
+  const trashHiddenbar = (type) => {
+    const { onBtnClick } = props
     return (
       <div className="top">
         <div className='nav-part'>
@@ -58,8 +85,8 @@ class Navbar extends PureComponent {
     )
   }
 
-  newbar = () => {
-    const { Name, goHome, onSave, onDiscard } = this.props
+  const newbar = () => {
+    const { Name, goHome, onSave, onDiscard } = props
     return (
       <>
         <div className="top">
@@ -69,7 +96,7 @@ class Navbar extends PureComponent {
             </button>
           </div>
           <div className="nav-part">
-            <span className='Name' onClick={this.props.changeName}>
+            <span className='Name' onClick={props.changeName}>
               {Name ?? 'New Palette'}
               <SlIcon name='pencil-fill' />
             </span>
@@ -88,16 +115,16 @@ class Navbar extends PureComponent {
           </div>
         </div>
         <div className="bottom">
-          <button onClick={this.props.addBox}>Add New</button>
-          <button onClick={this.props.random}>Random All</button>
-          <button onClick={this.props.clearAll}>Clear All</button>
+          <button onClick={props.addBox}>Add New</button>
+          <button onClick={props.random}>Random All</button>
+          <button onClick={props.clearAll}>Clear All</button>
         </div>
       </>
     )
   }
 
-  colorbar = () => {
-    const { Name, Format, changeFormat, slider, Level, changeLevel, navigate, back } = this.props;
+  const colorbar = (isSlider = false) => {
+    const { Name, Format, changeFormat, Level, changeLevel, back } = props;
     return (
       <>
         <div className="top">
@@ -117,12 +144,12 @@ class Navbar extends PureComponent {
             <SlOption value="rgba"> RGBA </SlOption>
           </SlSelect>
         </div>
-        {slider && this.slider(Level, changeLevel)}
+        {isSlider && slider(Level, changeLevel)}
       </>
     )
   }
 
-  slider = (Level, changeLevel) => {
+  const slider = (Level, changeLevel) => {
     return (
       <div className="bottom">
         <Slider className='Slider' min={100} max={900} step={100}
@@ -135,6 +162,7 @@ class Navbar extends PureComponent {
     )
   }
 
+  return render()
 }
 
 export default Navbar;

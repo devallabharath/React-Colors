@@ -1,19 +1,21 @@
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { SlDropdown, SlMenu, SlMenuItem, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import '../styles/miniPalette.css'
+import { PaletteContext } from '../scripts/storage'
 
 const MiniPalette = (props) => {
   const ref = useRef()
+  const Storage = useContext(PaletteContext)
 
   const render = () => {
+    const { Type } = props
     const { paletteName, colors, id } = props.palette
-    const { Type, Favs } = props
     return (
       <div className="MiniPalette">
         <Link className='goto' to={`/palettes/${id}`}></Link>
-        {leftIcon(id)}
-        {rightIcon(id)}
+        {Type === 'trash' && leftIcon(id)}
+        {Type !== 'favourite' && rightIcon(id)}
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
@@ -24,29 +26,28 @@ const MiniPalette = (props) => {
         </div>
         <div className="minipalette-footer">
           <div className='minipalette-name'>{paletteName}</div>
-          {Type === 'home' && loveIcon(id, Favs)}
+          {(Type === 'home' || Type === 'favourite') && loveIcon(id)}
         </div>
       </div >
     )
   }
 
-  const loveIcon = (id, Favs) => {
-    const iconClass = Favs.includes(id) ? 'liked heart' : 'heart'
+  const loveIcon = (id) => {
+    const Favs = Storage.getFavouriteIds()
     return (
       <div className="Love" onClick={() => loveClick(id)}>
-        <div ref={ref} className={iconClass}></div>
+        <div ref={ref} className={Favs.includes(id) ? 'liked heart' : 'heart'}></div>
       </div>
     )
   }
 
   const loveClick = (id) => {
-    props.Love(id)
+    Storage.toggleFavourite(id)
     ref.current.classList.toggle('liked')
   }
 
   const leftIcon = (id) => {
-    const { Type, leftIconClick } = props
-    if (Type !== 'trash') return
+    const { leftIconClick } = props
     return (
       <div className="options leftIcon">
         <SlIcon
@@ -61,10 +62,8 @@ const MiniPalette = (props) => {
   const rightIcon = (id) => {
     const { Type, rightIconClick } = props
     if (Type === 'home') return paletteMenu(id)
-    let icon
-    if (Type === 'trash') icon = 'trash'
+    let icon = 'trash'
     if (Type === 'hidden') icon = 'eye-fill'
-    if (Type === 'favourite') icon = 'heart'
     return (
       <div className="options rightIcon">
         <SlIcon
@@ -76,8 +75,7 @@ const MiniPalette = (props) => {
   }
 
   const paletteMenu = (id) => {
-    const { Type, Hide, Delete } = props
-    if (Type !== 'home') return
+    const { Hide, Delete } = props
     return <SlDropdown size='small'>
       <div className="options rightIcon" slot='trigger'>
         <SlIcon className='icon' name='three-dots' />
