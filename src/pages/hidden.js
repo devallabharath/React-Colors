@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Dialog from '../components/dialog'
-import MiniPalette from '../components/miniPalette'
-import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import { useRefresh } from '../utils/hooks'
 import '../styles/home.css'
+const MiniPalette = lazy(() => import('../components/miniPalette'))
+const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
 const HomePage = (props) => {
   const [Dlg, setDlg] = useState(false)
@@ -32,28 +32,28 @@ const HomePage = (props) => {
       />
       {Hidden.length !== 0
         ? <div className="home-palettes">
-          {Hidden.map(c => <MiniPalette
+          {Hidden.map(p => <MiniPalette
             Type="hidden"
-            key={c.id}
+            key={p.id}
             Storage={Storage}
-            palette={c}
+            palette={p}
             rightIconClick={showPalette}
           />
           )}
         </div>
         : <div className="Empty">
           No palettes...
-          <SlButton type='primary' onClick={() => navigate('/')}>
+          <Button type='primary' onClick={() => navigate('/')}>
             Go Home
-          </SlButton>
+          </Button>
         </div>
       }
     </div>)
   }
 
-  const showPalette = (id) => {
+  const showPalette = (id, ref) => {
     Storage.showPalette(id)
-    Refresh()
+    ref.current.remove()
   }
 
   const showDlg = () => {

@@ -1,23 +1,21 @@
-import { useState } from 'react'
-import { useRefresh } from '../utils/hooks'
+import { lazy, useState } from 'react'
 import Navbar from '../components/navbar'
-import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
-import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import '../styles/home.css'
 import { useNavigate } from 'react-router-dom'
+const MiniPalette = lazy(() => import('../components/miniPalette'))
+const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-const HomePage = (props) => {
+const HomePage = ({ Type, Storage }) => {
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [Current, setCurrent] = useState([])
-  const Refresh = useRefresh()
   const navigate = useNavigate()
-  const Storage = props.Storage
+  const favs = Type === 'favourites'
 
   const render = () => {
-    const Palettes = props.favs ? Storage.getFavouritePalettes() : Storage.getPalettes()
+    const Palettes = favs ? Storage.getFavouritePalettes() : Storage.getPalettes()
     return (<div className="Home">
-      <Navbar Type={props.favs ? 'favourites' : 'home'} isDrawer={!props.favs} />
+      <Navbar Type={Type} isDrawer={!favs} />
       <Dialog
         Type='YesNo'
         Label='Are you sure?'
@@ -34,20 +32,18 @@ const HomePage = (props) => {
       {Palettes.length !== 0
         ? <div className="home-palettes">
           {Palettes.map(p => <MiniPalette
-            Type='home'
+            Type={Type}
             key={p.id}
             palette={p}
             Storage={Storage}
-            Hide={hidePalette}
             Delete={openDeleteDlg}
-            Love={toggleFavourite}
           />)}
         </div>
         : <div className="Empty">
           No palettes...
-          <SlButton type='primary' onClick={() => navigate(props.favs ? '/' : '/palettes/new')}>
+          <Button type='primary' onClick={() => navigate(favs ? '/' : '/palettes/new')}>
             Go Home
-          </SlButton>
+          </Button>
         </div>
       }
     </div>)
@@ -55,16 +51,7 @@ const HomePage = (props) => {
 
   const openDeleteDlg = (id) => { setCurrent([id]); setDeleteDlg(true) }
 
-  const hidePalette = (id) => { Storage.hidePalette(id); Refresh() }
-
-  const toggleFavourite = (id) => { Storage.toggleFavourite(id) }
-
-  const deletePalette = () => {
-    const id = Current[0]
-    Storage.deletePalette(id)
-    setDeleteDlg(false)
-    Refresh()
-  }
+  const deletePalette = () => { Storage.deletePalette(Current[0]); setDeleteDlg(false) }
 
   return render()
 }

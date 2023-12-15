@@ -4,17 +4,18 @@ import { SlDropdown, SlMenu, SlMenuItem, SlIcon } from '@shoelace-style/shoelace
 import '../styles/miniPalette.css'
 
 const MiniPalette = (props) => {
-  const ref = useRef()
+  const paletteRef = useRef()
+  const heartRef = useRef()
   const Storage = props.Storage
 
   const render = () => {
     const { Type } = props
     const { paletteName, colors, id } = props.palette
     return (
-      <div className="MiniPalette">
+      <div ref={paletteRef} className="MiniPalette">
         <Link className='goto' to={`/palettes/${id}`}></Link>
         {Type === 'trash' && leftIcon(id)}
-        {Type !== 'favourite' && rightIcon(id)}
+        {Type !== 'favourites' && rightIcon(id)}
         <div className="minipalette-colors">
           {colors.map(c =>
             <span
@@ -25,7 +26,7 @@ const MiniPalette = (props) => {
         </div>
         <div className="minipalette-footer">
           <div className='minipalette-name'>{paletteName}</div>
-          {(Type === 'home' || Type === 'favourite') && loveIcon(id)}
+          {(Type === 'home' || Type === 'favourites') && loveIcon(id)}
         </div>
       </div >
     )
@@ -35,23 +36,23 @@ const MiniPalette = (props) => {
     const Favs = Storage.getFavouriteIds()
     return (
       <div className="Love" onClick={() => loveClick(id)}>
-        <div ref={ref} className={Favs.includes(id) ? 'liked heart' : 'heart'}></div>
+        <div ref={heartRef} className={Favs.includes(id) ? 'liked heart' : 'heart'}></div>
       </div>
     )
   }
 
   const loveClick = (id) => {
+    heartRef.current.classList.toggle('liked')
     Storage.toggleFavourite(id)
-    ref.current.classList.toggle('liked')
+    if (props.Type === 'favourites') paletteRef.current.remove()
   }
 
   const leftIcon = (id) => {
-    const { leftIconClick } = props
     return (
       <div className="options leftIcon">
         <SlIcon
           name='arrow-90deg-left'
-          onClick={() => leftIconClick(id)}
+          onClick={() => restorePalette(id, paletteRef)}
           style={{ fontSize: 'var(--sl-font-size-medium)' }}
         />
       </div>
@@ -67,14 +68,14 @@ const MiniPalette = (props) => {
       <div className="options rightIcon">
         <SlIcon
           name={icon}
-          onClick={() => rightIconClick(id)}
+          onClick={() => rightIconClick(id, paletteRef)}
         />
       </div>
     )
   }
 
   const paletteMenu = (id) => {
-    const { Hide, Delete } = props
+    const { Delete } = props
     return <SlDropdown size='small'>
       <div className="options rightIcon" slot='trigger'>
         <SlIcon className='icon' name='three-dots' />
@@ -83,7 +84,7 @@ const MiniPalette = (props) => {
         <SlMenuItem className='menu-item'>Edit
           <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='pencil-fill' />
         </SlMenuItem>
-        <SlMenuItem className='menu-item' onClick={() => Hide(id)}>Hide
+        <SlMenuItem className='menu-item' onClick={() => hidePalette(id)}>Hide
           <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='eye-slash-fill' />
         </SlMenuItem>
         <SlMenuItem className='menu-item' onClick={() => Delete(id)}>Delete
@@ -94,6 +95,16 @@ const MiniPalette = (props) => {
         </SlMenuItem>
       </SlMenu>
     </SlDropdown>
+  }
+
+  const hidePalette = (id) => {
+    Storage.hidePalette(id)
+    paletteRef.current.remove()
+  }
+
+  const restorePalette = (id, ref) => {
+    Storage.restorePalette(id)
+    ref.current.remove()
   }
 
   return render()
