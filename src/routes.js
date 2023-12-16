@@ -1,24 +1,24 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './pages/home'
-import Trash from './pages/trash'
-import Hidden from './pages/hidden'
-// import Config from './pages/config'
-import Palette from './pages/palette'
-import NewPalette from './pages/newPalette'
-import Shades from './pages/shades'
+import { lazy, Suspense } from 'react'
 import storage from './utils/storage'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+const Home = lazy(() => import('./pages/home'))
+const Hidden = lazy(() => import('./pages/hidden'))
+const Trash = lazy(() => import('./pages/trash'))
+const NewPalette = lazy(() => import('./pages/newPalette'))
+const Palette = lazy(() => import('./pages/palette'))
+const Shades = lazy(() => import('./pages/shades'))
 
 const Storage = new storage()
 
 const Router = () => <BrowserRouter basename='/React-Colors'>
   <Routes>
-    <Route path='/' element={<Home Storage={Storage} />} />
-    <Route path='/hidden' element={<Hidden Storage={Storage} />} />
-    <Route path='/favourites' element={<Home favs={true} Storage={Storage} />} />
-    <Route path='/trash' element={<Trash Storage={Storage} />} />
-    <Route path='/palettes/new' element={<NewPalette Storage={Storage} />} />
-    <Route path='/palettes/:id' element={<Palette Storage={Storage} />} />
-    <Route path='/palettes/:id/:name/:color' element={<Shades />} />
+    <Route path='/' element={<Suspense><Home Type='home' Storage={Storage} /></Suspense>} />
+    <Route path='/hidden' element={<Suspense><Hidden Storage={Storage} /></Suspense>} />
+    <Route path='/favourites' element={<Suspense><Home Type='favourites' Storage={Storage} /></Suspense>} />
+    <Route path='/trash' element={<Suspense><Trash Storage={Storage} /></Suspense>} />
+    <Route path='/palettes/new' element={<Suspense><NewPalette Storage={Storage} /></Suspense>} />
+    <Route path='/palettes/:id' element={<Suspense><Palette Storage={Storage} /></Suspense>} />
+    <Route path='/palettes/:id/:name/:color' element={<Suspense><Shades /></Suspense>} />
     <Route path='*' element={<h1>Not Found</h1>} />
   </Routes>
 </BrowserRouter>

@@ -1,17 +1,15 @@
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRefresh } from '../utils/hooks'
 import Navbar from '../components/navbar'
-import MiniPalette from '../components/miniPalette'
 import Dialog from '../components/dialog'
-import { SlButton } from '@shoelace-style/shoelace/dist/react'
 import '../styles/home.css'
+const MiniPalette = lazy(() => import('../components/miniPalette'))
+const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
 const HomePage = (props) => {
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [DeleteAllDlg, setDeleteAllDlg] = useState(false)
-  const [Current, setCurrent] = useState(null)
-  const Refresh = useRefresh()
+  const [Current, setCurrent] = useState([])
   const navigate = useNavigate()
   const Storage = props.Storage
 
@@ -37,7 +35,6 @@ const HomePage = (props) => {
         Label='Are you sure?'
         Content='This action will clear the Trash...'
         Display={DeleteAllDlg}
-        id={null}
         YesName='Clear'
         YesVariant='danger'
         Yes={clearTrash}
@@ -52,40 +49,36 @@ const HomePage = (props) => {
             key={c.id}
             Storage={Storage}
             palette={c}
-            leftIconClick={restorePalette}
             rightIconClick={deleteDlg}
           />)}
         </div>
         : <div className="Empty">
           No palettes...
-          <SlButton type='primary' onClick={() => navigate('/')}>
+          <Button type='primary' onClick={() => navigate('/')}>
             Go Home
-          </SlButton>
+          </Button>
         </div>
       }
     </div>
     )
   }
 
-  const restorePalette = (id) => {
-    Storage.restorePalette(id)
-    Refresh()
+  const deleteDlg = (id, ref) => {
+    setCurrent([id, ref])
+    setDeleteDlg(true)
   }
 
-  const deleteDlg = (id) => { setCurrent(id); setDeleteDlg(true) }
-
-  const clearDlg = (id) => { setDeleteAllDlg(true) }
+  const clearDlg = () => { setDeleteAllDlg(true) }
 
   const deletePalette = () => {
-    Storage.deleteFromBin(Current)
+    Storage.deleteFromBin(Current[0])
     setDeleteDlg(false)
-    Refresh()
+    Current[1].current.remove()
   }
 
   const clearTrash = () => {
     Storage.clearTrash()
     setDeleteAllDlg(false)
-    Refresh()
   }
 
   return render()
