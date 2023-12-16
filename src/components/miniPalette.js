@@ -7,6 +7,18 @@ const MiniPalette = (props) => {
   const paletteRef = useRef()
   const heartRef = useRef()
   const Storage = props.Storage
+  let dimensions
+  if (props.palette.colors.length < 10) {
+    dimensions = {width: 'calc(100% / 3)', height: 'calc(100% / 3)'}
+  } else if (props.palette.colors.length < 13) {
+    dimensions = {width: 'calc(100% / 4)', height: 'calc(100% / 3)'}
+  } else if (props.palette.colors.length < 17) {
+    dimensions = {width: 'calc(100% / 4)', height: 'calc(100% / 4)'}
+  } else if (props.palette.colors.length < 21) {
+    dimensions = {width: 'calc(100% / 5)', height: 'calc(100% / 4)'}
+  } else if (props.palette.colors.length < 26) {
+    dimensions = {width: 'calc(100% / 5)', height: 'calc(100% / 5)'}
+  } else dimensions = {width: 'calc(100% / 6)', height: 'calc(100% / 5)'}
 
   const render = () => {
     const { Type } = props
@@ -20,7 +32,7 @@ const MiniPalette = (props) => {
           {colors.map(c =>
             <span
               key={c.color}
-              style={{ backgroundColor: c.color }}
+              style={{ backgroundColor: c.color, ...dimensions }}
               className='minipalette-color'
             />)}
         </div>
