@@ -10,7 +10,7 @@ const Shades = lazy(() => import('./pages/shades'))
 
 const Storage = new storage()
 
-const Router = () => <BrowserRouter basename='/React-Colors'>
+const Router:React.FC = () => <BrowserRouter basename='/React-Colors'>
   <Routes>
     <Route path='/' element={<Suspense><Home Type='home' Storage={Storage} /></Suspense>} />
     <Route path='/hidden' element={<Suspense><Hidden Storage={Storage} /></Suspense>} />
