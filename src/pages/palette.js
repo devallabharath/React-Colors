@@ -20,7 +20,7 @@ const PalettePage = (props) => {
         Type='palette'
         Name={paletteName}
         Format={Format}
-        changeFormat={(f) => setFormat(f)}
+        changeFormat={(e) => setFormat(e.target.value)}
         slider={true}
         Level={Level}
         changeLevel={(v) => setLevel(v)}
