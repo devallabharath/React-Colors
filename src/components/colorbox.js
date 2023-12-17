@@ -18,7 +18,8 @@ class ColorBox extends PureComponent {
     const { type, Id, format, name, hex } = this.props
     return (
       <div style={{ background: hex }} className="ColorBox">
-        <SlCopyButton style={{ color: this.fg }} className="copy-button" value={format} />
+        <SlCopyButton style={{ color: this.fg }} className="copy-button" value={this.props[format]} />
+        <span style={{ color: this.fg }} className="color-value">{this.props[format]}</span>
         {type === 'color'
           ? <Link to={`/palettes/${Id}/${name.slice(0, -4)}/${hex.replace('#', '')}`}>
             <SlTooltip content="See More">
