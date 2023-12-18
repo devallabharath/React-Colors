@@ -1,7 +1,8 @@
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid"
 import chroma from 'chroma-js'
+import { rawPaletteType, shadesType, paletteType } from "./types"
 
-const colors = [
+const palettes: rawPaletteType[] = [
   {
     paletteName: "Material UI Colors",
     id: "material-ui-colors",
@@ -217,32 +218,10 @@ const colors = [
   },
 ];
 
-const template = [
-  { id: nanoid(), name: 'Brilliant Rose', color: '#F653A6' },
-  { id: nanoid(), name: 'Cornell Red', color: '#B31B1B' },
-  { id: nanoid(), name: 'Cream', color: '#FFFDD0' },
-  { id: nanoid(), name: 'Lavender Blush', color: '#FFF0F5' },
-  { id: nanoid(), name: 'Aerospace Orange', color: '#FF4F00' },
-  { id: nanoid(), name: 'Bole', color: '#79443B' },
-  { id: nanoid(), name: 'Dark Purple', color: '#301934' },
-  { id: nanoid(), name: 'Gold', color: '#FFD700' },
-  { id: nanoid(), name: 'Night Black', color: '#111111' },
-  { id: nanoid(), name: 'Aquamarine', color: '#00FFBF' },
-  { id: nanoid(), name: 'Melon', color: '#FDBCB4' },
-  { id: nanoid(), name: 'Turquoise', color: '#40E0D0' },
-  { id: nanoid(), name: 'Celtic Blue', color: '#246BCE' },
-  { id: nanoid(), name: 'Blue Violet', color: '#8A2BE2' },
-  { id: nanoid(), name: 'Baby Powder', color: '#FEFEFA' },
-  { id: nanoid(), name: 'Gunmetal', color: '#2A3439' }
-]
-
 const levels = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
 
-function generateShades (name, color) {
-  const newPalette = {
-    paletteName: name,
-    colors: []
-  }
+function generateShades(name: string, color: string) {
+  const newPalette: shadesType = { paletteName: name, colors: [] }
   const shades = generateScale(color).reverse()
   for (const i in shades) {
     newPalette.colors.push({
@@ -256,8 +235,8 @@ function generateShades (name, color) {
   return newPalette
 }
 
-function generatePalette (original) {
-  let newPalette = {
+function generatePalette(original: any) {
+  let newPalette: paletteType = {
     paletteName: original.paletteName,
     id: original.id,
     colors: {}
@@ -278,10 +257,29 @@ function generatePalette (original) {
   return newPalette
 }
 
-function generateScale (color, n = 10) {
+function generateScale(color: string, n: number = 10): string[] {
   const range = [chroma(color).darken(1.9).hex(), color, chroma(color).luminance(0.9).hex()]
   return chroma.scale(range).mode('lab').colors(n)
 }
 
-export default colors
+const template: { id: string, name: string, color: string }[] = [
+  { id: nanoid(), name: 'Brilliant Rose', color: '#F653A6' },
+  { id: nanoid(), name: 'Cornell Red', color: '#B31B1B' },
+  { id: nanoid(), name: 'Cream', color: '#FFFDD0' },
+  { id: nanoid(), name: 'Lavender Blush', color: '#FFF0F5' },
+  { id: nanoid(), name: 'Aerospace Orange', color: '#FF4F00' },
+  { id: nanoid(), name: 'Bole', color: '#79443B' },
+  { id: nanoid(), name: 'Dark Purple', color: '#301934' },
+  { id: nanoid(), name: 'Gold', color: '#FFD700' },
+  { id: nanoid(), name: 'Night Black', color: '#111111' },
+  { id: nanoid(), name: 'Aquamarine', color: '#00FFBF' },
+  { id: nanoid(), name: 'Melon', color: '#FDBCB4' },
+  { id: nanoid(), name: 'Turquoise', color: '#40E0D0' },
+  { id: nanoid(), name: 'Celtic Blue', color: '#246BCE' },
+  { id: nanoid(), name: 'Blue Violet', color: '#8A2BE2' },
+  { id: nanoid(), name: 'Baby Powder', color: '#FEFEFA' },
+  { id: nanoid(), name: 'Gunmetal', color: '#2A3439' }
+]
+
+export default palettes
 export { generatePalette, generateShades, template }

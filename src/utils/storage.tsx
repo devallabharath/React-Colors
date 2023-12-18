@@ -1,17 +1,27 @@
 import Colors from './colors'
+import { rawPaletteType } from "./types"
 
 class Storage {
-  constructor (props) {
+  hidden: string[]
+  deleted: string[]
+  favourites: string[]
+  palettes: rawPaletteType[]
+
+  constructor () {
     // localStorage.clear()
     if (!localStorage.getItem('setup-done')) this.initialSetup()
-    this.hidden = JSON.parse(localStorage.getItem('hidden')) ?? []
-    this.deleted = JSON.parse(localStorage.getItem('deleted')) ?? []
-    this.favourites = JSON.parse(localStorage.getItem('favourites')) ?? []
-    this.palettes = JSON.parse(localStorage.getItem('palettes')) ?? []
+    const hidden = localStorage.getItem('hidden')
+    this.hidden = hidden ? JSON.parse(hidden) : []
+    const deleted = localStorage.getItem('deleted')
+    this.deleted = deleted ? JSON.parse(deleted) : []
+    const favourites = localStorage.getItem('favourites')
+    this.favourites = favourites ? JSON.parse(favourites) : []
+    const palettes = localStorage.getItem('palettes')
+    this.palettes = palettes ? JSON.parse(palettes) : []
   }
 
   initialSetup = () => {
-    localStorage.setItem('setup-done', true)
+    localStorage.setItem('setup-done', 'true')
     localStorage.setItem('palettes', JSON.stringify(Colors))
     localStorage.setItem('hidden', '[]')
     localStorage.setItem('deleted', '[]')
@@ -36,25 +46,25 @@ class Storage {
 
   getPaletteNames = () => this.palettes.map(c => c.paletteName)
 
-  getPaletteById = id =>  this.palettes.find(c => c.id === id)
+  getPaletteById = (id: string) => this.palettes.find(c => c.id === id)
 
-  savePalette = (palette) => {
+  savePalette = (palette: rawPaletteType) => {
     this.palettes.push(palette)
     localStorage.setItem('palettes', JSON.stringify(this.palettes))
   }
 
-  toggleFavourite = (id) => {
+  toggleFavourite = (id: string) => {
     if (this.favourites.includes(id)) return this.removeFavourite(id)
     this.addFavourite(id)
   }
 
-  addFavourite = (id) => {
+  addFavourite = (id: string) => {
     this.favourites.push(id)
     localStorage.setItem('favourites', JSON.stringify(this.favourites))
   }
 
-  removeFavourite = (id) => {
-    this.favourites = this.favourites.filter((pid)=> pid!==id)
+  removeFavourite = (id: string) => {
+    this.favourites = this.favourites.filter((pid) => pid !== id)
     localStorage.setItem('favourites', JSON.stringify(this.favourites))
   }
 
@@ -63,13 +73,13 @@ class Storage {
     localStorage.setItem('favourites', '[]')
   }
 
-  hidePalette = (id) => {
+  hidePalette = (id: string) => {
     this.hidden.push(id)
     localStorage.setItem('hidden', JSON.stringify(this.hidden))
     if (this.favourites.includes(id)) this.removeFavourite(id)
   }
 
-  showPalette = (id) => {
+  showPalette = (id: string) => {
     this.hidden = this.hidden.filter((pid) => pid !== id)
     localStorage.setItem('hidden', JSON.stringify(this.hidden))
   }
@@ -79,26 +89,26 @@ class Storage {
     localStorage.setItem('hidden', JSON.stringify(this.hidden))
   }
 
-  deletePalette = (id) => {
+  deletePalette = (id: string) => {
     this.deleted.push(id)
     localStorage.setItem('deleted', JSON.stringify(this.deleted))
     if (this.favourites.includes(id)) this.removeFavourite(id)
   }
 
-  restorePalette = (id) => {
+  restorePalette = (id: string) => {
     this.deleted = this.deleted.filter((pid) => pid !== id)
     localStorage.setItem('deleted', JSON.stringify(this.deleted))
   }
 
-  deleteFromBin = (id) => {
+  deleteFromBin = (id: string) => {
     this.palettes = this.palettes.filter(p => p.id !== id)
     localStorage.setItem('palettes', JSON.stringify(this.palettes))
-    this.deleted = this.deleted.filter(p => p.id !== id)
+    this.deleted = this.deleted.filter(pid => pid !== id)
     localStorage.setItem('deleted', JSON.stringify(this.deleted))
   }
 
   clearTrash = () => {
-    this.palettes = this.palettes.filter((p)=> !this.deleted.includes(p.id))
+    this.palettes = this.palettes.filter((p) => !this.deleted.includes(p.id))
     this.deleted = []
     localStorage.setItem('deleted', '[]')
     localStorage.setItem('palettes', JSON.stringify(this.palettes))
