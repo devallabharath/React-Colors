@@ -2,14 +2,12 @@ import { lazy, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Dialog from '../components/dialog'
-import { useRefresh } from '../utils/hooks'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
 const HomePage = (props) => {
   const [Dlg, setDlg] = useState(false)
-  const Refresh = useRefresh()
   const navigate = useNavigate()
   const Storage = props.Storage
 
@@ -64,7 +62,6 @@ const HomePage = (props) => {
   const showAll = () => {
     Storage.showAllPalettes()
     setDlg(false)
-    Refresh()
   }
 
   return render()
