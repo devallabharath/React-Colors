@@ -12,7 +12,8 @@ interface propType { Storage: any }
 
 const HomePage = ({ Storage }: propType): JSX.Element => {
   let CurrentId: string
-  const DlgRef: any = useRef()
+  const DlgRef: React.MutableRefObject<any> = useRef()
+  const PageRef: React.MutableRefObject<any> = useRef()
   const Refresh = useRefresh()
   const navigate = useNavigate()
 
@@ -29,7 +30,7 @@ const HomePage = ({ Storage }: propType): JSX.Element => {
         Yes={deletePalette}
       />
       {Palettes.length !== 0
-        ? <div className="home-palettes">
+        ? <div ref={PageRef} className="home-palettes">
           {Palettes.map((p: rawPaletteType) => <MiniPalette
             Type='home'
             key={p.id}

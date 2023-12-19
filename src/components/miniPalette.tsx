@@ -8,26 +8,27 @@ interface propType {
   Type: string,
   Storage: any,
   palette: rawPaletteType,
-  Delete?: (id: string)=> void
-  rightIconClick?: (id: string, ref: any)=> void
+  Delete?: (id: string) => void
+  leftIconClick?: (id: string, ref: any) => void
+  rightIconClick?: (id: string, ref: any) => void
 }
 
 const MiniPalette = (props: propType): JSX.Element => {
   const paletteRef: any = useRef()
   const heartRef: any = useRef()
   const Storage = props.Storage
-  let dimensions: {width: string, height: string}
+  let dimensions: { width: string, height: string }
   if (props.palette.colors.length < 10) {
-    dimensions = {width: 'calc(100% / 3)', height: 'calc(100% / 3)'}
+    dimensions = { width: 'calc(100% / 3)', height: 'calc(100% / 3)' }
   } else if (props.palette.colors.length < 13) {
-    dimensions = {width: 'calc(100% / 4)', height: 'calc(100% / 3)'}
+    dimensions = { width: 'calc(100% / 4)', height: 'calc(100% / 3)' }
   } else if (props.palette.colors.length < 17) {
-    dimensions = {width: 'calc(100% / 4)', height: 'calc(100% / 4)'}
+    dimensions = { width: 'calc(100% / 4)', height: 'calc(100% / 4)' }
   } else if (props.palette.colors.length < 21) {
-    dimensions = {width: 'calc(100% / 5)', height: 'calc(100% / 4)'}
+    dimensions = { width: 'calc(100% / 5)', height: 'calc(100% / 4)' }
   } else if (props.palette.colors.length < 26) {
-    dimensions = {width: 'calc(100% / 5)', height: 'calc(100% / 5)'}
-  } else dimensions = {width: 'calc(100% / 6)', height: 'calc(100% / 5)'}
+    dimensions = { width: 'calc(100% / 5)', height: 'calc(100% / 5)' }
+  } else dimensions = { width: 'calc(100% / 6)', height: 'calc(100% / 5)' }
 
   const render = (): JSX.Element => {
     const { Type } = props
@@ -69,11 +70,12 @@ const MiniPalette = (props: propType): JSX.Element => {
   }
 
   const leftIcon = (id: string): JSX.Element => {
+    const {leftIconClick} = props
     return (
       <div className="options leftIcon">
         <SlIcon
           name='arrow-90deg-left'
-          onClick={() => restorePalette(id, paletteRef)}
+          onClick={() => leftIconClick && leftIconClick(id, paletteRef)}
           style={{ fontSize: 'var(--sl-font-size-medium)' }}
         />
       </div>
@@ -121,11 +123,6 @@ const MiniPalette = (props: propType): JSX.Element => {
   const hidePalette = (id: string): void => {
     Storage.hidePalette(id)
     paletteRef.current.remove()
-  }
-
-  const restorePalette = (id: string, ref: any): void => {
-    Storage.restorePalette(id)
-    ref.current.remove()
   }
 
   return render()

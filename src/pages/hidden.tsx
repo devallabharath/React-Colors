@@ -45,7 +45,7 @@ const HiddenPage = ({ Storage }: any): JSX.Element => {
 
   const showPalette = (id: string, ref: React.MutableRefObject<any>): void => {
     Storage.showPalette(id)
-    ref.current.remove()
+    Refresh()
   }
 
   const showDlg = (): void => {

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import {ColorBar as Navbar} from '../components/navbar'
+import { ColorBar as Navbar } from '../components/navbar'
 import ColorBox from '../components/colorbox'
 import { generatePalette } from '../utils/colors';
 import '../styles/palette.css'
@@ -20,14 +20,22 @@ const PalettePage = (props) => {
         Name={paletteName}
         Format={Format}
         changeFormat={(e) => setFormat(e.target.value)}
-        slider={true}
         Level={Level}
         changeLevel={(v) => setLevel(v)}
-        back={-1}
+        back={'/'}
         isSlider={true}
       />
       <div className="palette-colors">
-        {colors[Level].map(c => <ColorBox key={c.hex} type='color' Id={id} {...c} format={Format} />)}
+        {colors[Level].map(c => <ColorBox
+          key={c.hex}
+          Type='color'
+          Id={id}
+          Format={Format}
+          Name={c.name}
+          HEX={c.hex}
+          RGB={c.rgb}
+          RGBA={c.rgba}
+        />)}
       </div>
       {/* footer */}
     </div>

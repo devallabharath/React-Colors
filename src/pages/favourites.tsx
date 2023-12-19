@@ -11,7 +11,8 @@ const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 interface propType { Storage: any }
 
 const Favourites = ({ Storage }: propType): JSX.Element => {
-  const DlgRef: any = useRef()
+  const DlgRef: React.MutableRefObject<any> = useRef()
+  const PageRef: React.MutableRefObject<any> = useRef()
   const Refresh = useRefresh()
   const navigate = useNavigate()
 
@@ -28,9 +29,9 @@ const Favourites = ({ Storage }: propType): JSX.Element => {
         Yes={ClearFavs}
       />
       {Palettes.length !== 0
-        ? <div className="home-palettes">
+        ? <div ref={PageRef} className="home-palettes">
           {Palettes.map((p: rawPaletteType) => <MiniPalette
-            Type={'favourites'}
+            Type='favourites'
             key={p.id}
             palette={p}
             Storage={Storage}
