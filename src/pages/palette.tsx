@@ -5,13 +5,15 @@ import ColorBox from '../components/colorbox'
 import { generatePalette } from '../utils/colors';
 import '../styles/palette.css'
 
-const PalettePage = (props) => {
-  const [Level, setLevel] = useState(500)
-  const [Format, setFormat] = useState('hex')
+const PalettePage: React.FC<any> = ({ Storage }) => {
+  const [Level, setLevel] = useState('500')
+  const [Format, setFormat] = useState<'hex' | 'rgb' | 'rgba'>('hex')
   const params = useParams()
-  const Storage = props.Storage
   const palette = Storage.getPaletteById(params.id)
   const { paletteName, colors, id } = generatePalette(palette)
+
+  const changeFormat = (e: any) => { setFormat(e.target.value) }
+  const changeLevel = (v: string) => { setLevel(v) }
 
   return (
     <div className="Palette">
@@ -19,9 +21,9 @@ const PalettePage = (props) => {
         Type='palette'
         Name={paletteName}
         Format={Format}
-        changeFormat={(e) => setFormat(e.target.value)}
+        changeFormat={changeFormat}
         Level={Level}
-        changeLevel={(v) => setLevel(v)}
+        changeLevel={changeLevel}
         back={'/'}
         isSlider={true}
       />

@@ -11,13 +11,15 @@ const ShadesPage: React.FC = () => {
   const { id, name, color } = params
   const { paletteName, colors } = generateShades(`${name}`, `#${color}`)
 
+  const changeFormat = (e: any) => {setFormat(e.target.value)}
+
   return (
     <div className="Shades" >
       <Navbar
         Type='shades'
         Name={paletteName}
         Format={Format}
-        changeFormat={(e: any): void => setFormat(e?.target?.value)}
+        changeFormat={changeFormat}
         back={`/palettes/${id}`}
         isSlider={false}
       />

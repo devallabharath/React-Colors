@@ -119,8 +119,8 @@ interface colorPropType {
   Name: string
   Format: string
   changeFormat: (e: Event) => void
-  Level?: number
-  changeLevel?: (v: number) => void
+  Level?: string
+  changeLevel?: (v: string) => void
   back: string
   isSlider: boolean
 }
@@ -158,7 +158,7 @@ const ColorBar = (props: colorPropType): JSX.Element => {
         <SlOption value="rgba"> RGBA </SlOption>
       </SlSelect>
     </div>
-    {props.isSlider && slider(Level, changeLevel)}
+    {props.isSlider && Level && slider(parseInt(Level), changeLevel)}
   </nav>)
 }
 
