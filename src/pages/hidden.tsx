@@ -1,6 +1,6 @@
 import { lazy, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/navbar'
+import { FTHBar as Navbar } from '../components/navbar'
 import Dialog from '../components/dialog'
 import { rawPaletteType } from '../utils/types'
 import '../styles/home.css'
@@ -14,7 +14,7 @@ const HiddenPage = ({ Storage }: any): JSX.Element => {
   function render(): JSX.Element {
     const Hidden = Storage.getHiddenPalettes()
     return (<div className="Home">
-      <Navbar Type='hidden' navigate={navigate} onBtnClick={showDlg} />
+      <Navbar Type='Hidden' onBtnClick={showDlg} isDrawer={false} />
       <Dialog
         Type='YesNo'
         Label='Are you sure?'

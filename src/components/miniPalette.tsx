@@ -2,12 +2,21 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { SlDropdown, SlMenu, SlMenuItem, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import '../styles/miniPalette.css'
+import { rawPaletteType } from '../utils/types'
 
-const MiniPalette = (props) => {
-  const paletteRef = useRef()
-  const heartRef = useRef()
+interface propType {
+  Type: string,
+  Storage: any,
+  palette: rawPaletteType,
+  Delete?: (id: string)=> void
+  rightIconClick?: (id: string, ref: any)=> void
+}
+
+const MiniPalette = (props: propType): JSX.Element => {
+  const paletteRef: any = useRef()
+  const heartRef: any = useRef()
   const Storage = props.Storage
-  let dimensions
+  let dimensions: {width: string, height: string}
   if (props.palette.colors.length < 10) {
     dimensions = {width: 'calc(100% / 3)', height: 'calc(100% / 3)'}
   } else if (props.palette.colors.length < 13) {
@@ -20,7 +29,7 @@ const MiniPalette = (props) => {
     dimensions = {width: 'calc(100% / 5)', height: 'calc(100% / 5)'}
   } else dimensions = {width: 'calc(100% / 6)', height: 'calc(100% / 5)'}
 
-  const render = () => {
+  const render = (): JSX.Element => {
     const { Type } = props
     const { paletteName, colors, id } = props.palette
     return (
@@ -44,7 +53,7 @@ const MiniPalette = (props) => {
     )
   }
 
-  const loveIcon = (id) => {
+  const loveIcon = (id: string): JSX.Element => {
     const Favs = Storage.getFavouriteIds()
     return (
       <div className="Love" onClick={() => loveClick(id)}>
@@ -53,13 +62,13 @@ const MiniPalette = (props) => {
     )
   }
 
-  const loveClick = (id) => {
+  const loveClick = (id: string) => {
     heartRef.current.classList.toggle('liked')
     Storage.toggleFavourite(id)
     if (props.Type === 'favourites') paletteRef.current.remove()
   }
 
-  const leftIcon = (id) => {
+  const leftIcon = (id: string): JSX.Element => {
     return (
       <div className="options leftIcon">
         <SlIcon
@@ -71,7 +80,7 @@ const MiniPalette = (props) => {
     )
   }
 
-  const rightIcon = (id) => {
+  const rightIcon = (id: string): JSX.Element => {
     const { Type, rightIconClick } = props
     if (Type === 'home') return paletteMenu(id)
     let icon = 'trash'
@@ -80,15 +89,15 @@ const MiniPalette = (props) => {
       <div className="options rightIcon">
         <SlIcon
           name={icon}
-          onClick={() => rightIconClick(id, paletteRef)}
+          onClick={() => rightIconClick && rightIconClick(id, paletteRef)}
         />
       </div>
     )
   }
 
-  const paletteMenu = (id) => {
+  const paletteMenu = (id: string): JSX.Element => {
     const { Delete } = props
-    return <SlDropdown size='small'>
+    return <SlDropdown>
       <div className="options rightIcon" slot='trigger'>
         <SlIcon className='icon' name='three-dots' />
       </div>
@@ -99,7 +108,7 @@ const MiniPalette = (props) => {
         <SlMenuItem className='menu-item' onClick={() => hidePalette(id)}>Hide
           <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='eye-slash-fill' />
         </SlMenuItem>
-        <SlMenuItem className='menu-item' onClick={() => Delete(id)}>Delete
+        <SlMenuItem className='menu-item' onClick={() => Delete && Delete(id)}>Delete
           <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
         </SlMenuItem>
         <SlMenuItem className='menu-item'>Use Template
@@ -109,12 +118,12 @@ const MiniPalette = (props) => {
     </SlDropdown>
   }
 
-  const hidePalette = (id) => {
+  const hidePalette = (id: string): void => {
     Storage.hidePalette(id)
     paletteRef.current.remove()
   }
 
-  const restorePalette = (id, ref) => {
+  const restorePalette = (id: string, ref: any): void => {
     Storage.restorePalette(id)
     ref.current.remove()
   }

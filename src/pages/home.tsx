@@ -1,5 +1,5 @@
 import { lazy, useState } from 'react'
-import Navbar from '../components/navbar'
+import {HomeBar as Navbar} from '../components/navbar'
 import Dialog from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
 import { rawPaletteType } from '../utils/types'
@@ -17,7 +17,7 @@ const HomePage = ({Storage}: propType): JSX.Element => {
   const render = (): JSX.Element => {
     const Palettes = Storage.getPalettes()
     return (<div className="Home">
-      <Navbar Type={'home'} isDrawer={true} />
+      <Navbar />
       <Dialog
         Type='YesNo'
         Label='Are you sure?'

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import Navbar from '../components/navbar'
+import {NewBar as Navbar} from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';

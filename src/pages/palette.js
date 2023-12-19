@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import Navbar from '../components/navbar'
+import { useParams } from 'react-router-dom'
+import {ColorBar as Navbar} from '../components/navbar'
 import ColorBox from '../components/colorbox'
 import { generatePalette } from '../utils/colors';
 import '../styles/palette.css'
@@ -8,7 +8,6 @@ import '../styles/palette.css'
 const PalettePage = (props) => {
   const [Level, setLevel] = useState(500)
   const [Format, setFormat] = useState('hex')
-  const navigate = useNavigate()
   const params = useParams()
   const Storage = props.Storage
   const palette = Storage.getPaletteById(params.id)
@@ -25,7 +24,7 @@ const PalettePage = (props) => {
         Level={Level}
         changeLevel={(v) => setLevel(v)}
         back={-1}
-        navigate={navigate}
+        isSlider={true}
       />
       <div className="palette-colors">
         {colors[Level].map(c => <ColorBox key={c.hex} type='color' Id={id} {...c} format={Format} />)}

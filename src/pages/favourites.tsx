@@ -1,5 +1,5 @@
 import { lazy, useState } from 'react'
-import Navbar from '../components/navbar'
+import { FTHBar as Navbar } from '../components/navbar'
 import Dialog from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
 import { rawPaletteType } from '../utils/types'
@@ -9,27 +9,25 @@ const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
 interface propType { Storage: any }
 
-const HomePage = ({Storage}: propType): JSX.Element => {
-  const [DeleteDlg, setDeleteDlg] = useState(false)
-  const [Current, setCurrent] = useState([''])
+const Favourites = ({Storage}: propType): JSX.Element => {
+  const [ClearDlg, setClearDlg] = useState(false)
   const navigate = useNavigate()
 
   const render = (): JSX.Element => {
     const Palettes = Storage.getFavouritePalettes()
     return (<div className="Home">
-      <Navbar Type={'favourites'} isDrawer={false} />
+      <Navbar Type={'favourites'} onBtnClick={()=> setClearDlg(true)} isDrawer={false} />
       <Dialog
         Type='YesNo'
         Label='Are you sure?'
-        Content='This action will delete the palette...'
-        Display={DeleteDlg}
-        id={Current[0]}
-        YesName='Delete'
+        Content='This action will remove all your favourites...'
+        Display={ClearDlg}
+        YesName='Clear'
         YesVariant='danger'
-        Yes={deletePalette}
+        Yes={ClearFavs}
         NoName='Cancle'
         NoVariant='secondary'
-        No={() => setDeleteDlg(false)}
+        No={() => setClearDlg(false)}
       />
       {Palettes.length !== 0
         ? <div className="home-palettes">
@@ -38,7 +36,6 @@ const HomePage = ({Storage}: propType): JSX.Element => {
             key={p.id}
             palette={p}
             Storage={Storage}
-            Delete={openDeleteDlg}
           />)}
         </div>
         : <div className="Empty">
@@ -51,11 +48,12 @@ const HomePage = ({Storage}: propType): JSX.Element => {
     </div>)
   }
 
-  const openDeleteDlg = (id: string): void => { setCurrent([id]); setDeleteDlg(true) }
-
-  const deletePalette = (): void => { Storage.deletePalette(Current[0]); setDeleteDlg(false) }
+  const ClearFavs = () => {
+    Storage.clearFavourites()
+    setClearDlg(false)
+  }
 
   return render()
 }
 
-export default HomePage
+export default Favourites

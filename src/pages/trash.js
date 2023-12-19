@@ -1,12 +1,12 @@
 import { lazy, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/navbar'
+import {FTHBar as Navbar} from '../components/navbar'
 import Dialog from '../components/dialog'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-const HomePage = (props) => {
+const TrashPage = (props) => {
   const [DeleteDlg, setDeleteDlg] = useState(false)
   const [DeleteAllDlg, setDeleteAllDlg] = useState(false)
   const [Current, setCurrent] = useState([])
@@ -16,7 +16,7 @@ const HomePage = (props) => {
   function render () {
     const Trash = Storage.getDeletedPalettes()
     return (<div className="Home">
-      <Navbar Type='trash' navigate={navigate} onBtnClick={clearDlg} />
+      <Navbar Type='Trash' onBtnClick={clearDlg} isDrawer={false} />
       <Dialog
         Type='YesNo'
         Label='Are you sure?'
@@ -84,4 +84,4 @@ const HomePage = (props) => {
   return render()
 }
 
-export default HomePage
+export default TrashPage
