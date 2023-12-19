@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom'
 import { generateShades } from '../utils/colors'
 import '../styles/shades.css'
 
-const ShadesPage = () => {
-  const [Format, setFormat] = useState('hex')
+const ShadesPage: React.FC = () => {
+  const [Format, setFormat] = useState<'hex'|'rgb'|'rgba'>('hex')
   const params = useParams()
   const { id, name, color } = params
-  const { paletteName, colors } = generateShades(name, `#${color}`)
+  const { paletteName, colors } = generateShades(`${name}`, `#${color}`)
 
   return (
     <div className="Shades" >
@@ -17,7 +17,7 @@ const ShadesPage = () => {
         Type='shades'
         Name={paletteName}
         Format={Format}
-        changeFormat={(e) => setFormat(e.target.value)}
+        changeFormat={(e: any): void => setFormat(e?.target?.value)}
         back={`/palettes/${id}`}
         isSlider={false}
       />
@@ -25,11 +25,8 @@ const ShadesPage = () => {
         {colors.map(c => <ColorBox
           key={c.hex}
           Type='shade'
+          {...c}
           Format={Format}
-          Name={c.name}
-          HEX={c.hex}
-          RGB={c.rgb}
-          RGBA={c.rgba}
         />)}
       </div>
       {/* footer */}

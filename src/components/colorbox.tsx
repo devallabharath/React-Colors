@@ -4,35 +4,35 @@ import chroma from 'chroma-js';
 import '../styles/colorbox.css'
 
 interface propsType {
-  Type: string
-  Id: string
-  [Format: string]: string
-  Name: string
-  HEX: string
-  RGB: string
-  RGBA: string
+  Type: 'color' | 'shade';
+  Id?: string;
+  Format: 'hex' | 'rgb' | 'rgba';
+  name: string;
+  hex: string;
+  rgb: string;
+  rgba: string;
 }
 
 const ColorBox: React.FC<propsType> = (props) => {
-    const dynamicColor = chroma(props.HEX).luminance() > 0.4
+    const dynamicColor = chroma(props.hex).luminance() > 0.4
       ? ['black', '#ffffff55']
       : ['white', '#00000055']
     const fg = dynamicColor[0]
     const bg = dynamicColor[1]
 
   const render = () => {
-    const { Type, Format, Id, Name, HEX } = props
+    const { Type, Format, Id, name, hex } = props
     return (
-      <div style={{ background: HEX }} className="ColorBox">
+      <div style={{ background: hex }} className="ColorBox">
         <SlCopyButton style={{ color: fg }} className="copy-button" value={props[Format]} />
         <span style={{ color: fg }} className="color-value">{props[Format]}</span>
-        {Type === 'color'
-          ? <Link to={`/palettes/${Id}/${Name.slice(0, -4)}/${HEX.replace('#', '')}`}>
+        {Type === 'color' && Id
+          ? <Link to={`/palettes/${Id}/${name.slice(0, -4)}/${hex.replace('#', '')}`}>
             <SlTooltip content="See More">
-              {details(Name, true)}
+              {details(name, true)}
             </SlTooltip>
           </Link>
-          : details(Name, false)
+          : details(name, false)
         }
       </div>
     )

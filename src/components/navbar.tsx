@@ -118,10 +118,10 @@ interface colorPropType {
   Type: string
   Name: string
   Format: string
-  changeFormat: () => void
+  changeFormat: (e: Event) => void
   Level?: number
   changeLevel?: (v: number) => void
-  back: number
+  back: string
   isSlider: boolean
 }
 

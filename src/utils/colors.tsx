@@ -218,7 +218,7 @@ const palettes: rawPaletteType[] = [
   },
 ];
 
-const levels = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
+const levels: string[] = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900']
 
 function generateShades(name: string, color: string) {
   const newPalette: shadesType = { paletteName: name, colors: [] }

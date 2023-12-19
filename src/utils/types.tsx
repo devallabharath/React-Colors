@@ -10,7 +10,7 @@ export type rawPaletteType = {
 export type shadesType = {
   paletteName: string,
   colors: {
-    name: number,
+    name: string,
     hex: string,
     rgb: string,
     rgba: string,
@@ -21,7 +21,7 @@ export type paletteType = {
   id: string,
   paletteName: string,
   colors: {
-    [property: number]: {
+    [property: string]: {
       id: string,
       name: string,
       hex: string,

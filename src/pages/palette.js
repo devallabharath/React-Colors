@@ -31,10 +31,7 @@ const PalettePage = (props) => {
           Type='color'
           Id={id}
           Format={Format}
-          Name={c.name}
-          HEX={c.hex}
-          RGB={c.rgb}
-          RGBA={c.rgba}
+          {...c}
         />)}
       </div>
       {/* footer */}
