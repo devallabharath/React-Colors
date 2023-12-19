@@ -20,7 +20,11 @@ class Storage {
     this.palettes = palettes ? JSON.parse(palettes) : []
   }
 
-  initialSetup = () => {
+  localWrite = (addrs: string, data: any[]): void => {
+    localStorage.setItem(addrs, JSON.stringify(data))
+  }
+
+  initialSetup = (): void => {
     localStorage.setItem('setup-done', 'true')
     localStorage.setItem('palettes', JSON.stringify(Colors))
     localStorage.setItem('hidden', '[]')
@@ -28,29 +32,27 @@ class Storage {
     localStorage.setItem('favourites', '[]')
   }
 
-  getCount = () => [this.hidden.length, this.favourites.length, this.deleted.length]
+  getHiddenIds = (): string[] => this.hidden
 
-  getPalettes = () => this.palettes.filter(p => ![...this.hidden, ...this.deleted].includes(p.id))
+  getFavouriteIds = (): string[] => this.favourites
 
-  getHiddenIds = () => this.hidden
+  getDeletedIds = (): string[] => this.deleted
 
-  getFavouriteIds = () => this.favourites
+  getHiddenPalettes = (): rawPaletteType[] => this.palettes.filter(p => this.hidden.includes(p.id))
 
-  getDeletedIds = () => this.deleted
+  getFavouritePalettes = (): rawPaletteType[] => this.palettes.filter(p => this.favourites.includes(p.id))
 
-  getHiddenPalettes = () => this.palettes.filter(p => this.hidden.includes(p.id))
+  getDeletedPalettes = (): rawPaletteType[] => this.palettes.filter(p => this.deleted.includes(p.id))
 
-  getFavouritePalettes = () => this.palettes.filter(p => this.favourites.includes(p.id))
+  getPaletteNames = (): string[] => this.palettes.map(p => p.paletteName)
 
-  getDeletedPalettes = () => this.palettes.filter(p => this.deleted.includes(p.id))
+  getPalettes = (): rawPaletteType[] => this.palettes.filter(p => ![...this.hidden, ...this.deleted].includes(p.id))
 
-  getPaletteNames = () => this.palettes.map(c => c.paletteName)
+  getPaletteById = (id: string): rawPaletteType | undefined => this.palettes.find(p => p.id === id)
 
-  getPaletteById = (id: string) => this.palettes.find(c => c.id === id)
-
-  savePalette = (palette: rawPaletteType) => {
+  savePalette = (palette: rawPaletteType): void => {
     this.palettes.push(palette)
-    localStorage.setItem('palettes', JSON.stringify(this.palettes))
+    this.localWrite('palettes', this.palettes)
   }
 
   toggleFavourite = (id: string) => {
@@ -58,60 +60,60 @@ class Storage {
     this.addFavourite(id)
   }
 
-  addFavourite = (id: string) => {
+  addFavourite = (id: string): void => {
     this.favourites.push(id)
-    localStorage.setItem('favourites', JSON.stringify(this.favourites))
+    this.localWrite('favourites', this.favourites)
   }
 
-  removeFavourite = (id: string) => {
-    this.favourites = this.favourites.filter((pid) => pid !== id)
-    localStorage.setItem('favourites', JSON.stringify(this.favourites))
+  removeFavourite = (id: string): void => {
+    this.favourites = this.favourites.filter(pid => pid !== id)
+    this.localWrite('favourites', this.favourites)
   }
 
-  clearFavourites = () => {
+  clearFavourites = (): void => {
     this.favourites = []
-    localStorage.setItem('favourites', '[]')
+    this.localWrite('favourites', [])
   }
 
-  hidePalette = (id: string) => {
+  hidePalette = (id: string): void => {
     this.hidden.push(id)
-    localStorage.setItem('hidden', JSON.stringify(this.hidden))
+    this.localWrite('hidden', this.hidden)
     if (this.favourites.includes(id)) this.removeFavourite(id)
   }
 
-  showPalette = (id: string) => {
-    this.hidden = this.hidden.filter((pid) => pid !== id)
-    localStorage.setItem('hidden', JSON.stringify(this.hidden))
+  showPalette = (id: string): void => {
+    this.hidden = this.hidden.filter(pid => pid !== id)
+    this.localWrite('hidden', this.hidden)
   }
 
-  showAllPalettes = () => {
+  showAllPalettes = (): void => {
     this.hidden = []
-    localStorage.setItem('hidden', JSON.stringify(this.hidden))
+    this.localWrite('hidden', this.hidden)
   }
 
-  deletePalette = (id: string) => {
+  deletePalette = (id: string): void => {
     this.deleted.push(id)
-    localStorage.setItem('deleted', JSON.stringify(this.deleted))
+    this.localWrite('deleted', this.deleted)
     if (this.favourites.includes(id)) this.removeFavourite(id)
   }
 
-  restorePalette = (id: string) => {
-    this.deleted = this.deleted.filter((pid) => pid !== id)
-    localStorage.setItem('deleted', JSON.stringify(this.deleted))
-  }
-
-  deleteFromBin = (id: string) => {
-    this.palettes = this.palettes.filter(p => p.id !== id)
-    localStorage.setItem('palettes', JSON.stringify(this.palettes))
+  restorePalette = (id: string): void => {
     this.deleted = this.deleted.filter(pid => pid !== id)
-    localStorage.setItem('deleted', JSON.stringify(this.deleted))
+    this.localWrite('deleted', this.deleted)
   }
 
-  clearTrash = () => {
-    this.palettes = this.palettes.filter((p) => !this.deleted.includes(p.id))
+  deleteFromBin = (id: string): void => {
+    this.palettes = this.palettes.filter(p => p.id !== id)
+    this.localWrite('palettes', this.palettes)
+    this.deleted = this.deleted.filter(pid => pid !== id)
+    this.localWrite('deleted', this.deleted)
+  }
+
+  clearTrash = (): void => {
+    this.palettes = this.palettes.filter(p => !this.deleted.includes(p.id))
     this.deleted = []
-    localStorage.setItem('deleted', '[]')
-    localStorage.setItem('palettes', JSON.stringify(this.palettes))
+    this.localWrite('deleted', [])
+    this.localWrite('palettes', this.palettes)
   }
 }
 
