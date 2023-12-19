@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import storage from './utils/storage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 const Home = lazy(() => import('./pages/home'))
+const Favs = lazy(() => import('./pages/favourites'))
 const Hidden = lazy(() => import('./pages/hidden'))
 const Trash = lazy(() => import('./pages/trash'))
 const NewPalette = lazy(() => import('./pages/newPalette'))
@@ -12,9 +13,9 @@ const Storage = new storage()
 
 const Router:React.FC = () => <BrowserRouter basename='/React-Colors'>
   <Routes>
-    <Route path='/' element={<Suspense><Home Type='home' Storage={Storage} /></Suspense>} />
+    <Route path='/' element={<Suspense><Home Storage={Storage} /></Suspense>} />
     <Route path='/hidden' element={<Suspense><Hidden Storage={Storage} /></Suspense>} />
-    <Route path='/favourites' element={<Suspense><Home Type='favourites' Storage={Storage} /></Suspense>} />
+    <Route path='/favourites' element={<Suspense><Favs Storage={Storage} /></Suspense>} />
     <Route path='/trash' element={<Suspense><Trash Storage={Storage} /></Suspense>} />
     <Route path='/palettes/new' element={<Suspense><NewPalette Storage={Storage} /></Suspense>} />
     <Route path='/palettes/:id' element={<Suspense><Palette Storage={Storage} /></Suspense>} />

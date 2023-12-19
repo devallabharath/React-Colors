@@ -15,9 +15,9 @@ const HomePage = ({Storage}: propType): JSX.Element => {
   const navigate = useNavigate()
 
   const render = (): JSX.Element => {
-    const Palettes = Storage.getPalettes()
+    const Palettes = Storage.getFavouritePalettes()
     return (<div className="Home">
-      <Navbar Type={'home'} isDrawer={true} />
+      <Navbar Type={'favourites'} isDrawer={false} />
       <Dialog
         Type='YesNo'
         Label='Are you sure?'
@@ -34,7 +34,7 @@ const HomePage = ({Storage}: propType): JSX.Element => {
       {Palettes.length !== 0
         ? <div className="home-palettes">
           {Palettes.map((p: rawPaletteType) => <MiniPalette
-            Type={'home'}
+            Type={'favourites'}
             key={p.id}
             palette={p}
             Storage={Storage}
@@ -43,7 +43,9 @@ const HomePage = ({Storage}: propType): JSX.Element => {
         </div>
         : <div className="Empty">
           No palettes...
-          <Button onClick={() => navigate('/palettes/new')}>Go Home</Button>
+          <Button onClick={() => navigate('/' )}>
+            Go Home
+          </Button>
         </div>
       }
     </div>)
