@@ -37,7 +37,6 @@ const HomeBar = (): JSX.Element => {
       </div>
     </nav>
     <Drawer
-      Type='home'
       Display={Sidebar}
       Contained={Always}
       Close={() => setSidebar(false)}

@@ -1,46 +1,39 @@
-import { lazy, useState } from 'react'
+import { lazy, useRef, useState } from 'react'
+import { useRefresh } from '../utils/hooks'
 import { useNavigate } from 'react-router-dom'
-import {FTHBar as Navbar} from '../components/navbar'
-import Dialog from '../components/dialog'
+import { FTHBar as Navbar } from '../components/navbar'
+import { YesNoDialog } from '../components/dialog'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
 const TrashPage = (props) => {
-  const [DeleteDlg, setDeleteDlg] = useState(false)
-  const [DeleteAllDlg, setDeleteAllDlg] = useState(false)
+  const DelRef = useRef()
+  const DelAllRef = useRef()
   const [Current, setCurrent] = useState([])
+  const Refresh = useRefresh()
   const navigate = useNavigate()
   const Storage = props.Storage
 
   function render () {
     const Trash = Storage.getDeletedPalettes()
     return (<div className="Home">
-      <Navbar Type='Trash' onBtnClick={clearDlg} isDrawer={false} />
-      <Dialog
-        Type='YesNo'
+      <Navbar Type='Trash' onBtnClick={() => DelAllRef.current.show()} isDrawer={false} />
+      <YesNoDialog
+        ref={DelRef}
         Label='Are you sure?'
         Content='This action will delete the palette permanently...'
-        Display={DeleteDlg}
-        id={Current}
         YesName='Delete'
         YesVariant='danger'
         Yes={deletePalette}
-        NoName='Cancle'
-        NoVariant='secondary'
-        No={() => setDeleteDlg(false)}
       />
-      <Dialog
-        Type='YesNo'
+      <YesNoDialog
+        ref={DelAllRef}
         Label='Are you sure?'
         Content='This action will clear the Trash...'
-        Display={DeleteAllDlg}
         YesName='Clear'
         YesVariant='danger'
         Yes={clearTrash}
-        NoName='Cancle'
-        NoVariant='secondary'
-        No={() => setDeleteAllDlg(false)}
       />
       {Trash.length !== 0
         ? <div className="home-palettes">
@@ -65,20 +58,17 @@ const TrashPage = (props) => {
 
   const deleteDlg = (id, ref) => {
     setCurrent([id, ref])
-    setDeleteDlg(true)
+    DelRef.current.show()
   }
-
-  const clearDlg = () => { setDeleteAllDlg(true) }
 
   const deletePalette = () => {
     Storage.deleteFromBin(Current[0])
-    setDeleteDlg(false)
-    Current[1].current.remove()
+    Refresh()
   }
 
   const clearTrash = () => {
     Storage.clearTrash()
-    setDeleteAllDlg(false)
+    Refresh()
   }
 
   return render()

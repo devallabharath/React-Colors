@@ -1,6 +1,7 @@
-import { lazy, useState } from 'react'
-import {HomeBar as Navbar} from '../components/navbar'
-import Dialog from '../components/dialog'
+import { lazy, useRef } from 'react'
+import { useRefresh } from '../utils/hooks'
+import { HomeBar as Navbar } from '../components/navbar'
+import { YesNoDialog } from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
 import { rawPaletteType } from '../utils/types'
 import '../styles/home.css'
@@ -9,32 +10,28 @@ const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
 interface propType { Storage: any }
 
-const HomePage = ({Storage}: propType): JSX.Element => {
-  const [DeleteDlg, setDeleteDlg] = useState(false)
-  const [Current, setCurrent] = useState([''])
+const HomePage = ({ Storage }: propType): JSX.Element => {
+  let CurrentId: string
+  const DlgRef: any = useRef()
+  const Refresh = useRefresh()
   const navigate = useNavigate()
 
   const render = (): JSX.Element => {
     const Palettes = Storage.getPalettes()
     return (<div className="Home">
       <Navbar />
-      <Dialog
-        Type='YesNo'
+      <YesNoDialog
+        ref={DlgRef}
         Label='Are you sure?'
         Content='This action will delete the palette...'
-        Display={DeleteDlg}
-        id={Current[0]}
         YesName='Delete'
         YesVariant='danger'
         Yes={deletePalette}
-        NoName='Cancle'
-        NoVariant='secondary'
-        No={() => setDeleteDlg(false)}
       />
       {Palettes.length !== 0
         ? <div className="home-palettes">
           {Palettes.map((p: rawPaletteType) => <MiniPalette
-            Type={'home'}
+            Type='home'
             key={p.id}
             palette={p}
             Storage={Storage}
@@ -49,9 +46,9 @@ const HomePage = ({Storage}: propType): JSX.Element => {
     </div>)
   }
 
-  const openDeleteDlg = (id: string): void => { setCurrent([id]); setDeleteDlg(true) }
+  const openDeleteDlg = (id: string): void => { CurrentId = id; DlgRef.current.show() }
 
-  const deletePalette = (): void => { Storage.deletePalette(Current[0]); setDeleteDlg(false) }
+  const deletePalette = (): void => { Storage.deletePalette(CurrentId); Refresh() }
 
   return render()
 }

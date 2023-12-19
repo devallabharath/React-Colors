@@ -1,17 +1,17 @@
 import { useState, useRef } from 'react'
-import {NewBar as Navbar} from '../components/navbar'
+import { NewBar as Navbar } from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 import { arrayMove } from 'react-sortable-hoc';
-import Dialog from '../components/dialog'
+import {RenameDialog, YesNoDialog, PickerDialog} from '../components/dialog'
 import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
 import { template } from '../utils/colors'
 import '../styles/newPalette.css'
 const newColor = { name: 'New Color', color: '#555555' }
 
-const NewPalette = (props) => {
+const NewPalette = ({ Storage }) => {
   const [PaletteDlg, setPaletteDlg] = useState(false)
   const [ColorDlg, setColorDlg] = useState(false)
   const [LeaveDlg, setLeaveDlg] = useState(false)
@@ -23,11 +23,10 @@ const NewPalette = (props) => {
   const paletteNameInput = useRef(0)
   const colorNameInput = useRef(0)
   const navigate = useNavigate()
-  const Storage = props.Storage
-  const paletteNames  = Storage.getPaletteNames()
+  const paletteNames = Storage.getPaletteNames()
 
   const SortContainer = sortableContainer(({ children }) => <div className="newPalette-colors">{children}</div>)
-  const SortElement = sortableElement(({c}) => makeBox(c.id, c.name, c.color))
+  const SortElement = sortableElement(({ c }) => makeBox(c.id, c.name, c.color))
 
   const render = () => {
     return (
@@ -43,8 +42,7 @@ const NewPalette = (props) => {
           onSave={savePalette}
           changeName={() => setPaletteDlg(true)}
         />
-        <Dialog
-          Type='Rename'
+        <RenameDialog
           Label='Rename Palette'
           Display={PaletteDlg}
           IRef={paletteNameInput}
@@ -56,8 +54,7 @@ const NewPalette = (props) => {
           OnSubmit={renamePalette}
           Close={() => setPaletteDlg(false)}
         />
-        <Dialog
-          Type='Rename'
+        <RenameDialog
           Label='Rename Color'
           Display={ColorDlg}
           IRef={colorNameInput}
@@ -69,8 +66,7 @@ const NewPalette = (props) => {
           OnSubmit={renameColor}
           Close={() => setColorDlg(false)}
         />
-        <Dialog
-          Type='YesNo'
+        <YesNoDialog
           Label='Are you sure ?'
           Content='All the data will be erased...'
           Display={LeaveDlg}
@@ -82,8 +78,7 @@ const NewPalette = (props) => {
           Yes={() => navigate('/')}
           Close={() => setLeaveDlg(false)}
         />
-        <Dialog
-          Type='Picker'
+        <PickerDialog
           Label='Pick a color'
           Display={Picker}
           id={Current[0]}
@@ -107,10 +102,7 @@ const NewPalette = (props) => {
     const luminance = chroma(color).luminance()
     const [fg, bg] = luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
     return (
-      <div
-        className="NewBox"
-        style={{ background: color }}
-      >
+      <div className="NewBox" style={{ background: color }}>
         <span
           className='delete-icon'
           style={{ color: fg }}
@@ -134,7 +126,7 @@ const NewPalette = (props) => {
     )
   }
 
-  const addColor = () => setColors((c) => [{id:nanoid(), ...newColor}, ...c])
+  const addColor = () => setColors((c) => [{ id: nanoid(), ...newColor }, ...c])
 
   const addRandomColors = () => setColors((c) => [...template, ...c])
 
@@ -156,7 +148,7 @@ const NewPalette = (props) => {
   }
 
   const validateColorName = (e) => {
-    const colorNames  = Colors.map((c)=>c.name)
+    const colorNames = Colors.map((c) => c.name)
     const duplicate = colorNames.includes(e.target.value)
     const msg = duplicate ? 'This name already taken, choose another' : ''
     colorNameInput.current.setCustomValidity(msg)
@@ -175,10 +167,10 @@ const NewPalette = (props) => {
     setColorDlg(false)
   }
 
-  const changeColor = (id, color) => {
+  const changeColor = (id, e) => {
     setColors((c) => c.map(c => {
       if (c.id !== id) return c
-      return { ...c, color: color }
+      return { ...c, color: e.target.color }
     }))
     setPickerDlg(false)
   }
