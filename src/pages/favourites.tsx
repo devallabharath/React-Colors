@@ -1,5 +1,4 @@
 import { lazy, useRef } from 'react'
-import { useRefresh } from '../utils/hooks'
 import { FTHBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
@@ -13,13 +12,12 @@ interface propType { Storage: any }
 const Favourites = ({ Storage }: propType): JSX.Element => {
   const DlgRef: React.MutableRefObject<any> = useRef()
   const PageRef: React.MutableRefObject<any> = useRef()
-  const Refresh = useRefresh()
   const navigate = useNavigate()
 
   const render = (): JSX.Element => {
     const Palettes = Storage.getFavouritePalettes()
     return (<div className="Home">
-      <Navbar Type={'favourites'} onBtnClick={() => DlgRef.current.show()} isDrawer={false} />
+      <Navbar Type={'favourites'} onBtnClick={openDlg} isDrawer={false} />
       <YesNoDialog
         ref={DlgRef}
         Label='Are you sure?'
@@ -47,9 +45,11 @@ const Favourites = ({ Storage }: propType): JSX.Element => {
     </div>)
   }
 
+  const openDlg = () => { PageRef?.current?.children?.length > 0 && DlgRef.current.show() }
+
   const ClearFavs = () => {
     Storage.clearFavourites()
-    Refresh()
+    window.location.reload()
   }
 
   return render()

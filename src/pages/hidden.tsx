@@ -1,5 +1,4 @@
 import { lazy, useRef } from 'react'
-import { useRefresh } from '../utils/hooks'
 import { useNavigate } from 'react-router-dom'
 import { FTHBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
@@ -9,8 +8,8 @@ const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
 const HiddenPage = ({ Storage }: any): JSX.Element => {
+  const PageRef: any = useRef()
   const DlgRef: any = useRef()
-  const Refresh = useRefresh()
   const navigate = useNavigate()
 
   function render(): JSX.Element {
@@ -26,7 +25,7 @@ const HiddenPage = ({ Storage }: any): JSX.Element => {
         Yes={showAll}
       />
       {Hidden.length !== 0
-        ? <div className="home-palettes">
+        ? <div ref={PageRef} className="home-palettes">
           {Hidden.map((p: rawPaletteType) => <MiniPalette
             Type="hidden"
             key={p.id}
@@ -45,7 +44,8 @@ const HiddenPage = ({ Storage }: any): JSX.Element => {
 
   const showPalette = (id: string, ref: React.MutableRefObject<any>): void => {
     Storage.showPalette(id)
-    Refresh()
+    ref.current.remove()
+    if (PageRef.current.children.length === 0) window.location.reload()
   }
 
   const showDlg = (): void => {
@@ -55,7 +55,7 @@ const HiddenPage = ({ Storage }: any): JSX.Element => {
 
   const showAll = (): void => {
     Storage.showAllPalettes()
-    Refresh()
+    window.location.reload()
   }
 
   return render()

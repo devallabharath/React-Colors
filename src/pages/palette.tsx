@@ -6,14 +6,14 @@ import { generatePalette } from '../utils/colors';
 import '../styles/palette.css'
 
 const PalettePage: React.FC<any> = ({ Storage }) => {
-  const [Level, setLevel] = useState('500')
+  const [Level, setLevel] = useState<string>('500')
   const [Format, setFormat] = useState<'hex' | 'rgb' | 'rgba'>('hex')
   const params = useParams()
   const palette = Storage.getPaletteById(params.id)
   const { paletteName, colors, id } = generatePalette(palette)
 
-  const changeFormat = (e: any) => { setFormat(e.target.value) }
-  const changeLevel = (v: string) => { setLevel(v) }
+  const changeFormat = (e: any): void => { setFormat(e.target.value) }
+  const changeLevel = (v: string): void => { setLevel(v) }
 
   return (
     <div className="Palette">

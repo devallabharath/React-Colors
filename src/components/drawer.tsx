@@ -1,24 +1,23 @@
-import { SlDrawer, SlMenuItem, SlIcon } from "@shoelace-style/shoelace/dist/react";
+import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { SlDrawer, SlMenuItem, SlIcon } from "@shoelace-style/shoelace/dist/react";
 import "../styles/drawer.css"
 
-interface drawerPropsType {
-  Display: boolean
-  Close: () => void
-  Contained: boolean
-}
+interface drawerPropsType { Contained: boolean }
 
-const Drawer = (props: drawerPropsType): JSX.Element => {
+const Drawer = forwardRef((props: drawerPropsType, ref: any): JSX.Element => {
   const navigate = useNavigate()
-  const { Display, Close, Contained } = props
+  const { Contained } = props
+
   return (
     <SlDrawer
+      ref={ref}
       noHeader
       className='Drawer'
       label="Menu"
       placement="start"
-      open={Display}
-      onSlAfterHide={Close}
+      open={window.innerWidth > 1280}
+      onSlAfterHide={() => ref.current.hide()}
       contained={Contained}
     >
       <div className="Menu">
@@ -49,6 +48,6 @@ const Drawer = (props: drawerPropsType): JSX.Element => {
       </div>
     </SlDrawer>
   )
-}
+})
 
 export default Drawer

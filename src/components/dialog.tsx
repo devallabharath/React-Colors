@@ -4,26 +4,23 @@ import '../styles/dialog.css'
 
 interface dialogPropsType {
   Label: string
-  Display: boolean
-  Close: () => void
   IRef: any
   IName: string
-  IValue: string
+  IValue: string | null
   IHolder: string
-  IValidate: () => void
-  OnSubmit: () => void
-
+  IValidate: (e: Event) => void
+  OnSubmit: (e: any) => void
 }
 
-const RenameDialog = (props: dialogPropsType) => {
-  const { Label, Display, Close } = props
-  const { IRef, IName, IValue, IHolder, IValidate, OnSubmit } = props
+const RenameDialog = forwardRef((props: dialogPropsType, ref: any) => {
+  const { Label, IRef, IName, IValue, IHolder, IValidate, OnSubmit } = props
   return (
     <SlDialog
+      ref={ref}
       className='Dialog'
       label={Label}
-      open={Display}
-      onSlAfterHide={Close}
+      open={false}
+      onSlAfterHide={() => ref.current.hide()}
     >
       <form onSubmit={OnSubmit}>
         <SlInput
@@ -32,17 +29,17 @@ const RenameDialog = (props: dialogPropsType) => {
           required={true}
           minlength={3}
           placeholder={IHolder}
-          value={IValue}
+          value={IValue ?? ''}
           onSlInput={IValidate}
         />
         <div className='footer'>
-          <SlButton variant="neutral" onClick={Close}>Cancel</SlButton>
+          <SlButton variant="neutral" onClick={() => ref.current.hide()}>Cancel</SlButton>
           <SlButton type='submit' variant="primary">Rename</SlButton>
         </div>
       </form>
     </SlDialog>
   )
-}
+})
 
 interface yesNoPropsType {
   Label: string
@@ -78,31 +75,29 @@ const YesNoDialog = forwardRef((props: yesNoPropsType, ref: any) => {
 
 interface pickerPropsType {
   Label: string
-  Display: boolean
-  Close: () => void
-    id: string
   color: string
-  changeColor: (id: string, e: Event) => void
+  changeColor: (e: Event) => void
 }
 
-const PickerDialog = (props: pickerPropsType) => {
-  const { Label, Display, Close, id, color, changeColor } = props
+const PickerDialog = forwardRef((props: pickerPropsType, ref: any) => {
+  const { Label, color, changeColor } = props
   return (
     <SlDialog
+      ref={ref}
       className='Dialog'
       label={Label}
-      open={Display}
-      onSlAfterHide={Close}
+      open={false}
+      onSlAfterHide={() => ref.current.hide()}
     >
       <SlColorPicker
         inline
         size='small'
         noFormatToggle
         value={color}
-        onSlChange={e => changeColor(id, e)}
+        onSlChange={changeColor}
       />
     </SlDialog>
   )
-}
+})
 
 export { RenameDialog, YesNoDialog, PickerDialog }

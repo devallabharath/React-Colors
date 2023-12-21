@@ -8,7 +8,7 @@ interface propType {
   Type: string,
   Storage: any,
   palette: rawPaletteType,
-  Delete?: (id: string) => void
+  Delete?: (id: string, ref: any) => void
   leftIconClick?: (id: string, ref: any) => void
   rightIconClick?: (id: string, ref: any) => void
 }
@@ -70,7 +70,7 @@ const MiniPalette = (props: propType): JSX.Element => {
   }
 
   const leftIcon = (id: string): JSX.Element => {
-    const {leftIconClick} = props
+    const { leftIconClick } = props
     return (
       <div className="options leftIcon">
         <SlIcon
@@ -110,7 +110,7 @@ const MiniPalette = (props: propType): JSX.Element => {
         <SlMenuItem className='menu-item' onClick={() => hidePalette(id)}>Hide
           <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='eye-slash-fill' />
         </SlMenuItem>
-        <SlMenuItem className='menu-item' onClick={() => Delete && Delete(id)}>Delete
+        <SlMenuItem className='menu-item' onClick={() => Delete && Delete(id, paletteRef)}>Delete
           <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
         </SlMenuItem>
         <SlMenuItem className='menu-item'>Use Template

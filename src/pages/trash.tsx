@@ -1,5 +1,4 @@
-import { lazy, useRef, useState } from 'react'
-import { useRefresh } from '../utils/hooks'
+import { lazy, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FTHBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
@@ -12,8 +11,7 @@ const TrashPage: React.FC<any> = ({ Storage }) => {
   const DelRef: React.MutableRefObject<any> = useRef()
   const DelAllRef: React.MutableRefObject<any> = useRef()
   const PageRef: React.MutableRefObject<any> = useRef()
-  const [Current, setCurrent] = useState(['', null])
-  const Refresh = useRefresh()
+  let Current: any[]
   const navigate = useNavigate()
 
   const render = (): JSX.Element => {
@@ -47,41 +45,36 @@ const TrashPage: React.FC<any> = ({ Storage }) => {
             rightIconClick={deleteDlg}
           />)}
         </div>
-        : EmptyDiv()
+        : <div className="Empty">
+          No palettes...
+          <Button onClick={() => navigate('/')}>Go Home</Button>
+        </div>
       }
     </div>
     )
   }
 
-  const EmptyDiv = (): any => {
-    return (
-      <div className="Empty">
-        No palettes...
-        <Button onClick={() => navigate('/')}>Go Home</Button>
-      </div>
-    )
-  }
-
   const restorePalette = (id: string, ref: any): void => {
     Storage.restorePalette(id)
-    Refresh()
-    // ref.current.remove()
-    // if (PageRef.current.children.length === 0) PageRef.current.innerHTML = renderToString(EmptyDiv())
+    ref.current.remove()
+    if (PageRef.current.children.length === 0) window.location.reload()
   }
 
   const deleteDlg = (id: string, ref: any): void => {
-    setCurrent([id, ref])
+    Current = [id, ref]
     DelRef.current.show()
   }
 
   const deletePalette = (): void => {
     Storage.deleteFromBin(Current[0])
-    Refresh()
+    Current[1].current.remove()
+    if (PageRef.current.children.length === 0) window.location.reload()
+    DelRef.current.hide()
   }
 
   const clearTrash = (): void => {
     Storage.clearTrash()
-    Refresh()
+    window.location.reload()
   }
 
   return render()

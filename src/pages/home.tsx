@@ -1,5 +1,4 @@
 import { lazy, useRef } from 'react'
-import { useRefresh } from '../utils/hooks'
 import { HomeBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
@@ -11,10 +10,9 @@ const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 interface propType { Storage: any }
 
 const HomePage = ({ Storage }: propType): JSX.Element => {
-  let CurrentId: string
+  let Current: any[]
   const DlgRef: React.MutableRefObject<any> = useRef()
   const PageRef: React.MutableRefObject<any> = useRef()
-  const Refresh = useRefresh()
   const navigate = useNavigate()
 
   const render = (): JSX.Element => {
@@ -47,9 +45,13 @@ const HomePage = ({ Storage }: propType): JSX.Element => {
     </div>)
   }
 
-  const openDeleteDlg = (id: string): void => { CurrentId = id; DlgRef.current.show() }
+  const openDeleteDlg = (id: string, ref: any): void => { Current = [id, ref]; DlgRef.current.show() }
 
-  const deletePalette = (): void => { Storage.deletePalette(CurrentId); Refresh() }
+  const deletePalette = (): void => {
+    Storage.deletePalette(Current[0])
+    Current[1].current.remove()
+    DlgRef.current.hide()
+  }
 
   return render()
 }

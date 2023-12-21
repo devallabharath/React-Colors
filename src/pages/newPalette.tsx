@@ -2,37 +2,34 @@ import { useState, useRef } from 'react'
 import { NewBar as Navbar } from '../components/navbar'
 import { useNavigate } from 'react-router-dom'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
-import { sortableContainer, sortableElement } from 'react-sortable-hoc';
-import { arrayMove } from 'react-sortable-hoc';
-import {RenameDialog, YesNoDialog, PickerDialog} from '../components/dialog'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { RenameDialog, YesNoDialog, PickerDialog } from '../components/dialog'
 import chroma from 'chroma-js'
 import { nanoid } from 'nanoid';
-import { template } from '../utils/colors'
+import { arrayMove, template } from '../utils/colors'
 import '../styles/newPalette.css'
 const newColor = { name: 'New Color', color: '#555555' }
 
-const NewPalette = ({ Storage }) => {
-  const [PaletteDlg, setPaletteDlg] = useState(false)
-  const [ColorDlg, setColorDlg] = useState(false)
-  const [LeaveDlg, setLeaveDlg] = useState(false)
-  const [Picker, setPickerDlg] = useState(false)
-  const [paletteName, setPaletteName] = useState(null)
-  const [Id, setId] = useState(null)
-  const [Colors, setColors] = useState([])
-  const [Current, setCurrent] = useState([])
-  const paletteNameInput = useRef(0)
-  const colorNameInput = useRef(0)
-  const navigate = useNavigate()
-  const paletteNames = Storage.getPaletteNames()
+type colorsType = { id: string, name: string, color: string }
 
-  const SortContainer = sortableContainer(({ children }) => <div className="newPalette-colors">{children}</div>)
-  const SortElement = sortableElement(({ c }) => makeBox(c.id, c.name, c.color))
+const NewPalette: React.FC<any> = ({ Storage }) => {
+  const [paletteName, setPaletteName] = useState<string | null>(null)
+  const [Id, setId] = useState<string | undefined>(undefined)
+  const [Colors, setColors] = useState<colorsType[]>([])
+  const [Current, setCurrent] = useState<string[]>([])
+  const PaletteDlgRef: React.Ref<any> = useRef()
+  const ColorDlgRef: React.Ref<any> = useRef()
+  const LeaveDlgRef: React.Ref<any> = useRef()
+  const PickerDlgRef: React.Ref<any> = useRef()
+  const paletteNameRef: React.Ref<any> = useRef()
+  const colorNameRef: React.Ref<any> = useRef()
+  const navigate = useNavigate()
+  const paletteNames: string[] = Storage.getPaletteNames()
 
   const render = () => {
     return (
       <div className="NewPalette">
         <Navbar
-          Type='new'
           Name={paletteName}
           goHome={leavePage}
           addBox={addColor}
@@ -40,65 +37,55 @@ const NewPalette = ({ Storage }) => {
           clearAll={clearColors}
           onDiscard={leavePage}
           onSave={savePalette}
-          changeName={() => setPaletteDlg(true)}
+          changeName={() => PaletteDlgRef.current.show()}
         />
         <RenameDialog
+          ref={PaletteDlgRef}
           Label='Rename Palette'
-          Display={PaletteDlg}
-          IRef={paletteNameInput}
+          IRef={paletteNameRef}
           IName='paletteName'
-          IMin={3}
           IValue={paletteName}
           IHolder='Palette Name'
           IValidate={validatePaletteName}
           OnSubmit={renamePalette}
-          Close={() => setPaletteDlg(false)}
         />
         <RenameDialog
+          ref={ColorDlgRef}
           Label='Rename Color'
-          Display={ColorDlg}
-          IRef={colorNameInput}
+          IRef={colorNameRef}
           IName='colorName'
-          IMin={3}
           IValue={Current[1]}
           IHolder='Color Name'
           IValidate={validateColorName}
           OnSubmit={renameColor}
-          Close={() => setColorDlg(false)}
         />
         <YesNoDialog
+          ref={LeaveDlgRef}
           Label='Are you sure ?'
           Content='All the data will be erased...'
-          Display={LeaveDlg}
-          NoName='Stay'
-          NoVariant='primary'
-          No={() => setLeaveDlg(false)}
           YesName='Leave'
           YesVariant='danger'
           Yes={() => navigate('/')}
-          Close={() => setLeaveDlg(false)}
         />
         <PickerDialog
+          ref={PickerDlgRef}
           Label='Pick a color'
-          Display={Picker}
-          id={Current[0]}
           color={Current[1]}
           changeColor={changeColor}
-          Close={() => setPickerDlg(false)}
         />
-        <SortContainer onSortEnd={sortColors} axis='xy' distance={10}>
-          {Colors.map((c, i) =>
-            <SortElement
-              index={i}
-              key={`${c.color}${i}`}
-              c={c}
-            />
-          )}
-        </SortContainer>
+        <SortContainer onSortEnd={sortColors} axis='xy' distance={10} />
       </div>)
   }
 
-  const makeBox = (id, name, color) => {
+  const SortElement: any = SortableElement(({ c }: any) => makeBox(c.id, c.name, c.color))
+
+  const SortContainer: any = SortableContainer((props: any) => {
+    return (<div className="newPalette-colors">
+      {Colors.map((c, i) => <SortElement index={i} key={`${c.color}${i}`} c={c} />)}
+    </div>)
+  })
+
+  const makeBox = (id: string, name: string, color: string) => {
     const luminance = chroma(color).luminance()
     const [fg, bg] = luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
     return (
@@ -112,13 +99,13 @@ const NewPalette = ({ Storage }) => {
         </span>
         <span
           className='picker-icon'
-          onClick={() => { setCurrent([id, color]); setPickerDlg(true) }}
+          onClick={() => { setCurrent([id, color]); PickerDlgRef.current.show() }}
           style={{ color: fg }}>
           <SlIcon name='eyedropper' />
         </span>
         <div className='details'
           style={{ color: fg, background: bg }}
-          onClick={() => { setCurrent([id, name]); setColorDlg(true) }}>
+          onClick={() => { setCurrent([id, name]); ColorDlgRef.current.show() }}>
           <span className='color-name'>{name}</span>
           <SlIcon className='edit-icon' name='pencil-fill' />
         </div>
@@ -126,64 +113,65 @@ const NewPalette = ({ Storage }) => {
     )
   }
 
-  const addColor = () => setColors((c) => [{ id: nanoid(), ...newColor }, ...c])
+  const addColor = (): void => setColors((c: any) => [{ id: nanoid(), ...newColor }, ...c])
 
-  const addRandomColors = () => setColors((c) => [...template, ...c])
+  const addRandomColors = (): void => setColors((c: any) => [...template, ...c])
 
-  const clearColors = () => setColors([])
+  const clearColors = (): void => setColors([])
 
-  const validatePaletteName = (e) => {
+  const validatePaletteName = (e: any): void => {
     const duplicate = paletteNames.includes(e.target.value)
     const msg = duplicate ? 'This name already taken, choose another' : ''
-    paletteNameInput.current.setCustomValidity(msg)
+    paletteNameRef.current.setCustomValidity(msg)
   }
 
-  const renamePalette = (e) => {
+  const renamePalette = (e: any): void => {
     e.preventDefault()
     const data = new FormData(e.target)
-    const name = [...data.entries()][0][1]
+    const name = [...data.entries()][0][1].toString()
     setPaletteName(name)
     setId(name.toLowerCase().split(' ').join('_'))
-    setPaletteDlg(false)
+    PaletteDlgRef.current.hide()
   }
 
-  const validateColorName = (e) => {
+  const validateColorName = (e: any): void => {
     const colorNames = Colors.map((c) => c.name)
     const duplicate = colorNames.includes(e.target.value)
     const msg = duplicate ? 'This name already taken, choose another' : ''
-    colorNameInput.current.setCustomValidity(msg)
+    colorNameRef.current.setCustomValidity(msg)
   }
 
-  const renameColor = (e) => {
+  const renameColor = (e: any): void => {
     e.preventDefault()
     const data = new FormData(e.target)
-    const name = [...data.entries()][0][1]
+    const name = [...data.entries()][0][1].toString()
     const id = Current[0]
-    setColors((c) => c.map(c => {
+    setColors(Colors.map(c => {
       if (c.id !== id) return c
       return { ...c, name: name }
     }))
     setCurrent([])
-    setColorDlg(false)
+    ColorDlgRef.current.hide()
   }
 
-  const changeColor = (id, e) => {
-    setColors((c) => c.map(c => {
-      if (c.id !== id) return c
+  const changeColor = (e: any): void => {
+    // console.log(e)
+    setColors(Colors.map(c => {
+      if (c.id !== Current[0]) return c
       return { ...c, color: e.target.color }
     }))
-    setPickerDlg(false)
+    PickerDlgRef.current.hide()
   }
 
-  const deleteColor = (id) => setColors((c) => c.filter(c => c.id !== id))
+  const deleteColor = (id: string): void => setColors(Colors.filter(c => c.id !== id))
 
-  const sortColors = ({ oldIndex, newIndex }) => {
-    setColors((colors) => arrayMove(colors, oldIndex, newIndex))
+  const sortColors = ({ oldIndex, newIndex }: any) => {
+    setColors(arrayMove(Colors, oldIndex, newIndex))
   };
 
-  const savePalette = () => {
+  const savePalette = (): void => {
     if (paletteName === null) {
-      setPaletteDlg(true)
+      PaletteDlgRef.current.show()
     } else {
       const palette = {
         paletteName: paletteName,
@@ -195,9 +183,9 @@ const NewPalette = ({ Storage }) => {
     }
   }
 
-  const leavePage = () => {
+  const leavePage = (): void => {
     if (Colors.length === 0 && paletteName === null) navigate('/')
-    setLeaveDlg(true)
+    LeaveDlgRef.current.show()
   }
 
   return render()

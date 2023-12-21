@@ -262,6 +262,12 @@ function generateScale(color: string, n: number = 10): string[] {
   return chroma.scale(range).mode('lab').colors(n)
 }
 
+function arrayMove(array: any[], from: number, to: number): any[] {
+  array = array.slice()
+  array.splice(to < 0 ? array.length + to : to, 0, array.splice(from, 1)[0])
+  return array
+}
+
 const template: { id: string, name: string, color: string }[] = [
   { id: nanoid(), name: 'Brilliant Rose', color: '#F653A6' },
   { id: nanoid(), name: 'Cornell Red', color: '#B31B1B' },
@@ -282,4 +288,4 @@ const template: { id: string, name: string, color: string }[] = [
 ]
 
 export default palettes
-export { generatePalette, generateShades, template }
+export { generatePalette, generateShades, arrayMove, template }

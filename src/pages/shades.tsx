@@ -6,12 +6,12 @@ import { generateShades } from '../utils/colors'
 import '../styles/shades.css'
 
 const ShadesPage: React.FC = () => {
-  const [Format, setFormat] = useState<'hex'|'rgb'|'rgba'>('hex')
+  const [Format, setFormat] = useState<'hex' | 'rgb' | 'rgba'>('hex')
   const params = useParams()
   const { id, name, color } = params
   const { paletteName, colors } = generateShades(`${name}`, `#${color}`)
 
-  const changeFormat = (e: any) => {setFormat(e.target.value)}
+  const changeFormat = (e: any): void => { setFormat(e.target.value) }
 
   return (
     <div className="Shades" >

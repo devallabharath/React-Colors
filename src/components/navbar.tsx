@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Slider from 'rc-slider';
 import Drawer from './drawer';
 import { SlIcon, SlSelect, SlOption, SlTooltip } from '@shoelace-style/shoelace/dist/react';
@@ -6,28 +6,28 @@ import '../styles/navbar.css'
 import { useNavigate } from 'react-router-dom';
 
 const HomeBar = (): JSX.Element => {
-  const [Sidebar, setSidebar] = useState(window.innerWidth > 1280)
+  const DrawerRef: any = useRef()
   const [Always, setAlways] = useState(window.innerWidth > 1280)
+  const largeScr: boolean = window.innerWidth > 1280
   const navigate = useNavigate()
 
   useEffect(() => {
     function change() {
       const bool = window.innerWidth > 1280
       setAlways(bool)
-      setSidebar(bool)
     }
     window.addEventListener('resize', change)
     return () => window.removeEventListener('resize', change)
   }, [])
 
-  const largeScr: boolean = window.innerWidth > 1280
 
   return (<>
+    <Drawer ref={DrawerRef} Contained={Always} />
     <nav>
       <div className="top">
         <div className='nav-part'>
           {!largeScr &&
-            <SlIcon className='ham-menu' name='list' onClick={() => setSidebar(true)} />
+            <SlIcon className='ham-menu' name='list' onClick={() => DrawerRef.current.show()} />
           }
         </div>
         <h2>Palettes</h2>
@@ -36,16 +36,11 @@ const HomeBar = (): JSX.Element => {
         </button>
       </div>
     </nav>
-    <Drawer
-      Display={Sidebar}
-      Contained={Always}
-      Close={() => setSidebar(false)}
-    />
   </>)
 }
 
 interface newPropsType {
-  Name: string
+  Name: string | null
   goHome: () => void
   addBox: () => void
   random: () => void
