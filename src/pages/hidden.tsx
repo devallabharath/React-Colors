@@ -1,73 +1,64 @@
-import { lazy, useState } from 'react'
+import { lazy, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/navbar'
-import Dialog from '../components/dialog'
-import { useRefresh } from '../utils/hooks'
+import { FTHBar as Navbar } from '../components/navbar'
+import { YesNoDialog } from '../components/dialog'
+import { rawPaletteType } from '../utils/types'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-const HomePage = (props) => {
-  const [Dlg, setDlg] = useState(false)
-  const Refresh = useRefresh()
+const HiddenPage = ({ Storage }: any): JSX.Element => {
+  const PageRef: any = useRef()
+  const DlgRef: any = useRef()
   const navigate = useNavigate()
-  const Storage = props.Storage
 
-  function render () {
+  function render(): JSX.Element {
     const Hidden = Storage.getHiddenPalettes()
     return (<div className="Home">
-      <Navbar Type='hidden' navigate={navigate} onBtnClick={showDlg} />
-      <Dialog
-        Type='YesNo'
+      <Navbar Type='Hidden' onBtnClick={showDlg} isDrawer={false} />
+      <YesNoDialog
+        ref={DlgRef}
         Label='Are you sure?'
         Content='This action will move all the palette to home...'
-        Display={Dlg}
-        id={null}
         YesName='Show All'
         YesVariant='primary'
         Yes={showAll}
-        NoName='Cancle'
-        NoVariant='secondary'
-        No={() => setDlg(false)}
       />
       {Hidden.length !== 0
-        ? <div className="home-palettes">
-          {Hidden.map(p => <MiniPalette
+        ? <div ref={PageRef} className="home-palettes">
+          {Hidden.map((p: rawPaletteType) => <MiniPalette
             Type="hidden"
             key={p.id}
             Storage={Storage}
             palette={p}
             rightIconClick={showPalette}
-          />
-          )}
+          />)}
         </div>
         : <div className="Empty">
           No palettes...
-          <Button type='primary' onClick={() => navigate('/')}>
-            Go Home
-          </Button>
+          <Button onClick={() => navigate('/')}>Go Home</Button>
         </div>
       }
     </div>)
   }
 
-  const showPalette = (id, ref) => {
+  const showPalette = (id: string, ref: React.MutableRefObject<any>): void => {
     Storage.showPalette(id)
     ref.current.remove()
+    if (PageRef.current.children.length === 0) window.location.reload()
   }
 
-  const showDlg = () => {
+  const showDlg = (): void => {
     if (Storage.hidden.length === 0) return
-    setDlg(true)
+    DlgRef.current.show()
   }
 
-  const showAll = () => {
+  const showAll = (): void => {
     Storage.showAllPalettes()
-    setDlg(false)
-    Refresh()
+    window.location.reload()
   }
 
   return render()
 }
 
-export default HomePage
+export default HiddenPage
