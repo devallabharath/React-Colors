@@ -35,7 +35,7 @@ const MiniPalette = (props: propType): JSX.Element => {
     const { paletteName, colors, id } = props.palette
     return (
       <div ref={paletteRef} className="MiniPalette">
-        <Link className='goto' to={`/palettes/${id}`}></Link>
+        <Link className='goto' to={`/?mode=palette&id=${id}`}></Link>
         {Type === 'trash' && leftIcon(id)}
         {Type !== 'favourites' && rightIcon(id)}
         <div className="minipalette-colors">

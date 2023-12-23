@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import storage from './utils/storage'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useSearchParams } from 'react-router-dom'
 const Home = lazy(() => import('./pages/home'))
 const Favs = lazy(() => import('./pages/favourites'))
 const Hidden = lazy(() => import('./pages/hidden'))
@@ -11,17 +11,31 @@ const Shades = lazy(() => import('./pages/shades'))
 
 const Storage = new storage()
 
-const Router:React.FC = () => <BrowserRouter basename='/React-Colors'>
-  <Routes>
-    <Route path='/' element={<Suspense><Home Storage={Storage} /></Suspense>} />
-    <Route path='/hidden' element={<Suspense><Hidden Storage={Storage} /></Suspense>} />
-    <Route path='/favourites' element={<Suspense><Favs Storage={Storage} /></Suspense>} />
-    <Route path='/trash' element={<Suspense><Trash Storage={Storage} /></Suspense>} />
-    <Route path='/palettes/new' element={<Suspense><NewPalette Storage={Storage} /></Suspense>} />
-    <Route path='/palettes/:id' element={<Suspense><Palette Storage={Storage} /></Suspense>} />
-    <Route path='/palettes/:id/:name/:color' element={<Suspense><Shades /></Suspense>} />
-    <Route path='*' element={<h1>Not Found</h1>} />
-  </Routes>
-</BrowserRouter>
+const Main = (): JSX.Element => {
+  const [params] = useSearchParams()
+  const mode = params.get('mode')
+  if (!mode || mode === 'home') {
+    return <Suspense><Home Storage={Storage} /></Suspense>
+  } else if (mode === 'favs') {
+    return <Suspense><Favs Storage={Storage} /></Suspense>
+  } else if (mode === 'hidden') {
+    return <Suspense><Hidden Storage={Storage} /></Suspense>
+  } else if (mode === 'trash') {
+    return <Suspense><Trash Storage={Storage} /></Suspense>
+  } else if (mode === 'new') {
+    return <Suspense><NewPalette Storage={Storage} /></Suspense>
+  } else if (mode === 'palette') {
+    return <Suspense><Palette Storage={Storage} /></Suspense>
+  } else if (mode === 'shades') {
+    return <Suspense><Shades /></Suspense>
+  } else return <div>404</div>
+}
+
+const Router = () =>
+  <BrowserRouter basename='/React-Colors'>
+    <Routes>
+      <Route path='/' element={<Main />} />
+    </Routes>
+  </BrowserRouter>
 
 export default Router

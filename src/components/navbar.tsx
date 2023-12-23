@@ -31,7 +31,7 @@ const HomeBar = (): JSX.Element => {
           }
         </div>
         <h2>Palettes</h2>
-        <button className='new-button' onClick={() => navigate('/palettes/new')}>
+        <button className='new-button' onClick={() => navigate('/?mode=new')}>
           + Add New
         </button>
       </div>
