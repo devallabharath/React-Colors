@@ -1,0 +1,35 @@
+.NotFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  gap: 15px;
+}
+
+.NotFound span {
+  opacity: .5
+}
+
+.NotFound .number {
+  color: #bbb;
+  font-size: 5em;
+  line-height: 1em;
+  font-weight: normal;
+  margin-bottom: .5rem;
+}
+
+.NotFound button {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 7px;
+}
+
+.NotFound button:hover {
+  color: var(--primary);
+}
+
+.NotFound button:active {
+  color: #000;
+  background-color: var(--primary);
+}
