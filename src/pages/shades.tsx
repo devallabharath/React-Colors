@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { ColorBar as Navbar } from '../components/navbar'
 import ColorBox from '../components/colorbox'
-import { useParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { generateShades } from '../utils/colors'
 import '../styles/shades.css'
 
 const ShadesPage: React.FC = () => {
   const [Format, setFormat] = useState<'hex' | 'rgb' | 'rgba'>('hex')
-  const params = useParams()
-  const { id, name, color } = params
+  const [params] = useSearchParams()
+  const id = params.get('id')
+  const name = params.get('name')
+  const color = params.get('color')
   const { paletteName, colors } = generateShades(`${name}`, `#${color}`)
 
   const changeFormat = (e: any): void => { setFormat(e.target.value) }
@@ -20,7 +22,7 @@ const ShadesPage: React.FC = () => {
         Name={paletteName}
         Format={Format}
         changeFormat={changeFormat}
-        back={`/palettes/${id}`}
+        back={`/?mode=palette&id=${id}`}
         isSlider={false}
       />
       <div className="shades-colors">

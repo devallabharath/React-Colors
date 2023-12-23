@@ -22,19 +22,19 @@ const Drawer = forwardRef((props: drawerPropsType, ref: any): JSX.Element => {
     >
       <div className="Menu">
         <div className="Menu-top">
-          <SlMenuItem className="newbtn" onClick={() => navigate('/palettes/new')}>
+          <SlMenuItem className="newbtn" onClick={() => navigate('/?mode=new')}>
             New Palette
             <SlIcon slot="suffix" name="plus-square-fill" />
           </SlMenuItem>
-          <SlMenuItem className="hiddenbtn" onClick={() => navigate('/hidden')}>
+          <SlMenuItem className="hiddenbtn" onClick={() => navigate('/?mode=hidden')}>
             Hidden
             <SlIcon slot="suffix" name="eye-slash-fill" />
           </SlMenuItem>
-          <SlMenuItem className="hiddenbtn" onClick={() => navigate('/favourites')}>
+          <SlMenuItem className="hiddenbtn" onClick={() => navigate('/?mode=favs')}>
             Favourites
             <SlIcon slot="suffix" name="heart-fill" />
           </SlMenuItem>
-          <SlMenuItem className="trashbtn" onClick={() => navigate('/trash')}>
+          <SlMenuItem className="trashbtn" onClick={() => navigate('/?mode=trash')}>
             Trash Bin
             <SlIcon slot="suffix" name="trash-fill" />
           </SlMenuItem>

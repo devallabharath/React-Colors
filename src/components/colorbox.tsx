@@ -27,7 +27,7 @@ const ColorBox: React.FC<propsType> = (props) => {
         <SlCopyButton style={{ color: fg }} className="copy-button" value={props[Format]} />
         <span style={{ color: fg }} className="color-value">{props[Format]}</span>
         {Type === 'color' && Id
-          ? <Link to={`/palettes/${Id}/${name.slice(0, -4)}/${hex.replace('#', '')}`}>
+          ? <Link to={`/?mode=shades&id=${Id}&name=${name.slice(0, -4)}&color=${hex.replace('#', '')}`}>
             <SlTooltip content="See More">
               {details(name, true)}
             </SlTooltip>
