@@ -16,7 +16,6 @@ const Main = (): JSX.Element => {
   const [params] = useSearchParams()
   console.log(params.get('mode'))
   switch (params.get('mode')) {
-    default: return <Suspense><Home Storage={Storage} /></Suspense>
     case null: return <Suspense><Home Storage={Storage} /></Suspense>
     case 'home': return <Suspense><Home Storage={Storage} /></Suspense>
     case 'favs': return <Suspense><Favs Storage={Storage} /></Suspense>
@@ -25,6 +24,7 @@ const Main = (): JSX.Element => {
     case 'new': return <Suspense><NewPalette Storage={Storage} /></Suspense>
     case 'palette': return <Suspense><Palette Storage={Storage} /></Suspense>
     case 'shades': return <Suspense><Shades /></Suspense>
+    default: return <Suspense><NotFound /></Suspense>
   }
 }
 
