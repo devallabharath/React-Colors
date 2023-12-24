@@ -2,7 +2,7 @@ import { lazy, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FTHBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
-import { rawPaletteType } from '../utils/types'
+import { rawPalette } from '../utils/types'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
@@ -36,7 +36,7 @@ const TrashPage: React.FC<any> = ({ Storage }) => {
       />
       {Trash.length !== 0
         ? <div ref={PageRef} className="home-palettes">
-          {Trash.map((p: rawPaletteType) => <MiniPalette
+          {Trash.map((p: rawPalette) => <MiniPalette
             Type="trash"
             key={p.id}
             Storage={Storage}

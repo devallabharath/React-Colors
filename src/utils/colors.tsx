@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid"
 import chroma from 'chroma-js'
-import { rawPaletteType, shadesType, paletteType } from "./types"
+import { rawPalette, shades, palette, rawColorWithId } from "./types"
 
-const palettes: rawPaletteType[] = [
+const palettes: rawPalette[] = [
   {
     paletteName: "Material UI Colors",
     id: "material-ui-colors",
@@ -221,7 +221,7 @@ const palettes: rawPaletteType[] = [
 const levels: string[] = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900']
 
 function generateShades(name: string, color: string) {
-  const newPalette: shadesType = { paletteName: name, colors: [] }
+  const newPalette: shades = { paletteName: name, colors: [] }
   const shades = generateScale(color).reverse()
   for (const i in shades) {
     newPalette.colors.push({
@@ -235,10 +235,10 @@ function generateShades(name: string, color: string) {
   return newPalette
 }
 
-function generatePalette(original: any) {
-  let newPalette: paletteType = {
-    paletteName: original.paletteName,
+function generatePalette(original: rawPalette) {
+  let newPalette: palette = {
     id: original.id,
+    paletteName: original.paletteName,
     colors: {}
   }
   for (const level of levels) { newPalette.colors[level] = [] }
@@ -268,7 +268,7 @@ function arrayMove(array: any[], from: number, to: number): any[] {
   return array
 }
 
-const template: { id: string, name: string, color: string }[] = [
+const template: rawColorWithId[] = [
   { id: nanoid(), name: 'Brilliant Rose', color: '#F653A6' },
   { id: nanoid(), name: 'Cornell Red', color: '#B31B1B' },
   { id: nanoid(), name: 'Cream', color: '#FFFDD0' },

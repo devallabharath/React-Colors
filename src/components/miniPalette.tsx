@@ -2,12 +2,12 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { SlDropdown, SlMenu, SlMenuItem, SlIcon } from '@shoelace-style/shoelace/dist/react'
 import '../styles/miniPalette.css'
-import { rawPaletteType } from '../utils/types'
+import { rawPalette } from '../utils/types'
 
 interface propType {
   Type: string,
   Storage: any,
-  palette: rawPaletteType,
+  palette: rawPalette,
   Delete?: (id: string, ref: any) => void
   leftIconClick?: (id: string, ref: any) => void
   rightIconClick?: (id: string, ref: any) => void

@@ -1,11 +1,11 @@
 import Colors from './colors'
-import { rawPaletteType } from "./types"
+import { rawPalette } from "./types"
 
 class Storage {
   hidden: string[]
   deleted: string[]
   favourites: string[]
-  palettes: rawPaletteType[]
+  palettes: rawPalette[]
 
   constructor () {
     // localStorage.clear()
@@ -38,19 +38,19 @@ class Storage {
 
   getDeletedIds = (): string[] => this.deleted
 
-  getHiddenPalettes = (): rawPaletteType[] => this.palettes.filter(p => this.hidden.includes(p.id))
+  getHiddenPalettes = (): rawPalette[] => this.palettes.filter(p => this.hidden.includes(p.id))
 
-  getFavouritePalettes = (): rawPaletteType[] => this.palettes.filter(p => this.favourites.includes(p.id))
+  getFavouritePalettes = (): rawPalette[] => this.palettes.filter(p => this.favourites.includes(p.id))
 
-  getDeletedPalettes = (): rawPaletteType[] => this.palettes.filter(p => this.deleted.includes(p.id))
+  getDeletedPalettes = (): rawPalette[] => this.palettes.filter(p => this.deleted.includes(p.id))
 
   getPaletteNames = (): string[] => this.palettes.map(p => p.paletteName)
 
-  getPalettes = (): rawPaletteType[] => this.palettes.filter(p => ![...this.hidden, ...this.deleted].includes(p.id))
+  getPalettes = (): rawPalette[] => this.palettes.filter(p => ![...this.hidden, ...this.deleted].includes(p.id))
 
-  getPaletteById = (id: string): rawPaletteType | undefined => this.palettes.find(p => p.id === id)
+  getPaletteById = (id: string): rawPalette | undefined => this.palettes.find(p => p.id === id)
 
-  savePalette = (palette: rawPaletteType): void => {
+  savePalette = (palette: rawPalette): void => {
     this.palettes.push(palette)
     this.localWrite('palettes', this.palettes)
   }
