@@ -1,32 +1,20 @@
-export type rawPaletteType = {
-  id: string,
-  paletteName: string,
-  colors: {
-    name: string,
-    color: string
-  }[]
+type color = {
+  id: string
+  name: string
+  hex: string
+  rgb: string
+  rgba: string
 }
 
-export type shadesType = {
-  paletteName: string,
-  colors: {
-    name: string,
-    hex: string,
-    rgb: string,
-    rgba: string,
-  }[]
+type palette<T> = {
+  id: string
+  paletteName: string
+  colors: T
 }
 
-export type paletteType = {
-  id: string,
-  paletteName: string,
-  colors: {
-    [property: string]: {
-      id: string,
-      name: string,
-      hex: string,
-      rgb: string,
-      rgba: string
-    }[]
-  }
-}
+export type rawPaletteType = palette<{ name: string; color: string }[]>
+
+export type shadesType = Omit<palette<Omit<color, 'id'>[]>, 'id'>
+
+export type paletteType = palette<{ [property: string]: color[] }>
+
