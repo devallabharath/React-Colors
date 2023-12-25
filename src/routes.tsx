@@ -14,7 +14,6 @@ const Storage = new storage()
 
 const Main = (): JSX.Element => {
   const [params] = useSearchParams()
-  console.log(params.get('mode'))
   switch (params.get('mode')) {
     case null: return <Suspense><Home Storage={Storage} /></Suspense>
     case 'home': return <Suspense><Home Storage={Storage} /></Suspense>
