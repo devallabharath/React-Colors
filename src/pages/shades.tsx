@@ -13,10 +13,10 @@ const ShadesPage: React.FC = () => {
   const color = params.get('color')
   const { paletteName, colors } = generateShades(`${name}`, `#${color}`)
 
-  const changeFormat = (e: any): void => { setFormat(e.target.value) }
+  const changeFormat = (e: any) => setFormat(e.target.value)
 
   return (
-    <div className="Shades" >
+    <div className='Shades'>
       <Navbar
         Type='shades'
         Name={paletteName}
@@ -25,13 +25,10 @@ const ShadesPage: React.FC = () => {
         back={`/?mode=palette&id=${id}`}
         isSlider={false}
       />
-      <div className="shades-colors">
-        {colors.map(c => <ColorBox
-          key={c.hex}
-          Type='shade'
-          {...c}
-          Format={Format}
-        />)}
+      <div className='shades-colors'>
+        {colors.map(c => (
+          <ColorBox key={c.hex} Type='shade' {...c} Format={Format} />
+        ))}
       </div>
       {/* footer */}
     </div>

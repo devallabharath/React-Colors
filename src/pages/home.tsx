@@ -2,21 +2,19 @@ import { lazy, useRef } from 'react'
 import { HomeBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
-import { rawPaletteType } from '../utils/types'
+import { component, dialogRef, rawPalette } from '../utils/types'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-interface propType { Storage: any }
-
-const HomePage = ({ Storage }: propType): JSX.Element => {
+const HomePage: component<any> = ({ Storage }) => {
   let Current: any[]
-  const DlgRef: React.MutableRefObject<any> = useRef()
-  const PageRef: React.MutableRefObject<any> = useRef()
+  const DlgRef: dialogRef = useRef()
+  const PageRef: any = useRef()
   const navigate = useNavigate()
 
-  const render = (): JSX.Element => {
-    const Palettes = Storage.getPalettes()
+  const render = () => {
+    const Palettes: rawPalette[] = Storage.getPalettes()
     return (<div className="Home">
       <Navbar />
       <YesNoDialog
@@ -29,7 +27,7 @@ const HomePage = ({ Storage }: propType): JSX.Element => {
       />
       {Palettes.length !== 0
         ? <div ref={PageRef} className="home-palettes">
-          {Palettes.map((p: rawPaletteType) => <MiniPalette
+          {Palettes.map((p: rawPalette) => <MiniPalette
             Type='home'
             key={p.id}
             palette={p}
@@ -45,12 +43,12 @@ const HomePage = ({ Storage }: propType): JSX.Element => {
     </div>)
   }
 
-  const openDeleteDlg = (id: string, ref: any): void => { Current = [id, ref]; DlgRef.current.show() }
+  const openDeleteDlg = (id: string, ref: any): void => { Current = [id, ref]; DlgRef.current?.show() }
 
   const deletePalette = (): void => {
     Storage.deletePalette(Current[0])
     Current[1].current.remove()
-    DlgRef.current.hide()
+    DlgRef.current?.hide()
   }
 
   return render()

@@ -2,18 +2,9 @@ import { Link } from 'react-router-dom';
 import { SlCopyButton, SlTooltip, SlIcon } from '@shoelace-style/shoelace/dist/react';
 import chroma from 'chroma-js';
 import '../styles/colorbox.css'
+import { colorBox } from '../utils/types';
 
-interface propsType {
-  Type: 'color' | 'shade';
-  Id?: string;
-  Format: 'hex' | 'rgb' | 'rgba';
-  name: string;
-  hex: string;
-  rgb: string;
-  rgba: string;
-}
-
-const ColorBox: React.FC<propsType> = (props) => {
+const ColorBox: colorBox = (props) => {
     const dynamicColor = chroma(props.hex).luminance() > 0.4
       ? ['black', '#ffffff55']
       : ['white', '#00000055']
