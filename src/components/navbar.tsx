@@ -1,13 +1,11 @@
 import { lazy, useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  SlIcon,
-  SlSelect,
-  SlOption,
-  SlTooltip,
-} from '@shoelace-style/shoelace/dist/react'
 import { dialogRef, newBar, colorBar, fthBar } from '../utils/types'
 import '../styles/navbar.css'
+const SlIcon = lazy(() => import('@shoelace-style/shoelace/dist/react/icon'))
+const SlSelect = lazy(() => import('@shoelace-style/shoelace/dist/react/select'))
+const SlOption = lazy(() => import('@shoelace-style/shoelace/dist/react/option'))
+const SlTooltip = lazy(() => import('@shoelace-style/shoelace/dist/react/tooltip'))
 const Drawer = lazy(() => import('./drawer'))
 const Slider = lazy(() => import('rc-slider'))
 
@@ -33,11 +31,7 @@ const HomeBar: React.FC = () => {
         <div className='top'>
           <div className='nav-part'>
             {!largeScr && (
-              <SlIcon
-                className='ham-menu'
-                name='list'
-                onClick={() => DrawerRef.current?.show()}
-              />
+              <SlIcon className='ham-menu' name='list' onClick={() => DrawerRef.current?.show()} />
             )}
           </div>
           <h2>Palettes</h2>
@@ -102,11 +96,7 @@ const FTHBar: fthBar = ({ Type, onBtnClick }) => {
     <nav>
       <div className='top'>
         <div className='nav-part'>
-          <SlIcon
-            className='home-button'
-            name='house-fill'
-            onClick={() => navigate('/')}
-          />
+          <SlIcon className='home-button' name='house-fill' onClick={() => navigate('/')} />
         </div>
         <h2>{Type}</h2>
         <button className='new-button' onClick={onBtnClick}>
@@ -124,10 +114,7 @@ const ColorBar: colorBar = props => {
     <nav>
       <div className='top'>
         <div className='nav-part'>
-          <button
-            className='back-button'
-            onClick={() => back && navigate(back)}
-          >
+          <button className='back-button' onClick={() => back && navigate(back)}>
             <SlIcon name='arrow-left-circle-fill' />
           </button>
           <button className='home-button' onClick={() => navigate('/')}>

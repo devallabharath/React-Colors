@@ -13,9 +13,7 @@ const ShadesPage: React.FC = () => {
   const color = params.get('color')
   const { paletteName, colors } = generateShades(`${name}`, `#${color}`)
 
-  const changeFormat = (e: any) => {
-    setFormat(e.target.value)
-  }
+  const changeFormat = (e: any) => setFormat(e.target.value)
 
   return (
     <div className='Shades'>

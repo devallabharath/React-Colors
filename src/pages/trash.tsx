@@ -14,43 +14,47 @@ const TrashPage: React.FC<any> = ({ Storage }) => {
   let Current: any[]
   const navigate = useNavigate()
 
-  const render = (): JSX.Element => {
+  const render = () => {
     const Trash = Storage.getDeletedPalettes()
-    return (<div className="Home">
-      <Navbar Type='Trash' onBtnClick={() => DelAllRef.current.show()} isDrawer={false} />
-      <YesNoDialog
-        ref={DelRef}
-        Label='Are you sure?'
-        Content='This action will delete the palette permanently...'
-        YesName='Delete'
-        YesVariant='danger'
-        Yes={deletePalette}
-      />
-      <YesNoDialog
-        ref={DelAllRef}
-        Label='Are you sure?'
-        Content='This action will clear the Trash...'
-        YesName='Delete'
-        YesVariant='danger'
-        Yes={clearTrash}
-      />
-      {Trash.length !== 0
-        ? <div ref={PageRef} className="home-palettes">
-          {Trash.map((p: rawPalette) => <MiniPalette
-            Type="trash"
-            key={p.id}
-            Storage={Storage}
-            palette={p}
-            leftIconClick={restorePalette}
-            rightIconClick={deleteDlg}
-          />)}
-        </div>
-        : <div className="Empty">
-          No palettes...
-          <Button onClick={() => navigate('/')}>Go Home</Button>
-        </div>
-      }
-    </div>
+    return (
+      <div className='Home'>
+        <Navbar Type='Trash' onBtnClick={() => DelAllRef.current.show()} isDrawer={false} />
+        <YesNoDialog
+          ref={DelRef}
+          Label='Are you sure?'
+          Content='This action will delete the palette permanently...'
+          YesName='Delete'
+          YesVariant='danger'
+          Yes={deletePalette}
+        />
+        <YesNoDialog
+          ref={DelAllRef}
+          Label='Are you sure?'
+          Content='This action will clear the Trash...'
+          YesName='Delete'
+          YesVariant='danger'
+          Yes={clearTrash}
+        />
+        {Trash.length !== 0 ? (
+          <div ref={PageRef} className='home-palettes'>
+            {Trash.map((p: rawPalette) => (
+              <MiniPalette
+                Type='trash'
+                key={p.id}
+                Storage={Storage}
+                palette={p}
+                leftIconClick={restorePalette}
+                rightIconClick={deleteDlg}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className='Empty'>
+            No palettes...
+            <Button onClick={() => navigate('/')}>Go Home</Button>
+          </div>
+        )}
+      </div>
     )
   }
 

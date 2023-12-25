@@ -90,15 +90,10 @@ const NewPalette: component<any> = ({ Storage }) => {
 
   const makeBox: component<rawColorWithId> = ({ id, name, color }) => {
     const luminance: number = chroma(color).luminance()
-    const [fg, bg] =
-      luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
+    const [fg, bg] = luminance > 0.5 ? ['black', '#ffffff55'] : ['white', '#00000055']
     return (
       <div className='NewBox' style={{ background: color }}>
-        <span
-          className='delete-icon'
-          style={{ color: fg }}
-          onClick={() => deleteColor(id)}
-        >
+        <span className='delete-icon' style={{ color: fg }} onClick={() => deleteColor(id)}>
           <SlIcon name='trash-fill' />
         </span>
         <span
@@ -127,10 +122,7 @@ const NewPalette: component<any> = ({ Storage }) => {
   }
 
   const addColor = (): void =>
-    setColors([
-      { id: nanoid(), name: 'New Color', color: '#555555' },
-      ...Colors,
-    ])
+    setColors([{ id: nanoid(), name: 'New Color', color: '#555555' }, ...Colors])
 
   const addRandomColors = (): void => setColors([...template, ...Colors])
 
@@ -154,9 +146,7 @@ const NewPalette: component<any> = ({ Storage }) => {
   const validateColorName = (name: string): void => {
     const colorNames: string[] = Colors.map(c => c.name)
     const duplicate: boolean = colorNames.includes(name)
-    const msg: string = duplicate
-      ? 'This name already taken, choose another'
-      : ''
+    const msg: string = duplicate ? 'This name already taken, choose another' : ''
     colorNameRef?.current?.setCustomValidity(msg)
   }
 
@@ -185,8 +175,7 @@ const NewPalette: component<any> = ({ Storage }) => {
     PickerDlgRef?.current?.hide()
   }
 
-  const deleteColor = (id: string): void =>
-    setColors(Colors.filter(c => c.id !== id))
+  const deleteColor = (id: string): void => setColors(Colors.filter(c => c.id !== id))
 
   const sortColors = ({ oldIndex, newIndex }: any) => {
     setColors(arrayMove(Colors, oldIndex, newIndex))
