@@ -45,6 +45,7 @@ const HomeBar: React.FC = () => {
 }
 
 const NewBar: newBar = ({
+  IRef,
   Name,
   goHome,
   changeName,
@@ -64,7 +65,7 @@ const NewBar: newBar = ({
         </div>
         <div className='nav-part'>
           <span className='Name' onClick={changeName}>
-            {Name ?? 'New Palette'}
+            <span ref={IRef}>{Name ?? 'New Palette'}</span>
             <SlIcon name='pencil-fill' />
           </span>
         </div>
