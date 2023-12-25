@@ -100,7 +100,7 @@ const NewPalette: component<any> = ({ Storage }) => {
           className='picker-icon'
           onClick={() => {
             setCurrent([id, color])
-            PickerDlgRef?.current?.show()
+            PickerDlgRef.current?.show()
           }}
           style={{ color: fg }}
         >
@@ -111,7 +111,7 @@ const NewPalette: component<any> = ({ Storage }) => {
           style={{ color: fg, background: bg }}
           onClick={() => {
             setCurrent([id, name])
-            ColorDlgRef?.current?.show()
+            ColorDlgRef.current?.show()
           }}
         >
           <span className='color-name'>{name}</span>
@@ -131,7 +131,7 @@ const NewPalette: component<any> = ({ Storage }) => {
   const validatePaletteName = (name: string): void => {
     const duplicate = paletteNames.includes(name)
     const msg = duplicate ? 'This name already taken, choose another' : ''
-    paletteNameRef?.current?.setCustomValidity(msg)
+    paletteNameRef.current?.setCustomValidity(msg)
   }
 
   const renamePalette = (e: any): void => {
@@ -140,14 +140,14 @@ const NewPalette: component<any> = ({ Storage }) => {
     const name = [...data.entries()][0][1].toString()
     setPaletteName(name)
     setId(name.toLowerCase().split(' ').join('_'))
-    PaletteDlgRef?.current?.hide()
+    PaletteDlgRef.current?.hide()
   }
 
   const validateColorName = (name: string): void => {
     const colorNames: string[] = Colors.map(c => c.name)
     const duplicate: boolean = colorNames.includes(name)
     const msg: string = duplicate ? 'This name already taken, choose another' : ''
-    colorNameRef?.current?.setCustomValidity(msg)
+    colorNameRef.current?.setCustomValidity(msg)
   }
 
   const renameColor = (e: any): void => {
@@ -162,17 +162,17 @@ const NewPalette: component<any> = ({ Storage }) => {
       })
     )
     setCurrent([])
-    ColorDlgRef?.current?.hide()
+    ColorDlgRef.current?.hide()
   }
 
   const changeColor = (e: any): void => {
     setColors(
       Colors.map(c => {
         if (c.id !== Current[0]) return c
-        return { ...c, color: e.target.color }
+        return { ...c, color: e.target.value }
       })
     )
-    PickerDlgRef?.current?.hide()
+    PickerDlgRef.current?.hide()
   }
 
   const deleteColor = (id: string): void => setColors(Colors.filter(c => c.id !== id))
@@ -183,7 +183,7 @@ const NewPalette: component<any> = ({ Storage }) => {
 
   const savePalette = (): void => {
     if (paletteName === null) {
-      PaletteDlgRef?.current?.show()
+      PaletteDlgRef.current?.show()
     } else {
       const palette = {
         paletteName: paletteName,
@@ -197,7 +197,7 @@ const NewPalette: component<any> = ({ Storage }) => {
 
   const leavePage = (): void => {
     if (Colors.length === 0 && paletteName === null) navigate('/')
-    LeaveDlgRef?.current?.show()
+    LeaveDlgRef.current?.show()
   }
 
   return render()
