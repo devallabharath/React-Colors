@@ -29,7 +29,7 @@ const HiddenPage: component<any> = ({ Storage }) => {
           <div ref={PageRef} className='home-palettes'>
             {Hidden.map((p: rawPalette) => (
               <MiniPalette
-                Type='hidden'
+                Type='Hidden'
                 key={p.id}
                 Storage={Storage}
                 palette={p}

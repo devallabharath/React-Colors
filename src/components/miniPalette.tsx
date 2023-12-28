@@ -39,8 +39,8 @@ const MiniPalette = (props: propType): JSX.Element => {
     return (
       <div ref={paletteRef} className='MiniPalette'>
         <Link className='goto' to={`/?mode=palette&id=${id}`}></Link>
-        {Type === 'trash' && leftIcon(id)}
-        {Type !== 'favourites' && rightIcon(id)}
+        {Type === 'Trash' && leftIcon(id)}
+        {Type !== 'Favourites' && rightIcon(id)}
         <div className='minipalette-colors'>
           {colors.map(c => (
             <span
@@ -52,7 +52,7 @@ const MiniPalette = (props: propType): JSX.Element => {
         </div>
         <div className='minipalette-footer'>
           <div className='minipalette-name'>{paletteName}</div>
-          {(Type === 'home' || Type === 'favourites') && loveIcon(id)}
+          {(Type === 'Home' || Type === 'Favourites') && loveIcon(id)}
         </div>
       </div>
     )
@@ -70,7 +70,7 @@ const MiniPalette = (props: propType): JSX.Element => {
   const loveClick = (id: string) => {
     heartRef.current.classList.toggle('liked')
     Storage.toggleFavourite(id)
-    if (props.Type === 'favourites') {
+    if (props.Type === 'Favourites') {
       paletteRef.current.remove()
       if (Storage.getFavouriteIds().length === 0) window.location.reload()
     }
@@ -91,9 +91,9 @@ const MiniPalette = (props: propType): JSX.Element => {
 
   const rightIcon = (id: string): JSX.Element => {
     const { Type, rightIconClick } = props
-    if (Type === 'home') return paletteMenu(id)
+    if (Type === 'Home') return paletteMenu(id)
     let icon = 'trash'
-    if (Type === 'hidden') icon = 'eye-fill'
+    if (Type === 'Hidden') icon = 'eye-fill'
     return (
       <div className='options rightIcon'>
         <SlIcon name={icon} onClick={() => rightIconClick && rightIconClick(id, paletteRef)} />

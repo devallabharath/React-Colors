@@ -15,7 +15,7 @@ const Favourites: component<any> = ({ Storage }) => {
   const render = () => {
     const Palettes = Storage.getFavouritePalettes()
     return (<div className="Home">
-      <Navbar Type={'favourites'} onBtnClick={openDlg} isDrawer={false} />
+      <Navbar Type={'Favourites'} onBtnClick={openDlg} isDrawer={false} />
       <YesNoDialog
         ref={DlgRef}
         Label='Are you sure?'
@@ -27,7 +27,7 @@ const Favourites: component<any> = ({ Storage }) => {
       {Palettes.length !== 0
         ? <div ref={PageRef} className="home-palettes">
           {Palettes.map((p: rawPalette) => <MiniPalette
-            Type='favourites'
+            Type='Favourites'
             key={p.id}
             palette={p}
             Storage={Storage}

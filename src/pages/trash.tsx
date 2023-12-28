@@ -39,7 +39,7 @@ const TrashPage: React.FC<any> = ({ Storage }) => {
           <div ref={PageRef} className='home-palettes'>
             {Trash.map((p: rawPalette) => (
               <MiniPalette
-                Type='trash'
+                Type='Trash'
                 key={p.id}
                 Storage={Storage}
                 palette={p}
