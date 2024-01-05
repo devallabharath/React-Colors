@@ -2,13 +2,9 @@ import { lazy, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/miniPalette.css'
 import { rawPalette } from '../utils/types'
-const SlDropdown = lazy(() =>
-  import('@shoelace-style/shoelace/dist/react/dropdown')
-)
+const SlDropdown = lazy(() => import('@shoelace-style/shoelace/dist/react/dropdown'))
 const SlMenu = lazy(() => import('@shoelace-style/shoelace/dist/react/menu'))
-const SlMenuItem = lazy(() =>
-  import('@shoelace-style/shoelace/dist/react/menu-item')
-)
+const SlMenuItem = lazy(() => import('@shoelace-style/shoelace/dist/react/menu-item'))
 const SlIcon = lazy(() => import('@shoelace-style/shoelace/dist/react/icon'))
 
 interface propType {
@@ -43,8 +39,8 @@ const MiniPalette = (props: propType): JSX.Element => {
     return (
       <div ref={paletteRef} className='MiniPalette'>
         <Link className='goto' to={`/?mode=palette&id=${id}`}></Link>
-        {Type === 'trash' && leftIcon(id)}
-        {Type !== 'favourites' && rightIcon(id)}
+        {Type === 'Trash' && leftIcon(id)}
+        {Type !== 'Favourites' && rightIcon(id)}
         <div className='minipalette-colors'>
           {colors.map(c => (
             <span
@@ -56,7 +52,7 @@ const MiniPalette = (props: propType): JSX.Element => {
         </div>
         <div className='minipalette-footer'>
           <div className='minipalette-name'>{paletteName}</div>
-          {(Type === 'home' || Type === 'favourites') && loveIcon(id)}
+          {(Type === 'Home' || Type === 'Favourites') && loveIcon(id)}
         </div>
       </div>
     )
@@ -66,10 +62,7 @@ const MiniPalette = (props: propType): JSX.Element => {
     const Favs = Storage.getFavouriteIds()
     return (
       <div className='Love' onClick={() => loveClick(id)}>
-        <div
-          ref={heartRef}
-          className={Favs.includes(id) ? 'liked heart' : 'heart'}
-        ></div>
+        <div ref={heartRef} className={Favs.includes(id) ? 'liked heart' : 'heart'}></div>
       </div>
     )
   }
@@ -77,7 +70,10 @@ const MiniPalette = (props: propType): JSX.Element => {
   const loveClick = (id: string) => {
     heartRef.current.classList.toggle('liked')
     Storage.toggleFavourite(id)
-    if (props.Type === 'favourites') paletteRef.current.remove()
+    if (props.Type === 'Favourites') {
+      paletteRef.current.remove()
+      if (Storage.getFavouriteIds().length === 0) window.location.reload()
+    }
   }
 
   const leftIcon = (id: string): JSX.Element => {
@@ -95,15 +91,12 @@ const MiniPalette = (props: propType): JSX.Element => {
 
   const rightIcon = (id: string): JSX.Element => {
     const { Type, rightIconClick } = props
-    if (Type === 'home') return paletteMenu(id)
+    if (Type === 'Home') return paletteMenu(id)
     let icon = 'trash'
-    if (Type === 'hidden') icon = 'eye-fill'
+    if (Type === 'Hidden') icon = 'eye-fill'
     return (
       <div className='options rightIcon'>
-        <SlIcon
-          name={icon}
-          onClick={() => rightIconClick && rightIconClick(id, paletteRef)}
-        />
+        <SlIcon name={icon} onClick={() => rightIconClick && rightIconClick(id, paletteRef)} />
       </div>
     )
   }
@@ -118,38 +111,19 @@ const MiniPalette = (props: propType): JSX.Element => {
         <SlMenu>
           <SlMenuItem className='menu-item'>
             Edit
-            <SlIcon
-              style={{ fontSize: '10px' }}
-              slot='prefix'
-              name='pencil-fill'
-            />
+            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='pencil-fill' />
           </SlMenuItem>
           <SlMenuItem className='menu-item' onClick={() => hidePalette(id)}>
             Hide
-            <SlIcon
-              style={{ fontSize: '10px' }}
-              slot='prefix'
-              name='eye-slash-fill'
-            />
+            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='eye-slash-fill' />
           </SlMenuItem>
-          <SlMenuItem
-            className='menu-item'
-            onClick={() => Delete && Delete(id, paletteRef)}
-          >
+          <SlMenuItem className='menu-item' onClick={() => Delete && Delete(id, paletteRef)}>
             Delete
-            <SlIcon
-              style={{ fontSize: '10px' }}
-              slot='prefix'
-              name='trash-fill'
-            />
+            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='trash-fill' />
           </SlMenuItem>
           <SlMenuItem className='menu-item'>
             Use Template
-            <SlIcon
-              style={{ fontSize: '10px' }}
-              slot='prefix'
-              name='box-fill'
-            />
+            <SlIcon style={{ fontSize: '10px' }} slot='prefix' name='box-fill' />
           </SlMenuItem>
         </SlMenu>
       </SlDropdown>

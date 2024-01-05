@@ -28,7 +28,7 @@ const HomePage: component<any> = ({ Storage }) => {
       {Palettes.length !== 0
         ? <div ref={PageRef} className="home-palettes">
           {Palettes.map((p: rawPalette) => <MiniPalette
-            Type='home'
+            Type='Home'
             key={p.id}
             palette={p}
             Storage={Storage}

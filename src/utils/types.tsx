@@ -15,10 +15,10 @@ type baseDialog = { ref: dialogRef; Label: string }
 type renameProps = baseDialog & {
   IRef: any
   IName: string
-  IValue: string | null
   IHolder: string
   IValidate: (name: string) => void
   OnSubmit: (e: any) => void
+  Before?: () => void
 }
 
 type yesnoProps = baseDialog & {
@@ -40,6 +40,7 @@ type pickerProps = baseDialog & {
 }
 
 type newBarProps = {
+  IRef: any
   Name: string | null
   goHome: () => void
   addBox: () => void

@@ -9,12 +9,14 @@ import { nanoid } from 'nanoid'
 import { arrayMove, template } from '../utils/colors'
 import { component, dialogRef, inputRef, rawColorWithId } from '../utils/types'
 import '../styles/newPalette.css'
+const newColor = { id: nanoid(), name: 'New Color', color: '#555555' }
 
 const NewPalette: component<any> = ({ Storage }) => {
-  const [paletteName, setPaletteName] = useState<string | null>(null)
-  const [Id, setId] = useState<string | undefined>(undefined)
-  const [Colors, setColors] = useState<rawColorWithId[]>([])
-  const [Current, setCurrent] = useState<string[]>([])
+  const [Colors, setColors] = useState<rawColorWithId[]>([]) // all colors
+  let Id: string,
+    paletteName: string,
+    Current: string[] = []
+  const titleRef: any = useRef()
   const PaletteDlgRef: dialogRef = useRef()
   const ColorDlgRef: dialogRef = useRef()
   const LeaveDlgRef: dialogRef = useRef()
@@ -28,11 +30,12 @@ const NewPalette: component<any> = ({ Storage }) => {
     return (
       <div className='NewPalette'>
         <Navbar
-          Name={paletteName}
+          IRef={titleRef}
+          Name={paletteName ?? 'New Palette'}
           goHome={leavePage}
-          addBox={addColor}
-          random={addRandomColors}
-          clearAll={clearColors}
+          addBox={() => setColors([newColor, ...Colors])}
+          random={() => setColors([...template, ...Colors])}
+          clearAll={() => setColors([])}
           onDiscard={leavePage}
           onSave={savePalette}
           changeName={() => PaletteDlgRef.current?.show()}
@@ -42,9 +45,9 @@ const NewPalette: component<any> = ({ Storage }) => {
           Label='Rename Palette'
           IRef={paletteNameRef}
           IName='paletteName'
-          IValue={paletteName}
           IHolder='Palette Name'
           IValidate={validatePaletteName}
+          Before={setPaletteInfo}
           OnSubmit={renamePalette}
         />
         <RenameDialog
@@ -52,9 +55,9 @@ const NewPalette: component<any> = ({ Storage }) => {
           Label='Rename Color'
           IRef={colorNameRef}
           IName='colorName'
-          IValue={Current[1]}
           IHolder='Color Name'
           IValidate={validateColorName}
+          Before={setColorInfo}
           OnSubmit={renameColor}
         />
         <YesNoDialog
@@ -75,6 +78,11 @@ const NewPalette: component<any> = ({ Storage }) => {
       </div>
     )
   }
+
+  const setColorInfo = () => colorNameRef.current?.setAttribute('value', Current[1])
+
+  const setPaletteInfo = () =>
+    paletteName && paletteNameRef.current?.setAttribute('value', paletteName)
 
   const SortElement: any = SortableElement(({ c }: any) => makeBox(c))
 
@@ -99,7 +107,7 @@ const NewPalette: component<any> = ({ Storage }) => {
         <span
           className='picker-icon'
           onClick={() => {
-            setCurrent([id, color])
+            Current = [id, color]
             PickerDlgRef.current?.show()
           }}
           style={{ color: fg }}
@@ -110,7 +118,7 @@ const NewPalette: component<any> = ({ Storage }) => {
           className='details'
           style={{ color: fg, background: bg }}
           onClick={() => {
-            setCurrent([id, name])
+            Current = [id, name]
             ColorDlgRef.current?.show()
           }}
         >
@@ -121,13 +129,6 @@ const NewPalette: component<any> = ({ Storage }) => {
     )
   }
 
-  const addColor = (): void =>
-    setColors([{ id: nanoid(), name: 'New Color', color: '#555555' }, ...Colors])
-
-  const addRandomColors = (): void => setColors([...template, ...Colors])
-
-  const clearColors = (): void => setColors([])
-
   const validatePaletteName = (name: string): void => {
     const duplicate = paletteNames.includes(name)
     const msg = duplicate ? 'This name already taken, choose another' : ''
@@ -137,9 +138,9 @@ const NewPalette: component<any> = ({ Storage }) => {
   const renamePalette = (e: any): void => {
     e.preventDefault()
     const data = new FormData(e.target)
-    const name = [...data.entries()][0][1].toString()
-    setPaletteName(name)
-    setId(name.toLowerCase().split(' ').join('_'))
+    paletteName = [...data.entries()][0][1].toString()
+    titleRef.current.innerText = paletteName
+    Id = paletteName.toLowerCase().split(' ').join('_')
     PaletteDlgRef.current?.hide()
   }
 
@@ -161,7 +162,7 @@ const NewPalette: component<any> = ({ Storage }) => {
         return { ...c, name: name }
       })
     )
-    setCurrent([])
+    Current = []
     ColorDlgRef.current?.hide()
   }
 
