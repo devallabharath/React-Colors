@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import storage from './utils/storage'
+import StorageProvider from './utils/storage'
 import { BrowserRouter, Routes, Route, useSearchParams } from 'react-router-dom'
 const Home = lazy(() => import('./pages/home'))
 const Favs = lazy(() => import('./pages/favourites'))
@@ -10,29 +10,28 @@ const Palette = lazy(() => import('./pages/palette'))
 const Shades = lazy(() => import('./pages/shades'))
 const NotFound = lazy(() => import('./pages/404'))
 
-const Storage = new storage()
-
 const Main = (): JSX.Element => {
   const [params] = useSearchParams()
-  switch (params.get('mode')) {
-    case null: return <Suspense><Home Storage={Storage} /></Suspense>
-    case 'home': return <Suspense><Home Storage={Storage} /></Suspense>
-    case 'favs': return <Suspense><Favs Storage={Storage} /></Suspense>
-    case 'hidden': return <Suspense><Hidden Storage={Storage} /></Suspense>
-    case 'trash': return <Suspense><Trash Storage={Storage} /></Suspense>
-    case 'new': return <Suspense><NewPalette Storage={Storage} /></Suspense>
-    case 'palette': return <Suspense><Palette Storage={Storage} /></Suspense>
-    case 'shades': return <Suspense><Shades /></Suspense>
-    default: return <Suspense><NotFound /></Suspense>
+  const pages: any = {
+    home: () => <Suspense><Home /></Suspense>,
+    favs: () => <Suspense><Favs /></Suspense>,
+    hidden: () => <Suspense><Hidden /></Suspense>,
+    trash: () => <Suspense><Trash /></Suspense>,
+    new: () => <Suspense><NewPalette /></Suspense>,
+    palette: () => <Suspense><Palette /></Suspense>,
+    shades: () => <Suspense><Shades /></Suspense>
   }
+  return pages[params.get('mode') ?? 'home']()
 }
 
 const Router = () =>
-  <BrowserRouter basename='/React-Colors'>
-    <Routes>
-      <Route path='/' element={<Main />} />
-      <Route path='*' element={<Suspense><NotFound /></Suspense>} />
-    </Routes>
-  </BrowserRouter>
+  <StorageProvider>
+    <BrowserRouter basename='/React-Colors'>
+      <Routes>
+        <Route path='/' element={<Main />} />
+        <Route path='*' element={<Suspense><NotFound /></Suspense>} />
+      </Routes>
+    </BrowserRouter>
+  </StorageProvider>
 
 export default Router

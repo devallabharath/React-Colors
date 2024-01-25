@@ -1,5 +1,6 @@
-import { lazy, useRef } from 'react'
+import { lazy, useRef, useContext } from 'react'
 import { FTHBar as Navbar } from '../components/navbar'
+import { storageContext } from '../utils/storage'
 import { YesNoDialog } from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
 import { component, dialogRef, rawPalette } from '../utils/types'
@@ -7,10 +8,11 @@ import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-const Favourites: component<any> = ({ Storage }) => {
+const Favourites: component<any> = () => {
   const DlgRef: dialogRef = useRef()
   const PageRef: any = useRef()
   const navigate = useNavigate()
+  const Storage = useContext(storageContext)
 
   const render = () => {
     const Palettes = Storage.getFavouritePalettes()
@@ -30,7 +32,6 @@ const Favourites: component<any> = ({ Storage }) => {
             Type='Favourites'
             key={p.id}
             palette={p}
-            Storage={Storage}
           />)}
         </div>
         : <div className="Empty">

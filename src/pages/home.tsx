@@ -1,17 +1,19 @@
-import { lazy, useRef } from 'react'
+import { lazy, useRef, useContext } from 'react'
 import { HomeBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
 import { useNavigate } from 'react-router-dom'
+import { storageContext } from '../utils/storage'
 import { component, dialogRef, rawPalette } from '../utils/types'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-const HomePage: component<any> = ({ Storage }) => {
+const HomePage: component<any> = () => {
   let Current: any[]
   const DlgRef: dialogRef = useRef()
   const PageRef: any = useRef()
   const navigate = useNavigate()
+  const Storage = useContext(storageContext)
 
   const render = () => {
     const Palettes: rawPalette[] = Storage.getPalettes()
@@ -31,7 +33,6 @@ const HomePage: component<any> = ({ Storage }) => {
             Type='Home'
             key={p.id}
             palette={p}
-            Storage={Storage}
             Delete={openDeleteDlg}
           />)}
         </div>
