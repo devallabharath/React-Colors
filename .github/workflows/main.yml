@@ -1,0 +1,27 @@
+name: AWS Deploy
+on:
+  push:
+    branches: [aws]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Configure aws
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Install npm modules
+        run: npm ci
+      - name: Build website
+        run: npm run build
+      - name: Deploy to s3
+        run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET_NAME }}
+      - name: Create Invalidations
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/*"
