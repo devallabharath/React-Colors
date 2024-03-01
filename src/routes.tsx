@@ -26,7 +26,7 @@ const Main = (): JSX.Element => {
 
 const Router = () =>
   <StorageProvider>
-    <BrowserRouter basename='/React-Colors'>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='*' element={<Suspense><NotFound /></Suspense>} />

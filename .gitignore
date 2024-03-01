@@ -8,9 +8,6 @@
 # testing
 /coverage
 
-# production
-/build
-
 # misc
 .DS_Store
 .env.local
@@ -25,4 +22,3 @@ todo.md
 .vscode/
 yarn.lock
 bun.lockb
-deploy.js
