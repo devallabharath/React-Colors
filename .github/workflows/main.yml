@@ -18,7 +18,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Install npm modules
-        run: npm ci
+        run: npm ci --force
       - name: Build website
         run: npm run build
       - name: Deploy to s3
