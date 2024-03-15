@@ -15,6 +15,7 @@
     "react-sortable-hoc": "^2.0.0"
   },
   "scripts": {
+    "test": "react-scripts test",
     "start": "react-scripts start",
     "predeploy": " git checkout main && git pull && npm run build",
     "deploy": "gh-pages -b website -d build",
@@ -39,10 +40,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.23.3",
+    "@testing-library/react": "^14.2.1",
+    "@types/chroma-js": "^2.4.3",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
-    "@types/chroma-js": "^2.4.3",
     "gh-pages": "^6.1.0"
   }
 }
