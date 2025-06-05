@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { NewBar as Navbar } from '../components/navbar'
+import { storageContext } from '../utils/storage'
 import { SlIcon } from '@shoelace-style/shoelace/dist/react'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import { RenameDialog, YesNoDialog, PickerDialog } from '../components/dialog'
@@ -11,7 +12,7 @@ import { component, dialogRef, inputRef, rawColorWithId } from '../utils/types'
 import '../styles/newPalette.css'
 const newColor = { id: nanoid(), name: 'New Color', color: '#555555' }
 
-const NewPalette: component<any> = ({ Storage }) => {
+const NewPalette: component<any> = () => {
   const [Colors, setColors] = useState<rawColorWithId[]>([]) // all colors
   let Id: string,
     paletteName: string,
@@ -24,6 +25,7 @@ const NewPalette: component<any> = ({ Storage }) => {
   const paletteNameRef: inputRef = useRef()
   const colorNameRef: inputRef = useRef()
   const navigate = useNavigate()
+  const Storage = useContext(storageContext)
   const paletteNames: string[] = Storage.getPaletteNames()
 
   const render = () => {

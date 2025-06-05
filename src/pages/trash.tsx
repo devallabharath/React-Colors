@@ -1,18 +1,20 @@
-import { lazy, useRef } from 'react'
+import { lazy, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FTHBar as Navbar } from '../components/navbar'
 import { YesNoDialog } from '../components/dialog'
+import { storageContext } from '../utils/storage'
 import { rawPalette } from '../utils/types'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-const TrashPage: React.FC<any> = ({ Storage }) => {
+const TrashPage: React.FC<any> = () => {
   const DelRef: React.MutableRefObject<any> = useRef()
   const DelAllRef: React.MutableRefObject<any> = useRef()
   const PageRef: React.MutableRefObject<any> = useRef()
   let Current: any[]
   const navigate = useNavigate()
+  const Storage = useContext(storageContext)
 
   const render = () => {
     const Trash = Storage.getDeletedPalettes()
@@ -41,7 +43,6 @@ const TrashPage: React.FC<any> = ({ Storage }) => {
               <MiniPalette
                 Type='Trash'
                 key={p.id}
-                Storage={Storage}
                 palette={p}
                 leftIconClick={restorePalette}
                 rightIconClick={deleteDlg}

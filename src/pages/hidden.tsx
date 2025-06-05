@@ -1,16 +1,18 @@
-import { lazy, useRef } from 'react'
+import { lazy, useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FTHBar as Navbar } from '../components/navbar'
+import { storageContext } from '../utils/storage'
 import { YesNoDialog } from '../components/dialog'
 import { component, dialogRef, rawPalette } from '../utils/types'
 import '../styles/home.css'
 const MiniPalette = lazy(() => import('../components/miniPalette'))
 const Button = lazy(() => import('@shoelace-style/shoelace/dist/react/button'))
 
-const HiddenPage: component<any> = ({ Storage }) => {
+const HiddenPage: component<any> = () => {
   const PageRef: any = useRef()
   const DlgRef: dialogRef = useRef()
   const navigate = useNavigate()
+  const Storage = useContext(storageContext)
 
   const render = () => {
     const Hidden = Storage.getHiddenPalettes()
@@ -31,7 +33,6 @@ const HiddenPage: component<any> = ({ Storage }) => {
               <MiniPalette
                 Type='Hidden'
                 key={p.id}
-                Storage={Storage}
                 palette={p}
                 rightIconClick={showPalette}
               />

@@ -1,5 +1,6 @@
-import { lazy, useRef } from 'react'
+import { lazy, useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { storageContext } from '../utils/storage'
 import '../styles/miniPalette.css'
 import { rawPalette } from '../utils/types'
 const SlDropdown = lazy(() => import('@shoelace-style/shoelace/dist/react/dropdown'))
@@ -9,7 +10,6 @@ const SlIcon = lazy(() => import('@shoelace-style/shoelace/dist/react/icon'))
 
 interface propType {
   Type: string
-  Storage: any
   palette: rawPalette
   Delete?: (id: string, ref: any) => void
   leftIconClick?: (id: string, ref: any) => void
@@ -19,7 +19,7 @@ interface propType {
 const MiniPalette = (props: propType): JSX.Element => {
   const paletteRef: any = useRef()
   const heartRef: any = useRef()
-  const Storage = props.Storage
+  const Storage = useContext(storageContext)
   let dimensions: { width: string; height: string }
   if (props.palette.colors.length < 10) {
     dimensions = { width: 'calc(100% / 3)', height: 'calc(100% / 3)' }

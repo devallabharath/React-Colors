@@ -1,7 +1,8 @@
+import { createContext } from 'react'
 import Colors from './colors'
 import { rawPalette } from "./types"
 
-class Storage {
+class Store {
   hidden: string[]
   deleted: string[]
   favourites: string[]
@@ -117,4 +118,13 @@ class Storage {
   }
 }
 
+const storageContext = createContext(new Store())
+
+const Storage = ({children}: any) =>{
+  return <storageContext.Provider value={new Store()}>
+    {children}
+  </storageContext.Provider>
+}
+
 export default Storage
+export {storageContext}

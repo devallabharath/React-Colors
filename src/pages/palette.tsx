@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ColorBar as Navbar } from '../components/navbar'
 import ColorBox from '../components/colorbox'
+import { storageContext } from '../utils/storage'
 import { generatePalette } from '../utils/colors'
 import { component, rawPalette } from '../utils/types'
 import '../styles/palette.css'
 
-const PalettePage: component<any> = ({ Storage }) => {
+const PalettePage: component<any> = () => {
   const [Level, setLevel] = useState<string>('500')
   const [Format, setFormat] = useState<'hex' | 'rgb' | 'rgba'>('hex')
   const [params] = useSearchParams()
+  const Storage: any = useContext(storageContext)
   const palette: rawPalette = Storage.getPaletteById(params.get('id'))
   const { paletteName, colors, id } = generatePalette(palette)
 
